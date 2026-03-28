@@ -106,7 +106,14 @@ export default async function Home() {
   const branchesHeading = data?.branchesHeading ?? "Explore";
   const branchesSubtitle = data?.branchesSubtitle ?? "Branches on the tree of this living wellness sanctuary";
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const branches = (data?.branches as any[]) ?? defaultBranches;
+  const rawBranches = (data?.branches as any[]) ?? null;
+  const branches = rawBranches
+    ? rawBranches.map((b, i) => ({
+        ...defaultBranches[i],
+        ...b,
+        image: b?.image?.asset ? b.image : defaultBranches[i]?.image ?? "/images/explore-IMG_2778.jpg",
+      }))
+    : defaultBranches;
 
   const holisticHeading = data?.holisticHeading ?? "Holistic Approach";
   const holisticText = data?.holisticText ?? "Experience the harmonious blend of ancient healing traditions and modern wellness techniques, as our dedicated team takes you on a transformative wellness journey.";
@@ -179,7 +186,7 @@ export default async function Home() {
             height={100}
             className="mx-auto mb-10 animate-scale-in animate-float"
           />
-          <h1 className="font-serif text-6xl md:text-8xl lg:text-9xl font-light text-charcoal tracking-wider mb-8">
+          <h1 className="font-serif text-6xl md:text-8xl lg:text-9xl font-light text-brown-dark tracking-wider mb-8">
             {heroTitle}
           </h1>
           <div className="gold-divider-wide" />
@@ -208,90 +215,101 @@ export default async function Home() {
         <div className="gradient-fade-bottom" />
       </section>
 
-      {/* ═══════════════════════ OUR APPROACH ═══════════════════════ */}
-      <section id="approach" className="relative">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-0 min-h-[85vh]">
-          <ScrollReveal direction="left" duration={1200} className="relative h-80 md:h-auto">
-            <Image
-              src={approachImage}
-              alt="Ancient wisdom"
-              fill
-              className="object-cover image-reveal"
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent to-cream-light/20" />
-          </ScrollReveal>
+      {/* ═══════════════════════ OUR APPROACH (Sticky Image) ═══════════════════════ */}
+      <div id="approach" className="relative">
+        {/* Sticky background image */}
+        <div className="sticky top-0 h-screen w-full overflow-hidden -z-10">
+          <Image
+            src={approachImage}
+            alt="Ancient wisdom"
+            fill
+            className="object-cover"
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-cream-light/30" />
+        </div>
 
-          <div className="flex items-center justify-center section-padding bg-cream-light">
-            <ScrollReveal direction="right" delay={200} className="max-w-lg">
-              <Image
-                src="/images/external-file-ornament.png"
-                alt=""
-                width={50}
-                height={20}
-                className="mb-8 opacity-30"
-              />
-              <h2 className="font-serif text-4xl md:text-6xl font-light text-charcoal mb-6 tracking-wide">
-                {approachHeading}
-              </h2>
-              <div className="gold-divider !mx-0" />
-              <div className="mt-10 space-y-6 font-sans text-brown-light leading-[1.9] text-[15px]">
-                {approachParagraphs.map((p, i) => (
-                  <p key={i}>{p}</p>
-                ))}
-              </div>
-            </ScrollReveal>
+        {/* Approach text overlaid on image */}
+        <div className="-mt-screen relative">
+          <div className="min-h-screen flex items-center justify-center">
+            <div className="max-w-2xl mx-auto text-center px-6">
+              <ScrollReveal direction="fade" duration={1400}>
+                <div className="bg-cream-light/85 backdrop-blur-sm p-12 md:p-20">
+                  <Image
+                    src="/images/external-file-ornament.png"
+                    alt=""
+                    width={50}
+                    height={20}
+                    className="mx-auto mb-8 opacity-30"
+                  />
+                  <h2 className="font-serif text-4xl md:text-6xl font-light text-charcoal mb-6 tracking-wide">
+                    {approachHeading}
+                  </h2>
+                  <div className="gold-divider-wide" />
+                  <div className="mt-10 space-y-6 font-sans text-brown-light leading-[1.9] text-[15px]">
+                    {approachParagraphs.map((p, i) => (
+                      <p key={i}>{p}</p>
+                    ))}
+                  </div>
+                </div>
+              </ScrollReveal>
+            </div>
           </div>
-        </div>
-      </section>
 
-      {/* ═══════════════════════ PARALLAX DIVIDER ═══════════════════════ */}
-      <section className="relative h-[50vh] md:h-[60vh] overflow-hidden">
-        <Image
-          src={dividerImg}
-          alt="Sacred space"
-          fill
-          className="object-cover"
-          sizes="100vw"
-          style={{ objectPosition: "center 40%" }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-cream-light/40 via-transparent to-cream-light/40" />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <ScrollReveal direction="scale">
-            <div className="text-center">
-              <div className="w-px h-12 bg-gradient-to-b from-transparent to-white/60 mx-auto mb-6" />
-              <Image
-                src="/images/logotheoria.png"
-                alt=""
-                width={50}
-                height={50}
-                className="mx-auto opacity-80"
-              />
-              <div className="w-px h-12 bg-gradient-to-t from-transparent to-white/60 mx-auto mt-6" />
+          {/* Divider that slides over the image */}
+          <div className="relative">
+            <div className="h-32 bg-gradient-to-b from-transparent to-cream-light" />
+            <div className="bg-cream-light">
+              <div className="relative h-[50vh] md:h-[60vh] overflow-hidden">
+                <Image
+                  src={dividerImg}
+                  alt="Sacred space"
+                  fill
+                  className="object-cover"
+                  sizes="100vw"
+                  style={{ objectPosition: "center 40%" }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-cream-light/40 via-transparent to-cream-light/40" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <ScrollReveal direction="scale">
+                    <div className="text-center">
+                      <div className="w-px h-12 bg-gradient-to-b from-transparent to-white/60 mx-auto mb-6" />
+                      <Image
+                        src="/images/logotheoria.png"
+                        alt=""
+                        width={50}
+                        height={50}
+                        className="mx-auto opacity-80"
+                      />
+                      <div className="w-px h-12 bg-gradient-to-t from-transparent to-white/60 mx-auto mt-6" />
+                    </div>
+                  </ScrollReveal>
+                </div>
+              </div>
             </div>
-          </ScrollReveal>
-        </div>
-      </section>
+          </div>
 
-      {/* ═══════════════════════ OUR SPACE ═══════════════════════ */}
-      <section className="section-padding-lg">
-        <div className="max-w-3xl mx-auto text-center">
-          <ScrollReveal direction="fade" duration={1400}>
-            <p className="font-sans text-[10px] tracking-[0.5em] uppercase text-gold mb-8">
-              {ourSpaceHeading}
-            </p>
-            <p className="font-serif text-3xl md:text-4xl lg:text-5xl text-charcoal italic leading-[1.4] font-light">
-              {ourSpaceTagline}
-            </p>
-            <div className="ornament-line">
-              <span className="text-gold-muted text-lg">&loz;</span>
+          {/* Our Space slides over the image */}
+          <section className="section-padding-lg bg-cream-light relative">
+            <div className="max-w-3xl mx-auto text-center">
+              <ScrollReveal direction="fade" duration={1400}>
+                <p className="font-sans text-[10px] tracking-[0.5em] uppercase text-gold mb-8">
+                  {ourSpaceHeading}
+                </p>
+                <p className="font-serif text-3xl md:text-4xl lg:text-5xl text-charcoal italic leading-[1.4] font-light">
+                  {ourSpaceTagline}
+                </p>
+                <div className="ornament-line">
+                  <span className="text-gold-muted text-lg">&loz;</span>
+                </div>
+                <p className="font-serif text-xl md:text-2xl text-brown-light/70 italic">
+                  {ourSpaceSubtitle}
+                </p>
+              </ScrollReveal>
             </div>
-            <p className="font-serif text-xl md:text-2xl text-brown-light/70 italic">
-              {ourSpaceSubtitle}
-            </p>
-          </ScrollReveal>
+          </section>
         </div>
-      </section>
+      </div>
 
       {/* ═══════════════════════ ANCIENT HERSTORY COURSE ═══════════════════════ */}
       <section className="section-padding bg-cream">
@@ -489,12 +507,13 @@ export default async function Home() {
       <section className="section-padding-lg bg-cream">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
           <ScrollReveal direction="left" duration={1200}>
-            <div className="relative aspect-[3/4] overflow-hidden max-w-lg mx-auto shadow-2xl">
+            <div className="relative overflow-hidden max-w-lg mx-auto shadow-2xl">
               <Image
                 src={founderImage}
                 alt={`${founderName}, founder of Theoria Sophia`}
-                fill
-                className="object-cover object-top"
+                width={600}
+                height={600}
+                className="w-full h-auto"
                 sizes="(max-width: 768px) 100vw, 50vw"
               />
             </div>

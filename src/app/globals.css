@@ -291,6 +291,12 @@ body {
   transform: translateY(-4px);
 }
 
+/* ─── Sticky section offset ─── */
+
+.-mt-screen {
+  margin-top: -100vh;
+}
+
 /* ─── Text gradient effect ─── */
 
 .text-gradient-gold {

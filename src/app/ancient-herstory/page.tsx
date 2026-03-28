@@ -60,7 +60,7 @@ export default async function AncientHerstoryPage() {
   const heroDescription =
     data?.heroDescription ??
     "An educational deep dive into the mother lineage of the oracles of old";
-  const heroBackground = resolveImage(data?.heroBackground, "/images/bee-hieroglyph.png");
+  const heroBackground = resolveImage(data?.heroBackground, "/images/ancient-herstory-hero.jpeg");
 
   const introHeading = data?.introHeading ?? "The Lost Mother Archives";
   const introParagraphs = splitParagraphs(data?.introText, [
