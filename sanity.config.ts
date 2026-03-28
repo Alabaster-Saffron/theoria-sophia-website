@@ -5,6 +5,7 @@ import { visionTool } from "@sanity/vision";
 import { schemaTypes } from "./src/sanity/schemas";
 import { structure } from "./src/sanity/structure";
 import { projectId, dataset } from "./src/sanity/env";
+import PresentationHeader from "./src/sanity/components/PresentationHeader";
 
 export default defineConfig({
   name: "theoria-sophia",
@@ -18,6 +19,11 @@ export default defineConfig({
       previewUrl: {
         previewMode: {
           enable: "/api/draft-mode/enable",
+        },
+      },
+      components: {
+        unstable_header: {
+          component: PresentationHeader,
         },
       },
     }),
