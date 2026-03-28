@@ -9,6 +9,7 @@ export default defineConfig({
   title: "Theoria Sophia",
   projectId,
   dataset,
+  basePath: "/studio",
   plugins: [structureTool(), visionTool()],
   schema: {
     types: schemaTypes,
