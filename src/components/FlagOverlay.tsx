@@ -38,16 +38,52 @@ function findSection(el: HTMLElement): { section: string; sectionEl: HTMLElement
   return { section: "unknown", sectionEl: null };
 }
 
+/** Check if an element has a background image (inline or computed) */
+function hasBackgroundImage(el: HTMLElement): string | null {
+  if (el.style.backgroundImage && el.style.backgroundImage !== "none") {
+    return el.style.backgroundImage;
+  }
+  try {
+    const computed = window.getComputedStyle(el).backgroundImage;
+    if (computed && computed !== "none") return computed;
+  } catch { /* noop */ }
+  return null;
+}
+
+/** Walk up to find the nearest element with a background image */
+function findBackgroundImage(el: HTMLElement): { bg: string; bgEl: HTMLElement } | null {
+  let current: HTMLElement | null = el;
+  // Only walk up a few levels to stay relevant to what was clicked
+  let depth = 0;
+  while (current && current !== document.body && depth < 6) {
+    const bg = hasBackgroundImage(current);
+    if (bg) return { bg, bgEl: current };
+    current = current.parentElement;
+    depth++;
+  }
+  return null;
+}
+
 /** Describe the clicked element in human terms */
 function describeElement(el: HTMLElement): string {
   const tag = el.tagName.toLowerCase();
 
-  if (tag === "img" || (tag === "div" && el.style.backgroundImage)) {
+  // Direct image tag
+  if (tag === "img") {
     const alt = el.getAttribute("alt");
     const src = el.getAttribute("src");
     if (alt) return `Image: "${alt}"`;
     if (src) return `Image: ${src.split("/").pop()}`;
-    return "Background image";
+    return "Image";
+  }
+
+  // Check for background image on this element or nearby parents
+  const bgMatch = findBackgroundImage(el);
+  if (bgMatch) {
+    // Extract URL from background-image value
+    const urlMatch = bgMatch.bg.match(/url\(["']?([^"')]+)["']?\)/);
+    const filename = urlMatch?.[1]?.split("/").pop();
+    return `Background image${filename ? `: ${filename}` : ""}`;
   }
 
   const text = el.textContent?.trim().slice(0, 80);
