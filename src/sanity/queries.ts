@@ -64,3 +64,16 @@ export async function getAncientHerstoryPage() {
     return null;
   }
 }
+
+const PENDING_CHANGES_QUERY = `*[_type == "changeRequest" && status == "pending"] | order(_createdAt desc) {
+  _id, page, section, notes, replacementImage, status, _createdAt
+}`;
+
+export async function getPendingChangeRequests() {
+  try {
+    const { data } = await sanityFetch({ query: PENDING_CHANGES_QUERY });
+    return data;
+  } catch {
+    return null;
+  }
+}

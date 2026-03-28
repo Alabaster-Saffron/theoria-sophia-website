@@ -1,10 +1,19 @@
 import type { StructureResolver } from "sanity/structure";
-import { HomeIcon, DocumentsIcon, BookIcon } from "@sanity/icons";
+import { HomeIcon, DocumentsIcon, BookIcon, EditIcon } from "@sanity/icons";
 
 export const structure: StructureResolver = (S) =>
   S.list()
     .title("Content")
     .items([
+      S.listItem()
+        .title("Change Requests")
+        .icon(EditIcon)
+        .child(
+          S.documentTypeList("changeRequest")
+            .title("Change Requests")
+            .defaultOrdering([{ field: "status", direction: "asc" }])
+        ),
+      S.divider(),
       S.listItem()
         .title("Home Page")
         .icon(HomeIcon)
