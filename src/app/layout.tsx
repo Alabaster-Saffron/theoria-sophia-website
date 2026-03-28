@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Raleway } from "next/font/google";
+import { VisualEditing } from "next-sanity/visual-editing";
+import { SanityLive } from "@/sanity/live";
+import { draftMode } from "next/headers";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -27,11 +30,13 @@ export const metadata: Metadata = {
     "A sanctuary for women to find safety, love, and peace within their bodies and lives. Restoring humanity's natural connection to nature and their true authentic selves.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { isEnabled } = await draftMode();
+
   return (
     <html
       lang="en"
@@ -41,6 +46,8 @@ export default function RootLayout({
         <Navigation />
         <main className="flex-1">{children}</main>
         <Footer />
+        <SanityLive />
+        {isEnabled && <VisualEditing />}
       </body>
     </html>
   );
