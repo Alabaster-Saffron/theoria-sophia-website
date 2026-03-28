@@ -48,11 +48,14 @@ Copy this file into any new website project so Claude understands the full stack
 │       ├── helpers.ts            # splitParagraphs() for multi-paragraph text fields
 │       ├── queries.ts            # GROQ queries using sanityFetch, returns null on failure
 │       ├── structure.ts          # Custom Studio structure (singleton documents)
+│       ├── components/
+│       │   └── PresentationHeader.tsx  # "Flag for Change" button + modal in Presentation view
 │       └── schemas/
 │           ├── index.ts          # Exports schemaTypes array
 │           ├── homePage.ts       # Home page schema with groups
 │           ├── offeringsPage.ts  # Offerings page schema
-│           └── ancientHerstoryPage.ts  # Ancient Herstory schema
+│           ├── ancientHerstoryPage.ts  # Ancient Herstory schema
+│           └── changeRequest.ts  # Change request flagging system
 ├── public/images/                # Static images (fallbacks when Sanity is unconfigured)
 └── scripts/
     └── seed-sanity.mjs           # One-time script to populate Sanity with hardcoded content
@@ -375,6 +378,106 @@ export PATH="/Users/azura/.nvm/versions/node/v20.20.0/bin:$PATH" && npx <command
 8. **Image hotspot** — Always add `options: { hotspot: true }` to image fields so editors can control crop focus.
 
 9. **`object-top` for portrait photos** — When showing people in cropped containers, use `object-top` on the `<Image>` so heads aren't cut off.
+
+---
+
+## Change Requests (Flag for Change System)
+
+A built-in system for flagging site changes directly from the Sanity Studio Presentation view. A floating "Flag for Change" button appears in Presentation mode, opening a modal where you can describe changes, pick the page/section, and upload a replacement image — all without leaving the preview.
+
+### Components
+
+**`src/sanity/schemas/changeRequest.ts`** — Document type with fields:
+- `page` — string dropdown (Homepage, Offerings, Ancient Herstory, General)
+- `section` — string dropdown (Hero, Approach, Explore, Founder, etc.)
+- `notes` — text field for describing the change
+- `replacementImage` — optional image upload with hotspot
+- `status` — radio: Pending / Done
+
+**`src/sanity/components/PresentationHeader.tsx`** — Custom Presentation tool header:
+- Floating gold pill button (bottom-right, `position: fixed`, `z-index: 100000`)
+- Opens a modal overlay (`z-index: 200000`) with the form
+- Uses `useClient()` from `sanity` to create documents via API
+- Uploads images via `client.assets.upload("image", file)`
+- Auto-detects current page from `usePresentationParams()` hook
+- Stays in Presentation mode throughout (no navigation)
+
+**`src/sanity/queries.ts`** — includes `getPendingChangeRequests()`:
+```ts
+const PENDING_CHANGES_QUERY = `*[_type == "changeRequest" && status == "pending"] | order(_createdAt desc) {
+  _id, page, section, notes, replacementImage, status, _createdAt
+}`;
+```
+
+### Setup for a New Project
+
+1. **Create the schema** — Copy `src/sanity/schemas/changeRequest.ts`. Update the `page` options list to match your site's pages. Update the `section` options list to match your site's sections.
+
+2. **Register the schema** — Add to `src/sanity/schemas/index.ts`:
+```ts
+import { changeRequest } from "./changeRequest";
+export const schemaTypes = [...otherSchemas, changeRequest];
+```
+
+3. **Add to Studio structure** — In `src/sanity/structure.ts`, add at the top of items:
+```ts
+import { EditIcon } from "@sanity/icons";
+// ...
+S.listItem()
+  .title("Change Requests")
+  .icon(EditIcon)
+  .child(
+    S.documentTypeList("changeRequest")
+      .title("Change Requests")
+      .defaultOrdering([{ field: "status", direction: "asc" }])
+  ),
+S.divider(),
+```
+
+4. **Create the header component** — Copy `src/sanity/components/PresentationHeader.tsx`. Update `PAGE_OPTIONS`, `SECTION_OPTIONS`, and `FIELD_TO_SECTION` to match your site's pages and sections.
+
+5. **Register in sanity.config.ts** — Add the Presentation header and initial value template:
+```ts
+import PresentationHeader from "./src/sanity/components/PresentationHeader";
+
+export default defineConfig({
+  // ...
+  plugins: [
+    structureTool({ structure }),
+    presentationTool({
+      previewUrl: {
+        previewMode: { enable: "/api/draft-mode/enable" },
+      },
+      components: {
+        unstable_header: {
+          component: PresentationHeader,
+        },
+      },
+    }),
+    visionTool(),
+  ],
+  // ...
+});
+```
+
+6. **Add the query** — In `src/sanity/queries.ts`, add `getPendingChangeRequests()` so Claude can fetch all pending requests at the start of a session.
+
+### User Workflow
+
+1. Go to Studio → **Presentation** tab
+2. Browse the live site preview
+3. Click the gold **"Flag for Change"** button (bottom-right)
+4. Modal opens: pick page, pick section, type notes, optionally upload replacement image
+5. Hit **Submit** → checkmark confirmation → modal closes
+6. Tell Claude **"check change requests"** → Claude queries pending requests and works through them
+7. Claude marks each request as **Done** after completing
+
+### Notes
+
+- The `unstable_header` API is prefixed "unstable" but is functional in Sanity v5.18+
+- Images can't be clicked in the Presentation preview (only stega-encoded text can) — use the section dropdown and describe the image in notes
+- The modal uses `useClient()` to create documents directly, requiring the Sanity token to have write access
+- Change requests show as yellow dots (pending) or green checkmarks (done) in the Studio list
 
 ---
 
