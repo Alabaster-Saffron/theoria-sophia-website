@@ -1,7 +1,7 @@
 "use client";
 
 import { EditIcon } from "@sanity/icons";
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useClient } from "sanity";
 
 /* Map Sanity document type/ID → Change Request page values */
@@ -140,6 +140,9 @@ export default function PresentationHeader(props: any) {
   const [page, setPage] = useState("");
   const [section, setSection] = useState("");
   const [notes, setNotes] = useState("");
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
@@ -148,20 +151,49 @@ export default function PresentationHeader(props: any) {
     setPage(detected.page);
     setSection(detected.section);
     setNotes("");
+    setImageFile(null);
+    setImagePreview(null);
     setSubmitted(false);
     setOpen(true);
   }, []);
+
+  const handleImageChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0] ?? null;
+      setImageFile(file);
+      if (file) {
+        const url = URL.createObjectURL(file);
+        setImagePreview(url);
+      } else {
+        setImagePreview(null);
+      }
+    },
+    []
+  );
 
   const handleSubmit = useCallback(async () => {
     if (!notes.trim()) return;
     setSubmitting(true);
     try {
+      /* Upload image to Sanity if provided */
+      let imageRef: { _type: string; asset: { _type: string; _ref: string } } | undefined;
+      if (imageFile) {
+        const asset = await client.assets.upload("image", imageFile, {
+          filename: imageFile.name,
+        });
+        imageRef = {
+          _type: "image",
+          asset: { _type: "reference", _ref: asset._id },
+        };
+      }
+
       await client.create({
         _type: "changeRequest",
         page: page || "general",
         section: section || "other",
         notes: notes.trim(),
         status: "pending",
+        ...(imageRef ? { replacementImage: imageRef } : {}),
       });
       setSubmitted(true);
       setTimeout(() => setOpen(false), 1200);
@@ -171,7 +203,7 @@ export default function PresentationHeader(props: any) {
     } finally {
       setSubmitting(false);
     }
-  }, [client, page, section, notes]);
+  }, [client, page, section, notes, imageFile]);
 
   return (
     <>
@@ -310,12 +342,12 @@ export default function PresentationHeader(props: any) {
                   </select>
                 </div>
 
-                <div style={{ marginBottom: "24px" }}>
+                <div style={{ marginBottom: "16px" }}>
                   <label style={labelStyle}>What do you want changed?</label>
                   <textarea
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
-                    placeholder='e.g. "Replace the background image with the sunset photo from the photos folder" or "Make this heading text larger"'
+                    placeholder='e.g. "Replace the background image" or "Make this heading text larger"'
                     rows={4}
                     style={{
                       ...inputStyle,
@@ -323,6 +355,74 @@ export default function PresentationHeader(props: any) {
                       minHeight: "100px",
                     }}
                   />
+                </div>
+
+                <div style={{ marginBottom: "24px" }}>
+                  <label style={labelStyle}>
+                    Replacement Image (optional)
+                  </label>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    style={{ display: "none" }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    style={{
+                      ...inputStyle,
+                      cursor: "pointer",
+                      color: imageFile ? "#333" : "#999",
+                      textAlign: "left",
+                    }}
+                  >
+                    {imageFile ? imageFile.name : "Click to upload an image..."}
+                  </button>
+                  {imagePreview && (
+                    <div style={{ marginTop: "8px", position: "relative" }}>
+                      <img
+                        src={imagePreview}
+                        alt="Preview"
+                        style={{
+                          width: "100%",
+                          maxHeight: "160px",
+                          objectFit: "cover",
+                          borderRadius: "4px",
+                          border: "1px solid #eee",
+                        }}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setImageFile(null);
+                          setImagePreview(null);
+                          if (fileInputRef.current)
+                            fileInputRef.current.value = "";
+                        }}
+                        style={{
+                          position: "absolute",
+                          top: "4px",
+                          right: "4px",
+                          width: "24px",
+                          height: "24px",
+                          borderRadius: "50%",
+                          border: "none",
+                          background: "rgba(0,0,0,0.6)",
+                          color: "#fff",
+                          fontSize: "14px",
+                          cursor: "pointer",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          lineHeight: 1,
+                        }}
+                      >
+                        &times;
+                      </button>
+                    </div>
+                  )}
                 </div>
 
                 <div
