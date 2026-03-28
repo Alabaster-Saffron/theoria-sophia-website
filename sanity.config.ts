@@ -31,5 +31,22 @@ export default defineConfig({
   ],
   schema: {
     types: schemaTypes,
+    templates: (prev) => [
+      ...prev,
+      {
+        id: "changeRequest-prefilled",
+        title: "Change Request (from Presentation)",
+        schemaType: "changeRequest",
+        parameters: [
+          { name: "page", type: "string" },
+          { name: "section", type: "string" },
+        ],
+        value: (params: { page?: string; section?: string }) => ({
+          page: params.page ?? "",
+          section: params.section ?? "",
+          status: "pending",
+        }),
+      },
+    ],
   },
 });
