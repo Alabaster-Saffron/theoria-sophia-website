@@ -2,8 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 import ScrollReveal from "@/components/ScrollReveal";
 import ImageCarousel from "@/components/ImageCarousel";
+import { getHomePage } from "@/sanity/queries";
+import { resolveImage } from "@/sanity/image";
+import { splitParagraphs } from "@/sanity/helpers";
 
-const ecoImages = [
+/* ── Fallback data (used when Sanity is not configured) ── */
+
+const defaultEcoImages = [
   "/images/eco-carousel-01.jpg",
   "/images/eco-carousel-02.jpg",
   "/images/eco-carousel-03.jpg",
@@ -15,7 +20,7 @@ const ecoImages = [
   "/images/eco-carousel-09.jpg",
 ];
 
-const galleryImages = [
+const defaultGalleryImages = [
   "/images/gallery-01.jpg",
   "/images/gallery-02.jpg",
   "/images/gallery-03.jpg",
@@ -26,7 +31,7 @@ const galleryImages = [
   "/images/gallery-08.jpg",
 ];
 
-const branches = [
+const defaultBranches = [
   {
     title: "Honey Bee Educational Center",
     subtitle: "Creating sanctuaries for the pollinators",
@@ -65,13 +70,147 @@ const branches = [
   },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const data = await getHomePage();
+
+  /* ── Resolve all content with fallbacks ── */
+  const heroTitle = data?.heroTitle ?? "Theoria Sophia";
+  const heroTagline1 = data?.heroTagline1 ?? "Theoria \u2014 To Behold";
+  const heroTagline2 = data?.heroTagline2 ?? "Sophia \u2014 Wisdom";
+  const heroCtaText = data?.heroCtaText ?? "Explore";
+  const heroBackground = resolveImage(
+    data?.heroBackground,
+    "/images/IMG_5655-hero-bg.jpeg"
+  );
+
+  const approachHeading = data?.approachHeading ?? "Our Approach";
+  const approachParagraphs = splitParagraphs(data?.approachText, [
+    "This space is a sanctuary for women to find safety, love, and peace within their bodies and lives.",
+    "We are devoted to bringing content and products that restore humanity\u2019s natural connection to nature, and their true authentic selves.",
+    "While also focusing on the health of eco architecture and design, food and travel, and health and wellness.",
+  ]);
+  const approachImage = resolveImage(
+    data?.approachImage,
+    "/images/our-approach-bg.jpg"
+  );
+
+  const dividerImg = resolveImage(
+    data?.dividerImage,
+    "/images/divider-image.jpg"
+  );
+
+  const ourSpaceHeading = data?.ourSpaceHeading ?? "Our Space";
+  const ourSpaceTagline =
+    data?.ourSpaceTagline ??
+    "Theoria Sophia is a sanctuary for fostering peace on earth and within the body.";
+  const ourSpaceSubtitle =
+    data?.ourSpaceSubtitle ??
+    "To restore natural beauty and cultivate inner gnosis.";
+
+  const herstoryHeading = data?.herstoryHeading ?? "Ancient Her-story";
+  const herstorySubtitle = data?.herstorySubtitle ?? "Online Course";
+  const herstoryParagraphs = splitParagraphs(data?.herstoryText, [
+    "Sharing the mother lineage of the oracles of old.",
+    "An educational deep dive into forgotten scriptures, teachings, and ways of being in connection to the lost mother archives.",
+    "Honey bee ancient wisdom from tenders of the garden of eden, a deep dive into the true story of Eve, the Garden, Sophia, and creation.",
+  ]);
+  const herstoryCtaText = data?.herstoryCtaText ?? "Learn More";
+
+  const branchesHeading = data?.branchesHeading ?? "Explore";
+  const branchesSubtitle =
+    data?.branchesSubtitle ??
+    "Branches on the tree of this living wellness sanctuary";
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const branches = (data?.branches as any[]) ?? defaultBranches;
+
+  const holisticHeading = data?.holisticHeading ?? "Holistic Approach";
+  const holisticText =
+    data?.holisticText ??
+    "Experience the harmonious blend of ancient healing traditions and modern wellness techniques, as our dedicated team takes you on a transformative wellness journey.";
+  const holisticBackground = resolveImage(
+    data?.holisticBackground,
+    "/images/manifesto-left.jpg"
+  );
+
+  const manifestoParagraphs = splitParagraphs(data?.manifestoText, [
+    "Claim sanctuary within your body, and treat it with the utmost respect.",
+    "We were born into a garden of splendor and love.",
+    "Restore the body, restore the garden of earth, and restore the family back to wholeness.",
+    "Theoria Sophia is in devotion to restoring the inner garden of the true feminine essence.",
+  ]);
+  const manifestoTagline =
+    data?.manifestoTagline ?? "Comfortable. Relaxed. Embodied.";
+  const manifestoLeftImage = resolveImage(
+    data?.manifestoLeftImage,
+    "/images/manifesto-left.jpg"
+  );
+  const manifestoRightImage = resolveImage(
+    data?.manifestoRightImage,
+    "/images/manifesto-right.jpg"
+  );
+
+  const founderLabel = data?.founderLabel ?? "Meet our Founder";
+  const founderName = data?.founderName ?? "Zefirah";
+  const founderBio = splitParagraphs(data?.founderBio, [
+    "Led by a deep devotion to the sacred feminine and a reverence for the earth, Zefirah founded Theoria Sophia as a living sanctuary \u2014 a space where ancient wisdom meets modern healing.",
+    "Her work weaves together the threads of forgotten traditions, ecological stewardship, and holistic wellness into a tapestry of transformation for women seeking to come home to themselves.",
+  ]);
+  const founderImage = resolveImage(
+    data?.founderImage,
+    "/images/founder-zefirah.jpg"
+  );
+
+  const ecoLabel = data?.ecoLabel ?? "Our Sister Company";
+  const ecoHeading = data?.ecoHeading ?? "Eco Based Living";
+  const ecoSubtitle = data?.ecoSubtitle ?? "Azura";
+  const ecoParagraphs = splitParagraphs(data?.ecoText, [
+    "Azura is our building and design team focused on eco-based architecture and design. We create homes, systems, and structures centered on feng shui, environmental health, biomimicry, and luxury living.",
+    "Our design team also does interior design for private clients and fix-and-flip projects for personal hire.",
+    "Along with all of Azura\u2019s building systems, we create pollinator habitats in our landscaping to give back to the natural world, while creating a zen and romantic atmosphere.",
+  ]);
+  const ecoImages =
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (data?.ecoCarouselImages as any[])?.map(
+      (img: { asset?: { url?: string } }) => img?.asset?.url ?? ""
+    ) ?? defaultEcoImages;
+
+  const beStillHeading = data?.beStillHeading ?? "Be still, and breathe.";
+  const beStillTagline =
+    data?.beStillTagline ??
+    "Our goal is to help humanity find peace and restore the garden of life.";
+  const galleryImages =
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (data?.beStillGalleryImages as any[])?.map(
+      (img: { asset?: { url?: string } }) => img?.asset?.url ?? ""
+    ) ?? defaultGalleryImages;
+
+  const podcastHeading = data?.podcastHeading ?? "Listen to our Podcast";
+  const podcastText =
+    data?.podcastText ??
+    "Join us for conversations on ancient wisdom, sacred living, and the journey home to the true self.";
+  const podcastCoverImage = resolveImage(
+    data?.podcastCoverImage,
+    "/images/podcast-logo.jpg"
+  );
+  const podcastBackground = resolveImage(
+    data?.podcastBackground,
+    "/images/podcast-cover-bg.jpg"
+  );
+
+  const ctaHeading = data?.ctaHeading ?? "Begin Your Journey";
+  const ctaText =
+    data?.ctaText ??
+    "Embark on a journey to rejuvenation. Connect with us and experience the transformative power of personalized holistic care.";
+  const ctaButtonText = data?.ctaButtonText ?? "Connect With Us";
+
+  const finalImg = resolveImage(data?.finalImage, "/images/inquire-bg.jpg");
+
   return (
     <>
       {/* ===== HERO ===== */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <Image
-          src="/images/IMG_5655-hero-bg.jpeg"
+          src={heroBackground}
           alt="Ethereal nature background"
           fill
           priority
@@ -89,14 +228,14 @@ export default function Home() {
             className="mx-auto mb-8 animate-scale-in"
           />
           <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl font-light text-charcoal tracking-wide mb-6">
-            Theoria Sophia
+            {heroTitle}
           </h1>
           <div className="gold-divider" />
           <p className="font-serif text-xl md:text-2xl text-brown-light italic mt-6 animate-fade-in animate-delay-3">
-            Theoria &mdash; To Behold
+            {heroTagline1}
           </p>
           <p className="font-serif text-xl md:text-2xl text-brown-light italic animate-fade-in animate-delay-4">
-            Sophia &mdash; Wisdom
+            {heroTagline2}
           </p>
 
           <div className="mt-12 animate-fade-in animate-delay-5">
@@ -104,7 +243,7 @@ export default function Home() {
               href="#approach"
               className="inline-block px-8 py-3 border border-gold/60 text-gold font-sans text-xs tracking-[0.25em] uppercase transition-all duration-500 hover:bg-gold hover:text-white hover:tracking-[0.35em]"
             >
-              Explore
+              {heroCtaText}
             </Link>
           </div>
         </div>
@@ -120,7 +259,7 @@ export default function Home() {
         <div className="grid md:grid-cols-2 min-h-[80vh]">
           <div className="relative h-64 md:h-auto">
             <Image
-              src="/images/our-approach-bg.jpg"
+              src={approachImage}
               alt="Ancient wisdom"
               fill
               className="object-cover"
@@ -139,23 +278,13 @@ export default function Home() {
                 className="mb-6 opacity-50"
               />
               <h2 className="font-serif text-4xl md:text-5xl font-light text-charcoal mb-6">
-                Our Approach
+                {approachHeading}
               </h2>
               <div className="gold-divider !mx-0" />
               <div className="mt-8 space-y-5 font-sans text-brown-light leading-relaxed text-[15px]">
-                <p>
-                  This space is a sanctuary for women to find safety, love, and
-                  peace within their bodies and lives.
-                </p>
-                <p>
-                  We are devoted to bringing content and products that restore
-                  humanity&apos;s natural connection to nature, and their true
-                  authentic selves.
-                </p>
-                <p>
-                  While also focusing on the health of eco architecture and
-                  design, food and travel, and health and wellness.
-                </p>
+                {approachParagraphs.map((p, i) => (
+                  <p key={i}>{p}</p>
+                ))}
               </div>
             </ScrollReveal>
           </div>
@@ -165,7 +294,7 @@ export default function Home() {
       {/* ===== FULL-WIDTH DIVIDER IMAGE ===== */}
       <section className="relative h-[40vh] md:h-[50vh] overflow-hidden">
         <Image
-          src="/images/divider-image.jpg"
+          src={dividerImg}
           alt="Sacred space"
           fill
           className="object-cover"
@@ -179,15 +308,14 @@ export default function Home() {
         <div className="max-w-3xl mx-auto text-center">
           <ScrollReveal>
             <h2 className="font-serif text-4xl md:text-5xl font-light text-charcoal mb-4">
-              Our Space
+              {ourSpaceHeading}
             </h2>
             <div className="gold-divider" />
             <p className="mt-8 font-serif text-xl md:text-2xl text-brown-light italic leading-relaxed">
-              Theoria Sophia is a sanctuary for fostering peace on earth and
-              within the body.
+              {ourSpaceTagline}
             </p>
             <p className="mt-4 font-serif text-lg text-brown-light/80 italic">
-              To restore natural beauty and cultivate inner gnosis.
+              {ourSpaceSubtitle}
             </p>
           </ScrollReveal>
         </div>
@@ -198,10 +326,10 @@ export default function Home() {
         <div className="max-w-6xl mx-auto">
           <ScrollReveal className="text-center mb-16">
             <h2 className="font-serif text-4xl md:text-5xl font-light text-charcoal mb-4">
-              Ancient Her-story
+              {herstoryHeading}
             </h2>
             <p className="font-serif text-xl text-gold-muted italic">
-              Online Course
+              {herstorySubtitle}
             </p>
             <div className="gold-divider" />
           </ScrollReveal>
@@ -230,24 +358,15 @@ export default function Home() {
                 />
               </div>
               <div className="space-y-4 font-sans text-brown-light text-sm leading-relaxed">
-                <p>
-                  Sharing the mother lineage of the oracles of old.
-                </p>
-                <p>
-                  An educational deep dive into forgotten scriptures, teachings,
-                  and ways of being in connection to the lost mother archives.
-                </p>
-                <p>
-                  Honey bee ancient wisdom from tenders of the garden of eden, a
-                  deep dive into the true story of Eve, the Garden, Sophia, and
-                  creation.
-                </p>
+                {herstoryParagraphs.map((p, i) => (
+                  <p key={i}>{p}</p>
+                ))}
               </div>
               <Link
                 href="/ancient-herstory"
                 className="inline-block mt-8 px-8 py-3 border border-gold/60 text-gold font-sans text-xs tracking-[0.25em] uppercase transition-all duration-500 hover:bg-gold hover:text-white"
               >
-                Learn More
+                {herstoryCtaText}
               </Link>
             </ScrollReveal>
 
@@ -271,40 +390,50 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <ScrollReveal className="text-center mb-16">
             <h2 className="font-serif text-4xl md:text-5xl font-light text-charcoal mb-4">
-              Explore
+              {branchesHeading}
             </h2>
             <div className="gold-divider" />
             <p className="mt-6 font-sans text-brown-light text-sm tracking-wide">
-              Branches on the tree of this living wellness sanctuary
+              {branchesSubtitle}
             </p>
           </ScrollReveal>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {branches.map((branch, i) => (
-              <ScrollReveal key={branch.title} delay={i * 100}>
-                <div className="group relative aspect-[4/5] overflow-hidden cursor-pointer">
-                  <Image
-                    src={branch.image}
-                    alt={branch.title}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-charcoal/20 to-transparent transition-opacity duration-500" />
-                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                    <h3 className="font-serif text-2xl font-light mb-1">
-                      {branch.title}
-                    </h3>
-                    <p className="font-sans text-sm text-white/70">
-                      {branch.subtitle}
-                    </p>
-                    <p className="font-sans text-xs text-gold-light mt-1 tracking-wide uppercase">
-                      {branch.detail}
-                    </p>
+            {branches.map(
+              (
+                branch: {
+                  title: string;
+                  subtitle: string;
+                  detail: string;
+                  image: string | { asset?: { _ref?: string } };
+                },
+                i: number
+              ) => (
+                <ScrollReveal key={branch.title} delay={i * 100}>
+                  <div className="group relative aspect-[4/5] overflow-hidden cursor-pointer">
+                    <Image
+                      src={resolveImage(branch.image, "/images/explore-IMG_2778.jpg")}
+                      alt={branch.title}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-charcoal/20 to-transparent transition-opacity duration-500" />
+                    <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                      <h3 className="font-serif text-2xl font-light mb-1">
+                        {branch.title}
+                      </h3>
+                      <p className="font-sans text-sm text-white/70">
+                        {branch.subtitle}
+                      </p>
+                      <p className="font-sans text-xs text-gold-light mt-1 tracking-wide uppercase">
+                        {branch.detail}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </ScrollReveal>
-            ))}
+                </ScrollReveal>
+              )
+            )}
           </div>
         </div>
       </section>
@@ -312,7 +441,7 @@ export default function Home() {
       {/* ===== HOLISTIC APPROACH ===== */}
       <section className="relative py-24 overflow-hidden">
         <Image
-          src="/images/manifesto-left.jpg"
+          src={holisticBackground}
           alt="Holistic healing"
           fill
           className="object-cover"
@@ -322,13 +451,11 @@ export default function Home() {
         <div className="relative z-10 max-w-2xl mx-auto text-center px-6">
           <ScrollReveal>
             <h2 className="font-serif text-3xl md:text-4xl font-light text-charcoal mb-4">
-              Holistic Approach
+              {holisticHeading}
             </h2>
             <div className="gold-divider" />
             <p className="mt-8 font-sans text-brown-light leading-relaxed">
-              Experience the harmonious blend of ancient healing traditions and
-              modern wellness techniques, as our dedicated team takes you on a
-              transformative wellness journey.
+              {holisticText}
             </p>
           </ScrollReveal>
         </div>
@@ -340,7 +467,7 @@ export default function Home() {
           <ScrollReveal>
             <div className="relative aspect-[3/4] overflow-hidden">
               <Image
-                src="/images/manifesto-left.jpg"
+                src={manifestoLeftImage}
                 alt="Sacred feminine"
                 fill
                 className="object-cover"
@@ -351,24 +478,17 @@ export default function Home() {
 
           <ScrollReveal delay={200} className="text-center px-4">
             <div className="space-y-5 font-serif text-lg md:text-xl text-brown italic leading-relaxed">
-              <p>
-                Claim sanctuary within your body, and treat it with the utmost
-                respect.
-              </p>
-              <p className="text-gold-muted">
-                We were born into a garden of splendor and love.
-              </p>
-              <p>
-                Restore the body, restore the garden of earth, and restore the
-                family back to wholeness.
-              </p>
+              {manifestoParagraphs.map((p, i) => (
+                <p
+                  key={i}
+                  className={i === 1 ? "text-gold-muted" : undefined}
+                >
+                  {p}
+                </p>
+              ))}
               <div className="gold-divider" />
-              <p>
-                Theoria Sophia is in devotion to restoring the inner garden of
-                the true feminine essence.
-              </p>
               <p className="font-sans text-sm tracking-[0.2em] uppercase text-brown-light/60 !mt-8">
-                Comfortable. Relaxed. Embodied.
+                {manifestoTagline}
               </p>
             </div>
           </ScrollReveal>
@@ -376,7 +496,7 @@ export default function Home() {
           <ScrollReveal delay={400}>
             <div className="relative aspect-[3/4] overflow-hidden">
               <Image
-                src="/images/manifesto-right.jpg"
+                src={manifestoRightImage}
                 alt="Inner garden"
                 fill
                 className="object-cover"
@@ -393,8 +513,8 @@ export default function Home() {
           <ScrollReveal>
             <div className="relative aspect-[3/4] overflow-hidden max-w-md mx-auto">
               <Image
-                src="/images/founder-zefirah.jpg"
-                alt="Zefirah, founder of Theoria Sophia"
+                src={founderImage}
+                alt={`${founderName}, founder of Theoria Sophia`}
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 50vw"
@@ -404,23 +524,16 @@ export default function Home() {
 
           <ScrollReveal delay={200}>
             <p className="font-sans text-xs tracking-[0.3em] uppercase text-gold mb-4">
-              Meet our Founder
+              {founderLabel}
             </p>
             <h2 className="font-serif text-4xl md:text-5xl font-light text-charcoal mb-6">
-              Zefirah
+              {founderName}
             </h2>
             <div className="gold-divider !mx-0" />
             <div className="mt-8 space-y-4 font-sans text-brown-light leading-relaxed text-[15px]">
-              <p>
-                Led by a deep devotion to the sacred feminine and a reverence for
-                the earth, Zefirah founded Theoria Sophia as a living sanctuary
-                &mdash; a space where ancient wisdom meets modern healing.
-              </p>
-              <p>
-                Her work weaves together the threads of forgotten traditions,
-                ecological stewardship, and holistic wellness into a tapestry of
-                transformation for women seeking to come home to themselves.
-              </p>
+              {founderBio.map((p, i) => (
+                <p key={i}>{p}</p>
+              ))}
             </div>
           </ScrollReveal>
         </div>
@@ -431,31 +544,19 @@ export default function Home() {
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
           <ScrollReveal>
             <p className="font-sans text-xs tracking-[0.3em] uppercase text-gold mb-4">
-              Our Sister Company
+              {ecoLabel}
             </p>
             <h2 className="font-serif text-4xl md:text-5xl font-light text-charcoal mb-2">
-              Eco Based Living
+              {ecoHeading}
             </h2>
             <p className="font-serif text-2xl text-gold-muted italic mb-6">
-              Azura
+              {ecoSubtitle}
             </p>
             <div className="gold-divider !mx-0" />
             <div className="mt-8 space-y-4 font-sans text-brown-light leading-relaxed text-[15px]">
-              <p>
-                Azura is our building and design team focused on eco-based
-                architecture and design. We create homes, systems, and structures
-                centered on feng shui, environmental health, biomimicry, and
-                luxury living.
-              </p>
-              <p>
-                Our design team also does interior design for private clients and
-                fix-and-flip projects for personal hire.
-              </p>
-              <p>
-                Along with all of Azura&apos;s building systems, we create
-                pollinator habitats in our landscaping to give back to the
-                natural world, while creating a zen and romantic atmosphere.
-              </p>
+              {ecoParagraphs.map((p, i) => (
+                <p key={i}>{p}</p>
+              ))}
             </div>
           </ScrollReveal>
 
@@ -470,12 +571,11 @@ export default function Home() {
         <div className="max-w-4xl mx-auto">
           <ScrollReveal className="text-center mb-12">
             <h2 className="font-serif text-4xl md:text-5xl font-light text-charcoal mb-4">
-              Be still, and breathe.
+              {beStillHeading}
             </h2>
             <div className="gold-divider" />
             <p className="mt-6 font-serif text-lg text-brown-light italic">
-              Our goal is to help humanity find peace and restore the garden of
-              life.
+              {beStillTagline}
             </p>
           </ScrollReveal>
 
@@ -488,7 +588,7 @@ export default function Home() {
       {/* ===== PODCAST ===== */}
       <section className="relative min-h-[60vh] flex items-center overflow-hidden">
         <Image
-          src="/images/podcast-cover-bg.jpg"
+          src={podcastBackground}
           alt="Podcast background"
           fill
           className="object-cover"
@@ -499,19 +599,18 @@ export default function Home() {
         <div className="relative z-10 max-w-4xl mx-auto text-center px-6 py-20">
           <ScrollReveal>
             <Image
-              src="/images/podcast-logo.jpg"
+              src={podcastCoverImage}
               alt="Theoria Sophia Podcast"
               width={200}
               height={200}
               className="rounded-2xl mx-auto mb-10 shadow-2xl"
             />
             <h2 className="font-serif text-4xl md:text-5xl font-light text-white mb-4">
-              Listen to our Podcast
+              {podcastHeading}
             </h2>
             <div className="w-16 h-px bg-gradient-to-r from-transparent via-gold to-transparent mx-auto my-6" />
             <p className="font-sans text-white/70 text-sm max-w-md mx-auto">
-              Join us for conversations on ancient wisdom, sacred living, and the
-              journey home to the true self.
+              {podcastText}
             </p>
           </ScrollReveal>
         </div>
@@ -522,18 +621,17 @@ export default function Home() {
         <div className="max-w-2xl mx-auto text-center">
           <ScrollReveal>
             <h2 className="font-serif text-4xl md:text-5xl font-light text-charcoal mb-4">
-              Begin Your Journey
+              {ctaHeading}
             </h2>
             <div className="gold-divider" />
             <p className="mt-8 font-sans text-brown-light leading-relaxed">
-              Embark on a journey to rejuvenation. Connect with us and experience
-              the transformative power of personalized holistic care.
+              {ctaText}
             </p>
             <Link
               href="#contact"
               className="inline-block mt-10 px-10 py-4 bg-gold text-white font-sans text-xs tracking-[0.3em] uppercase transition-all duration-500 hover:bg-gold-light hover:shadow-lg"
             >
-              Connect With Us
+              {ctaButtonText}
             </Link>
           </ScrollReveal>
         </div>
@@ -542,7 +640,7 @@ export default function Home() {
       {/* ===== FINAL IMAGE ===== */}
       <section className="relative h-[50vh] overflow-hidden">
         <Image
-          src="/images/inquire-bg.jpg"
+          src={finalImg}
           alt="Sanctuary"
           fill
           className="object-cover"
