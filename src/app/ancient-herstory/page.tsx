@@ -60,10 +60,7 @@ export default async function AncientHerstoryPage() {
   const heroDescription =
     data?.heroDescription ??
     "An educational deep dive into the mother lineage of the oracles of old";
-  const heroBackground = resolveImage(
-    data?.heroBackground,
-    "/images/bee-hieroglyph.png"
-  );
+  const heroBackground = resolveImage(data?.heroBackground, "/images/bee-hieroglyph.png");
 
   const introHeading = data?.introHeading ?? "The Lost Mother Archives";
   const introParagraphs = splitParagraphs(data?.introText, [
@@ -75,10 +72,7 @@ export default async function AncientHerstoryPage() {
   const features = (data?.features as any[]) ?? defaultFeatures;
 
   const quoteText = data?.quoteText ?? "To remember is to restore.";
-  const quoteBackground = resolveImage(
-    data?.quoteBackground,
-    "/images/divider-image.jpg"
-  );
+  const quoteBackground = resolveImage(data?.quoteBackground, "/images/divider-image.jpg");
 
   const courseHeading = data?.courseHeading ?? "What You Will Explore";
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -93,47 +87,49 @@ export default async function AncientHerstoryPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[75vh] flex items-center justify-center overflow-hidden">
         <Image
           src={heroBackground}
           alt="Ancient Egyptian bee hieroglyph relief"
           fill
           priority
-          className="object-cover"
+          className="object-cover scale-105"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-cream-light/60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-cream-light/50 via-cream-light/30 to-cream-light/70" />
 
         <div className="relative z-10 text-center px-6 animate-fade-up">
-          <h1 className="font-serif text-5xl md:text-7xl font-light text-charcoal tracking-wide mb-4">
+          <h1 className="font-serif text-6xl md:text-8xl font-light text-charcoal tracking-wider mb-4">
             {heroTitle}
           </h1>
-          <p className="font-serif text-2xl text-gold-muted italic mb-2">
+          <p className="font-serif text-2xl text-gold-muted italic mb-4">
             {heroSubtitle}
           </p>
-          <div className="gold-divider" />
-          <p className="mt-6 font-sans text-sm text-brown-light/80 max-w-md mx-auto leading-relaxed">
+          <div className="gold-divider-wide" />
+          <p className="mt-8 font-sans text-sm text-brown-light/70 max-w-md mx-auto leading-[1.9]">
             {heroDescription}
           </p>
         </div>
+
+        <div className="gradient-fade-bottom" />
       </section>
 
       {/* Introduction */}
-      <section className="bg-cream-light section-padding">
+      <section className="section-padding-lg">
         <div className="max-w-3xl mx-auto text-center">
-          <ScrollReveal>
+          <ScrollReveal direction="fade" duration={1400}>
             <Image
               src="/images/external-file-ornament.png"
               alt=""
-              width={60}
-              height={25}
-              className="mx-auto mb-8 opacity-40"
+              width={50}
+              height={20}
+              className="mx-auto mb-10 opacity-25"
             />
-            <h2 className="font-serif text-3xl md:text-4xl font-light text-charcoal mb-6">
+            <h2 className="font-serif text-4xl md:text-5xl font-light text-charcoal mb-6 tracking-wide">
               {introHeading}
             </h2>
-            <div className="gold-divider" />
-            <div className="mt-8 space-y-5 font-sans text-brown-light leading-relaxed text-[15px]">
+            <div className="gold-divider-wide" />
+            <div className="mt-10 space-y-6 font-sans text-brown-light leading-[1.9] text-[15px]">
               {introParagraphs.map((p, i) => (
                 <p key={i}>{p}</p>
               ))}
@@ -142,9 +138,9 @@ export default async function AncientHerstoryPage() {
         </div>
       </section>
 
-      {/* Three-column feature */}
-      <section className="bg-cream section-padding">
-        <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-12">
+      {/* Feature Columns */}
+      <section className="section-padding bg-cream">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-16">
           {features.map(
             (
               feature: {
@@ -156,25 +152,23 @@ export default async function AncientHerstoryPage() {
             ) => (
               <ScrollReveal
                 key={feature.title}
-                delay={(i + 1) * 100}
+                delay={(i + 1) * 150}
+                direction="scale"
                 className="text-center"
               >
-                <div className="relative aspect-square w-40 mx-auto mb-6 overflow-hidden rounded-full border-2 border-gold/20">
+                <div className="relative aspect-square w-36 mx-auto mb-8 overflow-hidden rounded-full border border-gold/20 shadow-lg">
                   <Image
-                    src={resolveImage(
-                      feature.image,
-                      "/images/ancient-herstory-1.jpg"
-                    )}
+                    src={resolveImage(feature.image, "/images/ancient-herstory-1.jpg")}
                     alt={feature.title}
                     fill
                     className="object-cover"
                     sizes="160px"
                   />
                 </div>
-                <h3 className="font-serif text-2xl font-light text-charcoal mb-3">
+                <h3 className="font-serif text-2xl font-light text-charcoal mb-4 tracking-wide">
                   {feature.title}
                 </h3>
-                <p className="font-sans text-sm text-brown-light leading-relaxed">
+                <p className="font-sans text-sm text-brown-light leading-[1.9]">
                   {feature.description}
                 </p>
               </ScrollReveal>
@@ -183,8 +177,8 @@ export default async function AncientHerstoryPage() {
         </div>
       </section>
 
-      {/* Full-width image break */}
-      <section className="relative h-[40vh] overflow-hidden">
+      {/* Quote Divider */}
+      <section className="relative h-[50vh] overflow-hidden">
         <Image
           src={quoteBackground}
           alt="Sacred landscape"
@@ -192,35 +186,45 @@ export default async function AncientHerstoryPage() {
           className="object-cover"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-charcoal/30" />
+        <div className="absolute inset-0 bg-charcoal/40" />
+        <div className="gradient-fade-top" style={{ background: "linear-gradient(to top, transparent, var(--cream))" }} />
         <div className="absolute inset-0 flex items-center justify-center">
-          <ScrollReveal>
-            <p className="font-serif text-3xl md:text-4xl text-white font-light italic text-center px-6">
-              &ldquo;{quoteText}&rdquo;
-            </p>
+          <ScrollReveal direction="scale" duration={1400}>
+            <div className="text-center px-6">
+              <div className="w-px h-10 bg-gradient-to-b from-transparent to-white/50 mx-auto mb-6" />
+              <p className="font-serif text-3xl md:text-5xl text-white font-light italic tracking-wide">
+                &ldquo;{quoteText}&rdquo;
+              </p>
+              <div className="w-px h-10 bg-gradient-to-t from-transparent to-white/50 mx-auto mt-6" />
+            </div>
           </ScrollReveal>
         </div>
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent to-cream-light" />
       </section>
 
       {/* Course Details */}
-      <section className="bg-cream-light section-padding">
+      <section className="section-padding-lg">
         <div className="max-w-4xl mx-auto">
-          <ScrollReveal className="text-center mb-16">
-            <h2 className="font-serif text-4xl md:text-5xl font-light text-charcoal mb-4">
+          <ScrollReveal className="text-center mb-20">
+            <h2 className="font-serif text-4xl md:text-6xl font-light text-charcoal tracking-wide mb-4">
               {courseHeading}
             </h2>
-            <div className="gold-divider" />
+            <div className="gold-divider-wide" />
           </ScrollReveal>
 
-          <div className="grid md:grid-cols-2 gap-x-12 gap-y-10">
+          <div className="grid md:grid-cols-2 gap-x-16 gap-y-14">
             {courseItems.map(
               (item: { title: string; text: string }, i: number) => (
-                <ScrollReveal key={item.title} delay={i * 100}>
-                  <div className="border-l-2 border-gold/30 pl-6">
-                    <h3 className="font-serif text-xl font-light text-charcoal mb-2">
+                <ScrollReveal
+                  key={item.title}
+                  delay={i * 100}
+                  direction={i % 2 === 0 ? "left" : "right"}
+                >
+                  <div className="border-l border-gold/30 pl-8">
+                    <h3 className="font-serif text-2xl font-light text-charcoal mb-3 tracking-wide">
                       {item.title}
                     </h3>
-                    <p className="font-sans text-sm text-brown-light leading-relaxed">
+                    <p className="font-sans text-sm text-brown-light leading-[1.9]">
                       {item.text}
                     </p>
                   </div>
@@ -232,26 +236,26 @@ export default async function AncientHerstoryPage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-cream section-padding">
+      <section className="section-padding-lg bg-cream">
         <div className="max-w-2xl mx-auto text-center">
-          <ScrollReveal>
+          <ScrollReveal direction="fade" duration={1400}>
             <Image
               src="/images/logotheoria.png"
               alt="Theoria Sophia"
-              width={60}
-              height={60}
-              className="mx-auto mb-8 opacity-50"
+              width={50}
+              height={50}
+              className="mx-auto mb-10 opacity-30 animate-breathe"
             />
-            <h2 className="font-serif text-4xl md:text-5xl font-light text-charcoal mb-4">
+            <h2 className="font-serif text-4xl md:text-6xl font-light text-charcoal tracking-wide mb-4">
               {ctaHeading}
             </h2>
-            <div className="gold-divider" />
-            <p className="mt-8 font-sans text-brown-light leading-relaxed">
+            <div className="gold-divider-wide" />
+            <p className="mt-10 font-sans text-brown-light leading-[1.9] max-w-lg mx-auto">
               {ctaText}
             </p>
             <Link
               href="/#contact"
-              className="inline-block mt-10 px-10 py-4 bg-gold text-white font-sans text-xs tracking-[0.3em] uppercase transition-all duration-500 hover:bg-gold-light hover:shadow-lg"
+              className="inline-block mt-12 px-12 py-5 bg-gold text-white font-sans text-[11px] tracking-[0.35em] uppercase transition-all duration-700 hover:bg-gold-light hover:shadow-xl"
             >
               {ctaButtonText}
             </Link>

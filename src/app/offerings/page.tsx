@@ -20,7 +20,7 @@ const defaultOfferings = [
     link: "/ancient-herstory",
   },
   {
-    title: "Women's Wellness Sanctuary",
+    title: "Women\u2019s Wellness Sanctuary",
     description:
       "Holistic healing arts for the body, mind, and spirit. Restoring the inner garden of the true feminine essence through ancient and modern practices.",
     image: "/images/sacred-union-photo.jpg",
@@ -50,10 +50,7 @@ export default async function OfferingsPage() {
   const heroDescription =
     data?.heroDescription ??
     "Returning to peace in the body, sanctuary in the body, and health in the body. Creating in the beauty way, heaven on earth.";
-  const heroBackground = resolveImage(
-    data?.heroBackground,
-    "/images/offerings-sand-dunes.jpg"
-  );
+  const heroBackground = resolveImage(data?.heroBackground, "/images/offerings-sand-dunes.jpg");
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const offerings = (data?.offerings as any[]) ?? defaultOfferings;
@@ -67,51 +64,42 @@ export default async function OfferingsPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[75vh] flex items-center justify-center overflow-hidden">
         <Image
           src={heroBackground}
           alt="Sacred landscape"
           fill
           priority
-          className="object-cover"
+          className="object-cover scale-105"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-cream-light/50" />
+        <div className="absolute inset-0 bg-gradient-to-b from-cream-light/40 via-cream-light/20 to-cream-light/70" />
 
         <div className="relative z-10 text-center px-6 animate-fade-up">
           <Image
             src="/images/logotheoria.png"
             alt="Theoria Sophia"
-            width={80}
-            height={80}
-            className="mx-auto mb-6"
+            width={70}
+            height={70}
+            className="mx-auto mb-8 animate-float"
           />
-          <h1 className="font-serif text-5xl md:text-7xl font-light text-charcoal tracking-wide mb-4">
+          <h1 className="font-serif text-6xl md:text-8xl font-light text-charcoal tracking-wider mb-6">
             {heroTitle}
           </h1>
-          <div className="gold-divider" />
-          <p className="mt-6 font-serif text-xl text-brown-light italic max-w-lg mx-auto">
+          <div className="gold-divider-wide" />
+          <p className="mt-8 font-serif text-xl md:text-2xl text-brown italic max-w-lg mx-auto">
             {heroSubtitle}
           </p>
-          <p className="mt-3 font-sans text-sm text-brown-light/70 max-w-md mx-auto leading-relaxed">
+          <p className="mt-4 font-sans text-sm text-brown-light/60 max-w-md mx-auto leading-[1.9]">
             {heroDescription}
           </p>
         </div>
+
+        <div className="gradient-fade-bottom" />
       </section>
 
-      {/* Ornament divider */}
-      <section className="bg-cream-light py-12 text-center">
-        <Image
-          src="/images/external-file-ornament.png"
-          alt=""
-          width={80}
-          height={34}
-          className="mx-auto opacity-40"
-        />
-      </section>
-
-      {/* Offerings Grid */}
-      <section className="bg-cream-light section-padding">
+      {/* Offerings */}
+      <section className="section-padding-lg">
         <div className="max-w-6xl mx-auto">
           {offerings.map(
             (
@@ -123,49 +111,51 @@ export default async function OfferingsPage() {
               },
               i: number
             ) => (
-              <ScrollReveal key={offering.title} delay={i * 100}>
+              <ScrollReveal
+                key={offering.title}
+                delay={100}
+                direction={i % 2 === 0 ? "left" : "right"}
+                duration={1200}
+              >
                 <div
-                  className={`grid md:grid-cols-2 gap-0 mb-16 last:mb-0 overflow-hidden ${
+                  className={`grid md:grid-cols-2 gap-0 mb-24 last:mb-0 overflow-hidden ${
                     i % 2 === 1 ? "md:direction-rtl" : ""
                   }`}
                 >
                   <div
-                    className={`relative h-72 md:h-auto min-h-[400px] ${
+                    className={`relative h-80 md:h-auto min-h-[450px] ${
                       i % 2 === 1 ? "md:order-2" : ""
                     }`}
                   >
                     <Image
-                      src={resolveImage(
-                        offering.image,
-                        "/images/ancient-herstory-1.jpg"
-                      )}
+                      src={resolveImage(offering.image, "/images/ancient-herstory-1.jpg")}
                       alt={offering.title}
                       fill
-                      className="object-cover"
+                      className="object-cover image-reveal"
                       sizes="(max-width: 768px) 100vw, 50vw"
                     />
                   </div>
 
                   <div
-                    className={`flex items-center bg-cream p-10 md:p-16 ${
+                    className={`flex items-center bg-cream p-10 md:p-20 ${
                       i % 2 === 1 ? "md:order-1" : ""
                     }`}
                   >
                     <div className="max-w-md">
-                      <p className="font-sans text-xs tracking-[0.3em] uppercase text-gold mb-4">
+                      <p className="font-sans text-[10px] tracking-[0.5em] uppercase text-gold mb-6">
                         {String(i + 1).padStart(2, "0")}
                       </p>
-                      <h2 className="font-serif text-3xl md:text-4xl font-light text-charcoal mb-4">
+                      <h2 className="font-serif text-3xl md:text-5xl font-light text-charcoal mb-4 tracking-wide">
                         {offering.title}
                       </h2>
                       <div className="gold-divider !mx-0" />
-                      <p className="mt-6 font-sans text-brown-light text-sm leading-relaxed">
+                      <p className="mt-8 font-sans text-brown-light text-sm leading-[1.9]">
                         {offering.description}
                       </p>
                       {offering.link && (
                         <Link
                           href={offering.link}
-                          className="inline-block mt-8 px-8 py-3 border border-gold/60 text-gold font-sans text-xs tracking-[0.25em] uppercase transition-all duration-500 hover:bg-gold hover:text-white"
+                          className="inline-block mt-10 px-10 py-4 border border-gold/50 text-gold font-sans text-[11px] tracking-[0.3em] uppercase transition-all duration-700 hover:bg-gold hover:text-white"
                         >
                           Explore
                         </Link>
@@ -180,19 +170,19 @@ export default async function OfferingsPage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-cream section-padding">
+      <section className="section-padding-lg bg-cream">
         <div className="max-w-2xl mx-auto text-center">
-          <ScrollReveal>
-            <h2 className="font-serif text-4xl md:text-5xl font-light text-charcoal mb-4">
+          <ScrollReveal direction="fade" duration={1400}>
+            <h2 className="font-serif text-4xl md:text-6xl font-light text-charcoal tracking-wide mb-4">
               {ctaHeading}
             </h2>
-            <div className="gold-divider" />
-            <p className="mt-8 font-sans text-brown-light leading-relaxed">
+            <div className="gold-divider-wide" />
+            <p className="mt-10 font-sans text-brown-light leading-[1.9] max-w-lg mx-auto">
               {ctaText}
             </p>
             <Link
               href="/#contact"
-              className="inline-block mt-10 px-10 py-4 bg-gold text-white font-sans text-xs tracking-[0.3em] uppercase transition-all duration-500 hover:bg-gold-light hover:shadow-lg"
+              className="inline-block mt-12 px-12 py-5 bg-gold text-white font-sans text-[11px] tracking-[0.35em] uppercase transition-all duration-700 hover:bg-gold-light hover:shadow-xl"
             >
               {ctaButtonText}
             </Link>

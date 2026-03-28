@@ -49,31 +49,26 @@ body {
   color: var(--charcoal);
 }
 
-/* Elegant scrollbar */
+/* Refined scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--cream);
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
   background: var(--taupe);
-  border-radius: 4px;
+  border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--taupe-dark);
 }
 
-/* Fade-in animation */
+/* ─── Keyframe Animations ─── */
+
 @keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fadeIn {
@@ -82,63 +77,225 @@ body {
 }
 
 @keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-60px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(60px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes blurIn {
+  from { opacity: 0; filter: blur(10px); }
+  to { opacity: 1; filter: blur(0); }
+}
+
+@keyframes breathe {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes expandWidth {
+  from { width: 0; }
+  to { width: 80px; }
 }
 
 .animate-fade-up {
-  animation: fadeUp 0.8s ease-out both;
+  animation: fadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .animate-fade-in {
-  animation: fadeIn 1s ease-out both;
+  animation: fadeIn 1.2s ease-out both;
 }
 
 .animate-scale-in {
-  animation: scaleIn 0.8s ease-out both;
+  animation: scaleIn 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-blur-in {
+  animation: blurIn 1.2s ease-out both;
+}
+
+.animate-breathe {
+  animation: breathe 4s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
 }
 
 .animate-delay-1 { animation-delay: 0.1s; }
 .animate-delay-2 { animation-delay: 0.2s; }
 .animate-delay-3 { animation-delay: 0.3s; }
-.animate-delay-4 { animation-delay: 0.4s; }
-.animate-delay-5 { animation-delay: 0.5s; }
+.animate-delay-4 { animation-delay: 0.5s; }
+.animate-delay-5 { animation-delay: 0.7s; }
+.animate-delay-6 { animation-delay: 0.9s; }
 
-/* Parallax-like depth on images */
+/* ─── Image hover effects ─── */
+
 .image-zoom {
-  transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 .image-zoom:hover {
-  transform: scale(1.03);
+  transform: scale(1.04);
 }
 
-/* Gold divider line */
+.image-reveal {
+  transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1), filter 1.2s ease;
+}
+.image-reveal:hover {
+  transform: scale(1.02);
+  filter: brightness(1.05);
+}
+
+/* ─── Gold Divider ─── */
+
 .gold-divider {
-  width: 60px;
+  width: 80px;
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--gold), transparent);
   margin: 1.5rem auto;
 }
 
-/* Section padding standard */
+/* Wider variant for emphasis */
+.gold-divider-wide {
+  width: 120px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-light), var(--gold), var(--gold-light), transparent);
+  margin: 2rem auto;
+}
+
+/* ─── Section Separator ─── */
+
+.section-separator {
+  position: relative;
+  height: 1px;
+  max-width: 200px;
+  margin: 0 auto;
+  background: linear-gradient(90deg, transparent, var(--taupe), transparent);
+  opacity: 0.3;
+}
+
+/* ─── Parallax fixed background ─── */
+
+.parallax-bg {
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+}
+
+@media (max-width: 768px) {
+  .parallax-bg {
+    background-attachment: scroll;
+  }
+}
+
+/* ─── Section padding ─── */
+
 .section-padding {
-  padding: 6rem 1.5rem;
+  padding: 5rem 1.5rem;
+}
+
+.section-padding-lg {
+  padding: 7rem 1.5rem;
 }
 
 @media (min-width: 768px) {
   .section-padding {
-    padding: 8rem 2rem;
+    padding: 7rem 2rem;
+  }
+  .section-padding-lg {
+    padding: 10rem 2rem;
   }
 }
 
 @media (min-width: 1024px) {
   .section-padding {
-    padding: 10rem 3rem;
+    padding: 8rem 3rem;
   }
+  .section-padding-lg {
+    padding: 12rem 3rem;
+  }
+}
+
+/* ─── Gradient overlays for smooth section transitions ─── */
+
+.gradient-fade-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 150px;
+  background: linear-gradient(to bottom, transparent, var(--cream-light));
+  pointer-events: none;
+}
+
+.gradient-fade-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 150px;
+  background: linear-gradient(to top, transparent, var(--cream-light));
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ─── Decorative ornamental line ─── */
+
+.ornament-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: 3rem 0;
+}
+
+.ornament-line::before,
+.ornament-line::after {
+  content: "";
+  flex: 1;
+  max-width: 100px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-muted));
+}
+
+.ornament-line::after {
+  background: linear-gradient(90deg, var(--gold-muted), transparent);
+}
+
+/* ─── Subtle card style ─── */
+
+.card-elevated {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(196, 181, 165, 0.15);
+  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.card-elevated:hover {
+  background: rgba(255, 255, 255, 0.6);
+  border-color: rgba(184, 150, 62, 0.2);
+  box-shadow: 0 20px 60px rgba(44, 38, 34, 0.06);
+  transform: translateY(-4px);
+}
+
+/* ─── Text gradient effect ─── */
+
+.text-gradient-gold {
+  background: linear-gradient(135deg, var(--gold), var(--gold-light), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
