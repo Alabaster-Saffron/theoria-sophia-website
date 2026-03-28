@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Raleway } from "next/font/google";
+import { Suspense } from "react";
 import { VisualEditing } from "next-sanity/visual-editing";
 import { SanityLive } from "@/sanity/live";
 import { draftMode } from "next/headers";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import FlagOverlay from "@/components/FlagOverlay";
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
@@ -48,6 +50,9 @@ export default async function RootLayout({
         <Footer />
         <SanityLive />
         {isEnabled && <VisualEditing />}
+        <Suspense>
+          <FlagOverlay />
+        </Suspense>
       </body>
     </html>
   );
