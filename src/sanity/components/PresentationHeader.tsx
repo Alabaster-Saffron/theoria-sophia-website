@@ -4,10 +4,13 @@ import { EditIcon } from "@sanity/icons";
 import { useCallback, useState } from "react";
 import { useClient } from "sanity";
 
-/* Map Sanity document IDs → Change Request page values */
+/* Map Sanity document type/ID → Change Request page values */
 const DOC_TO_PAGE: Record<string, string> = {
+  homepage: "homepage",
   homePage: "homepage",
+  offeringspage: "offerings",
   offeringsPage: "offerings",
+  ancientherstorypage: "ancient-herstory",
   ancientHerstoryPage: "ancient-herstory",
 };
 
@@ -44,60 +47,58 @@ const SECTION_OPTIONS = [
   { title: "Other", value: "other" },
 ];
 
-/* Map field name prefixes → section values */
-const FIELD_TO_SECTION: Record<string, string> = {
-  hero: "hero",
-  approach: "approach",
-  divider: "divider",
-  ourspace: "our-space",
-  herstory: "herstory-course",
-  branches: "explore",
-  holistic: "holistic",
-  manifesto: "manifesto",
-  founder: "founder",
-  eco: "eco",
-  bestill: "be-still",
-  podcast: "podcast",
-  cta: "cta",
-  final: "final-image",
-  offerings: "offerings-cards",
-  intro: "intro",
-  features: "features",
-  quote: "quote",
-  course: "course-details",
-};
+/* Map Sanity field name prefixes → Change Request section values */
+const FIELD_TO_SECTION: [string, string][] = [
+  ["heroT", "hero"],
+  ["heroBa", "hero"],
+  ["heroS", "hero"],
+  ["heroC", "hero"],
+  ["approach", "approach"],
+  ["divider", "divider"],
+  ["ourSpace", "our-space"],
+  ["herstory", "herstory-course"],
+  ["branches", "explore"],
+  ["holistic", "holistic"],
+  ["manifesto", "manifesto"],
+  ["founder", "founder"],
+  ["eco", "eco"],
+  ["beStill", "be-still"],
+  ["podcast", "podcast"],
+  ["cta", "cta"],
+  ["final", "final-image"],
+  ["offerings", "offerings-cards"],
+  ["intro", "intro"],
+  ["features", "features"],
+  ["quote", "quote"],
+  ["course", "course-details"],
+];
 
+/**
+ * Parse the Presentation tool URL to detect the current page and section.
+ * URL format: /studio/presentation/:type/:id/:path?preview=...
+ */
 function detectFromUrl(): { page: string; section: string } {
   try {
-    const url = window.location.href;
-    let docId: string | undefined;
-    let fieldPath: string | undefined;
+    const pathname = window.location.pathname;
 
-    /* Try various URL formats the Presentation tool uses */
-    const idMatch =
-      url.match(/[;/]id[=:]([^;&?/]+)/i) ||
-      url.match(/document[=:]([^;&?/]+)/i);
-    const pathMatch = url.match(/[;/]path[=:]([^;&?/]+)/i);
+    /* Split: ["", "studio", "presentation", type, id, path] */
+    const segments = pathname.split("/").filter(Boolean);
+    const presIdx = segments.indexOf("presentation");
 
-    if (idMatch) docId = decodeURIComponent(idMatch[1]);
-    if (pathMatch) fieldPath = decodeURIComponent(pathMatch[1]);
+    if (presIdx === -1) return { page: "", section: "" };
 
-    if (!docId) {
-      for (const key of Object.keys(DOC_TO_PAGE)) {
-        if (url.includes(key)) {
-          docId = key;
-          break;
-        }
-      }
-    }
+    const type = segments[presIdx + 1] ?? "";
+    const id = segments[presIdx + 2] ?? "";
+    const fieldPath = segments[presIdx + 3] ?? "";
 
-    const page = docId ? DOC_TO_PAGE[docId] ?? "" : "";
+    /* Detect page from type or id */
+    const page = DOC_TO_PAGE[type] ?? DOC_TO_PAGE[id] ?? "";
 
+    /* Detect section from field path */
     let section = "";
     if (fieldPath) {
-      const clean = fieldPath.split("[")[0].split(".")[0].toLowerCase();
-      for (const [prefix, sec] of Object.entries(FIELD_TO_SECTION)) {
-        if (clean.startsWith(prefix.toLowerCase())) {
+      for (const [prefix, sec] of FIELD_TO_SECTION) {
+        if (fieldPath.startsWith(prefix)) {
           section = sec;
           break;
         }
@@ -176,7 +177,7 @@ export default function PresentationHeader(props: any) {
     <>
       {props.renderDefault(props)}
 
-      {/* Floating button */}
+      {/* Floating button — bottom right, pill shape */}
       <button
         type="button"
         onClick={handleOpen}
@@ -249,9 +250,7 @@ export default function PresentationHeader(props: any) {
                 <div style={{ fontSize: "48px", marginBottom: "12px" }}>
                   &#10003;
                 </div>
-                <p
-                  style={{ fontSize: "18px", fontWeight: 600, color: "#333" }}
-                >
+                <p style={{ fontSize: "18px", fontWeight: 600, color: "#333" }}>
                   Change request submitted!
                 </p>
               </div>
@@ -259,7 +258,7 @@ export default function PresentationHeader(props: any) {
               <>
                 <h2
                   style={{
-                    margin: "0 0 24px",
+                    margin: "0 0 8px",
                     fontSize: "20px",
                     fontWeight: 600,
                     color: "#333",
@@ -267,6 +266,17 @@ export default function PresentationHeader(props: any) {
                 >
                   Flag for Change
                 </h2>
+                <p
+                  style={{
+                    margin: "0 0 24px",
+                    fontSize: "13px",
+                    color: "#888",
+                  }}
+                >
+                  Click on text in the preview first to auto-detect the section.
+                  For images or backgrounds, just select the page &amp; section
+                  and describe which image in your notes.
+                </p>
 
                 <div style={{ marginBottom: "16px" }}>
                   <label style={labelStyle}>Page</label>
@@ -305,7 +315,7 @@ export default function PresentationHeader(props: any) {
                   <textarea
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
-                    placeholder="e.g. Replace this image with the sunset photo, make this text larger..."
+                    placeholder='e.g. "Replace the background image with the sunset photo from the photos folder" or "Make this heading text larger"'
                     rows={4}
                     style={{
                       ...inputStyle,
