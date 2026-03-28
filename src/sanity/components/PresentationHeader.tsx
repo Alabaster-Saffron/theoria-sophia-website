@@ -1,7 +1,5 @@
 "use client";
 
-import { useRouter } from "sanity/router";
-import { usePresentationParams } from "sanity/presentation";
 import { EditIcon } from "@sanity/icons";
 import { useCallback } from "react";
 
@@ -17,14 +15,14 @@ const FIELD_TO_SECTION: Record<string, string> = {
   hero: "hero",
   approach: "approach",
   divider: "divider",
-  ourSpace: "our-space",
+  ourspace: "our-space",
   herstory: "herstory-course",
   branches: "explore",
   holistic: "holistic",
   manifesto: "manifesto",
   founder: "founder",
   eco: "eco",
-  beStill: "be-still",
+  bestill: "be-still",
   podcast: "podcast",
   cta: "cta",
   final: "final-image",
@@ -35,74 +33,101 @@ const FIELD_TO_SECTION: Record<string, string> = {
   course: "course-details",
 };
 
-function detectSection(path: string | undefined): string | undefined {
-  if (!path) return undefined;
-  const clean = path.split("[")[0].split(".")[0];
-  for (const [prefix, section] of Object.entries(FIELD_TO_SECTION)) {
-    if (clean.toLowerCase().startsWith(prefix.toLowerCase())) {
-      return section;
+function detectFromUrl(): { page?: string; section?: string } {
+  try {
+    const url = window.location.href;
+    let docId: string | undefined;
+    let fieldPath: string | undefined;
+
+    /* Presentation tool URLs contain document ID and path in various formats */
+    const idMatch = url.match(/[;/]id[=:]([^;&?/]+)/i) || url.match(/document[=:]([^;&?/]+)/i);
+    const pathMatch = url.match(/[;/]path[=:]([^;&?/]+)/i);
+
+    if (idMatch) docId = decodeURIComponent(idMatch[1]);
+    if (pathMatch) fieldPath = decodeURIComponent(pathMatch[1]);
+
+    /* Also try to read from the URL path segments for alternate formats */
+    if (!docId) {
+      for (const key of Object.keys(DOC_TO_PAGE)) {
+        if (url.includes(key)) {
+          docId = key;
+          break;
+        }
+      }
     }
+
+    const page = docId ? DOC_TO_PAGE[docId] : undefined;
+
+    let section: string | undefined;
+    if (fieldPath) {
+      const clean = fieldPath.split("[")[0].split(".")[0].toLowerCase();
+      for (const [prefix, sec] of Object.entries(FIELD_TO_SECTION)) {
+        if (clean.startsWith(prefix.toLowerCase())) {
+          section = sec;
+          break;
+        }
+      }
+    }
+
+    return { page, section };
+  } catch {
+    return {};
   }
-  return undefined;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function PresentationHeader(props: any) {
-  const router = useRouter();
-  const params = usePresentationParams();
-
   const handleClick = useCallback(() => {
-    const docId = params.id;
-    const fieldPath = params.path;
+    const { page, section } = detectFromUrl();
 
-    const page = docId ? DOC_TO_PAGE[docId] : undefined;
-    const section = detectSection(fieldPath);
+    /* Store detected values so the initial value template can use them */
+    try {
+      if (page) sessionStorage.setItem("cr_page", page);
+      if (section) sessionStorage.setItem("cr_section", section);
+    } catch { /* ignore */ }
 
-    if (page) {
-      router.navigateIntent("create", {
-        type: "changeRequest",
-        template: "changeRequest-prefilled",
-        page,
-        ...(section ? { section } : {}),
-      });
-    } else {
-      router.navigateIntent("create", { type: "changeRequest" });
-    }
-  }, [router, params]);
+    /* Navigate to create a new Change Request */
+    window.location.href = `/studio/structure/changeRequest;template=changeRequest-prefilled`;
+  }, []);
 
   return (
-    <div style={{ display: "flex", alignItems: "center", width: "100%" }}>
-      <div style={{ flex: 1 }}>{props.renderDefault(props)}</div>
-      <button
-        type="button"
-        onClick={handleClick}
+    <>
+      {props.renderDefault(props)}
+      <div
         style={{
-          display: "inline-flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "6px",
-          padding: "10px 18px",
-          marginRight: "12px",
-          background: "#B8963E",
-          color: "#fff",
-          border: "none",
-          borderRadius: "4px",
-          fontSize: "13px",
-          fontWeight: 600,
-          cursor: "pointer",
-          whiteSpace: "nowrap",
-          flexShrink: 0,
-          lineHeight: 1,
-          minHeight: "36px",
-          position: "relative",
-          zIndex: 10,
+          position: "fixed",
+          top: "12px",
+          right: "16px",
+          zIndex: 100000,
         }}
       >
-        <span style={{ display: "inline-flex", pointerEvents: "none" }}>
-          <EditIcon />
-        </span>
-        <span style={{ pointerEvents: "none" }}>Flag for Change</span>
-      </button>
-    </div>
+        <button
+          type="button"
+          onClick={handleClick}
+          onMouseDown={(e) => e.stopPropagation()}
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "7px",
+            padding: "12px 22px",
+            background: "#B8963E",
+            color: "#fff",
+            border: "none",
+            borderRadius: "6px",
+            fontSize: "13px",
+            fontWeight: 600,
+            cursor: "pointer",
+            whiteSpace: "nowrap",
+            lineHeight: 1,
+            boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+            userSelect: "none",
+          }}
+        >
+          <EditIcon style={{ pointerEvents: "none" }} />
+          <span style={{ pointerEvents: "none" }}>Flag for Change</span>
+        </button>
+      </div>
+    </>
   );
 }

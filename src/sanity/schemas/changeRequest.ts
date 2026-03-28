@@ -1,5 +1,15 @@
 import { defineType, defineField } from "sanity";
 
+function getSessionValue(key: string): string | undefined {
+  try {
+    const val = typeof sessionStorage !== "undefined" ? sessionStorage.getItem(key) : null;
+    if (val) sessionStorage.removeItem(key);
+    return val ?? undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 export const changeRequest = defineType({
   name: "changeRequest",
   title: "Change Request",
@@ -9,6 +19,7 @@ export const changeRequest = defineType({
       name: "page",
       title: "Page",
       type: "string",
+      initialValue: () => getSessionValue("cr_page") ?? "",
       options: {
         list: [
           { title: "Homepage", value: "homepage" },
@@ -23,6 +34,7 @@ export const changeRequest = defineType({
       name: "section",
       title: "Section",
       type: "string",
+      initialValue: () => getSessionValue("cr_section") ?? "",
       description: "Which section of the page (e.g. Hero, Explore, Founder)",
       options: {
         list: [
