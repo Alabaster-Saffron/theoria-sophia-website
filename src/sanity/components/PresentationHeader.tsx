@@ -3,6 +3,7 @@
 import { EditIcon } from "@sanity/icons";
 import { useCallback, useRef, useState } from "react";
 import { useClient } from "sanity";
+import { usePresentationParams } from "sanity/presentation";
 
 /* Map Sanity document type/ID → Change Request page values */
 const DOC_TO_PAGE: Record<string, string> = {
@@ -73,42 +74,16 @@ const FIELD_TO_SECTION: [string, string][] = [
   ["course", "course-details"],
 ];
 
-/**
- * Parse the Presentation tool URL to detect the current page and section.
- * URL format: /studio/presentation/:type/:id/:path?preview=...
- */
-function detectFromUrl(): { page: string; section: string } {
-  try {
-    const pathname = window.location.pathname;
-
-    /* Split: ["", "studio", "presentation", type, id, path] */
-    const segments = pathname.split("/").filter(Boolean);
-    const presIdx = segments.indexOf("presentation");
-
-    if (presIdx === -1) return { page: "", section: "" };
-
-    const type = segments[presIdx + 1] ?? "";
-    const id = segments[presIdx + 2] ?? "";
-    const fieldPath = segments[presIdx + 3] ?? "";
-
-    /* Detect page from type or id */
-    const page = DOC_TO_PAGE[type] ?? DOC_TO_PAGE[id] ?? "";
-
-    /* Detect section from field path */
-    let section = "";
-    if (fieldPath) {
-      for (const [prefix, sec] of FIELD_TO_SECTION) {
-        if (fieldPath.startsWith(prefix)) {
-          section = sec;
-          break;
-        }
-      }
+function detectSection(fieldPath: string | undefined): string {
+  if (!fieldPath) return "";
+  /* Clean up: remove array keys like [_key=="xxx"], take first segment */
+  const clean = fieldPath.split("[")[0].split(".")[0];
+  for (const [prefix, sec] of FIELD_TO_SECTION) {
+    if (clean.startsWith(prefix)) {
+      return sec;
     }
-
-    return { page, section };
-  } catch {
-    return { page: "", section: "" };
   }
+  return "";
 }
 
 const inputStyle: React.CSSProperties = {
@@ -136,6 +111,7 @@ const labelStyle: React.CSSProperties = {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function PresentationHeader(props: any) {
   const client = useClient({ apiVersion: "2024-01-01" });
+  const presentationParams = usePresentationParams();
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState("");
   const [section, setSection] = useState("");
@@ -147,15 +123,22 @@ export default function PresentationHeader(props: any) {
   const [submitted, setSubmitted] = useState(false);
 
   const handleOpen = useCallback(() => {
-    const detected = detectFromUrl();
-    setPage(detected.page);
-    setSection(detected.section);
+    /* Read from Presentation tool's internal state */
+    const docId = presentationParams.id ?? "";
+    const docType = presentationParams.type ?? "";
+    const fieldPath = presentationParams.path ?? "";
+
+    const detectedPage = DOC_TO_PAGE[docId] ?? DOC_TO_PAGE[docType] ?? "";
+    const detectedSection = detectSection(fieldPath);
+
+    setPage(detectedPage);
+    setSection(detectedSection);
     setNotes("");
     setImageFile(null);
     setImagePreview(null);
     setSubmitted(false);
     setOpen(true);
-  }, []);
+  }, [presentationParams]);
 
   const handleImageChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
