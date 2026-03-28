@@ -1,9 +1,5 @@
 import { NextResponse } from "next/server";
-import { readFile, writeFile, mkdir } from "fs/promises";
-import path from "path";
-
-const FLAGS_FILE = path.join(process.cwd(), "change-requests.json");
-const UPLOADS_DIR = path.join(process.cwd(), "public", "flag-uploads");
+import { put, list } from "@vercel/blob";
 
 interface FlagEntry {
   id: string;
@@ -13,21 +9,11 @@ interface FlagEntry {
   element: string;
   notes: string;
   status: "pending" | "done";
-  imageFilename?: string;
+  imageUrl?: string;
 }
 
-async function readFlags(): Promise<FlagEntry[]> {
-  try {
-    const data = await readFile(FLAGS_FILE, "utf-8");
-    return JSON.parse(data);
-  } catch {
-    return [];
-  }
-}
-
-async function writeFlags(flags: FlagEntry[]) {
-  await writeFile(FLAGS_FILE, JSON.stringify(flags, null, 2));
-}
+const FLAGS_PREFIX = "flags/";
+const IMAGES_PREFIX = "flag-images/";
 
 export async function POST(request: Request) {
   try {
@@ -39,14 +25,15 @@ export async function POST(request: Request) {
     const notes = formData.get("notes") as string;
     const imageFile = formData.get("image") as File | null;
 
-    let imageFilename: string | undefined;
+    let imageUrl: string | undefined;
 
+    // Upload replacement image if provided
     if (imageFile && imageFile.size > 0) {
-      await mkdir(UPLOADS_DIR, { recursive: true });
       const ext = imageFile.name.split(".").pop() || "jpg";
-      imageFilename = `flag-${Date.now()}.${ext}`;
-      const buffer = Buffer.from(await imageFile.arrayBuffer());
-      await writeFile(path.join(UPLOADS_DIR, imageFilename), buffer);
+      const blob = await put(`${IMAGES_PREFIX}${Date.now()}.${ext}`, imageFile, {
+        access: "public",
+      });
+      imageUrl = blob.url;
     }
 
     const entry: FlagEntry = {
@@ -57,12 +44,14 @@ export async function POST(request: Request) {
       element,
       notes,
       status: "pending",
-      ...(imageFilename ? { imageFilename } : {}),
+      ...(imageUrl ? { imageUrl } : {}),
     };
 
-    const flags = await readFlags();
-    flags.push(entry);
-    await writeFlags(flags);
+    // Store flag as individual JSON blob
+    await put(`${FLAGS_PREFIX}${entry.id}.json`, JSON.stringify(entry), {
+      access: "public",
+      contentType: "application/json",
+    });
 
     return NextResponse.json({ ok: true, id: entry.id });
   } catch (err) {
@@ -72,6 +61,22 @@ export async function POST(request: Request) {
 }
 
 export async function GET() {
-  const flags = await readFlags();
-  return NextResponse.json(flags);
+  try {
+    const { blobs } = await list({ prefix: FLAGS_PREFIX });
+
+    const flags: FlagEntry[] = await Promise.all(
+      blobs.map(async (blob) => {
+        const res = await fetch(blob.url);
+        return res.json();
+      })
+    );
+
+    // Sort newest first
+    flags.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+
+    return NextResponse.json(flags);
+  } catch (err) {
+    console.error("Flag API error:", err);
+    return NextResponse.json([], { status: 200 });
+  }
 }
