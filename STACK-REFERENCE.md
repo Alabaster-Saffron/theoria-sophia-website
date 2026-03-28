@@ -185,6 +185,7 @@ This requires:
 ### Studio Route
 
 Sanity Studio is embedded at `/studio` using a Next.js catch-all route:
+- `src/app/studio/layout.tsx` — **REQUIRED** — Renders Studio fullscreen with `position: fixed` so the root layout's Navigation/Footer/CSS don't wrap around it. Without this, the Studio appears blank with the site showing underneath.
 - `src/app/studio/[[...tool]]/page.tsx` — Server wrapper with `noindex` metadata
 - `src/app/studio/[[...tool]]/Studio.tsx` — Client component with `"use client"` rendering `<NextStudio />`
 - `basePath: "/studio"` in `sanity.config.ts` — **REQUIRED** or Studio shows "Tool not found"
