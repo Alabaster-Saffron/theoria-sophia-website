@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "sanity/router";
+import { usePresentationParams } from "sanity/presentation";
 import { EditIcon } from "@sanity/icons";
 import { useCallback } from "react";
 
@@ -13,7 +14,6 @@ const DOC_TO_PAGE: Record<string, string> = {
 
 /* Map Sanity field name prefixes → Change Request section values */
 const FIELD_TO_SECTION: Record<string, string> = {
-  // Homepage
   hero: "hero",
   approach: "approach",
   divider: "divider",
@@ -28,9 +28,7 @@ const FIELD_TO_SECTION: Record<string, string> = {
   podcast: "podcast",
   cta: "cta",
   final: "final-image",
-  // Offerings
   offerings: "offerings-cards",
-  // Ancient Herstory
   intro: "intro",
   features: "features",
   quote: "quote",
@@ -39,35 +37,38 @@ const FIELD_TO_SECTION: Record<string, string> = {
 
 function detectSection(path: string | undefined): string | undefined {
   if (!path) return undefined;
-  /* path might look like "heroTitle", "branches[0].title", "founderBio", etc. */
-  const fieldRoot = path.replace(/\[.*$/, "").replace(/[A-Z].*$/, "");
-  /* Also try the full camelCase prefix before the first uppercase letter */
-  const camelPrefix = path.match(/^[a-z]+/)?.[0] ?? "";
-  return FIELD_TO_SECTION[fieldRoot] ?? FIELD_TO_SECTION[camelPrefix] ?? undefined;
+  const clean = path.split("[")[0].split(".")[0];
+  for (const [prefix, section] of Object.entries(FIELD_TO_SECTION)) {
+    if (clean.toLowerCase().startsWith(prefix.toLowerCase())) {
+      return section;
+    }
+  }
+  return undefined;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function PresentationHeader(props: any) {
   const router = useRouter();
+  const params = usePresentationParams();
 
   const handleClick = useCallback(() => {
-    /* Try to read the currently focused document/field from the router state */
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const state = router.state as any;
-    const docId = state?.id ?? state?.document ?? undefined;
-    const fieldPath = state?.path ?? state?.fieldPath ?? undefined;
+    const docId = params.id;
+    const fieldPath = params.path;
 
     const page = docId ? DOC_TO_PAGE[docId] : undefined;
     const section = detectSection(fieldPath);
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const params: any = { type: "changeRequest" };
-    if (page) params.template = "changeRequest-prefilled";
-    if (page) params.page = page;
-    if (section) params.section = section;
-
-    router.navigateIntent("create", params);
-  }, [router]);
+    if (page) {
+      router.navigateIntent("create", {
+        type: "changeRequest",
+        template: "changeRequest-prefilled",
+        page,
+        ...(section ? { section } : {}),
+      });
+    } else {
+      router.navigateIntent("create", { type: "changeRequest" });
+    }
+  }, [router, params]);
 
   return (
     <div style={{ display: "flex", alignItems: "center", width: "100%" }}>
