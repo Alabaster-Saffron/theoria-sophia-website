@@ -186,7 +186,7 @@ export default async function Home() {
             height={100}
             className="mx-auto mb-10 animate-scale-in animate-float"
           />
-          <h1 className="font-serif text-6xl md:text-8xl lg:text-9xl font-light text-brown-dark tracking-wider mb-8">
+          <h1 className="font-serif text-6xl md:text-8xl lg:text-9xl font-light text-brown tracking-wider mb-8">
             {heroTitle}
           </h1>
           <div className="gold-divider-wide" />
