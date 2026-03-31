@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import ScrollReveal from "@/components/ScrollReveal";
 import ImageCarousel from "@/components/ImageCarousel";
+import HorizontalGallery from "@/components/HorizontalGallery";
 import { getHomePage } from "@/sanity/queries";
 import { resolveImage } from "@/sanity/image";
 import { splitParagraphs } from "@/sanity/helpers";
@@ -577,7 +578,7 @@ export default async function Home() {
           </ScrollReveal>
 
           <ScrollReveal delay={200}>
-            <ImageCarousel images={galleryImages} aspectRatio="16/9" contain />
+            <HorizontalGallery images={galleryImages} speed={30} />
           </ScrollReveal>
         </div>
       </section>
