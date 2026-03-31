@@ -565,9 +565,9 @@ export default async function Home() {
       </section>
 
       {/* ═══════════════════════ BE STILL ═══════════════════════ */}
-      <section className="section-padding-lg bg-cream">
-        <div className="max-w-5xl mx-auto">
-          <ScrollReveal direction="fade" duration={1400} className="text-center mb-14">
+      <section className="py-20 md:py-28 bg-cream">
+        <div className="max-w-3xl mx-auto text-center mb-14 px-6">
+          <ScrollReveal direction="fade" duration={1400}>
             <h2 className="font-serif text-4xl md:text-6xl font-light text-charcoal tracking-wide mb-4">
               {beStillHeading}
             </h2>
@@ -576,11 +576,11 @@ export default async function Home() {
               {beStillTagline}
             </p>
           </ScrollReveal>
-
-          <ScrollReveal delay={200}>
-            <HorizontalGallery images={galleryImages} speed={30} />
-          </ScrollReveal>
         </div>
+
+        <ScrollReveal delay={200}>
+          <HorizontalGallery images={galleryImages} speed={30} />
+        </ScrollReveal>
       </section>
 
       {/* ═══════════════════════ PODCAST ═══════════════════════ */}
