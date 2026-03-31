@@ -38,36 +38,42 @@ const defaultBranches = [
     subtitle: "Creating sanctuaries for the pollinators",
     detail: "Theoria Sophia non-profit",
     image: "/images/explore-IMG_2778.jpg",
+    href: "/honey-bee-education",
   },
   {
     title: "Women\u2019s Wellness Sanctuary",
     subtitle: "Wealth, wellness, and health",
     detail: "Core Theoria Sophia theology",
     image: "/images/sacred-union-photo.jpg",
+    href: "/womens-wellness-sanctuary",
   },
   {
     title: "Eco Jewelry & Fashion",
     subtitle: "Amari",
     detail: "Earth-based designs",
     image: "/images/jewelry-IMG_0508.jpeg",
+    href: "/amari",
   },
   {
     title: "Sanctuary Design",
     subtitle: "Azura Inc.",
     detail: "Creating sanctuaries",
     image: "/images/fashion-1V1A5902.jpeg",
+    href: "#",
   },
   {
     title: "Farm to Table",
     subtitle: "Recipes & organic living",
     detail: "Coming soon",
     image: "/images/cooking-section.jpg",
+    href: "#",
   },
   {
     title: "Sacred Travel",
     subtitle: "Finding sanctuaries around the globe",
     detail: "Heaven on earth locations",
     image: "/images/travel-section.jpg",
+    href: "#",
   },
 ];
 
@@ -397,11 +403,12 @@ export default async function Home() {
                   subtitle: string;
                   detail: string;
                   image: string | { asset?: { _ref?: string } };
+                  href?: string;
                 },
                 i: number
               ) => (
                 <ScrollReveal key={branch.title} delay={i * 80} direction={i % 2 === 0 ? "up" : "scale"}>
-                  <div className="group relative aspect-[4/5] overflow-hidden cursor-pointer">
+                  <Link href={branch.href || "#"} className="group relative aspect-[4/5] overflow-hidden block">
                     <Image
                       src={resolveImage(branch.image, "/images/explore-IMG_2778.jpg")}
                       alt={branch.title}
@@ -421,7 +428,7 @@ export default async function Home() {
                         {branch.subtitle}
                       </p>
                     </div>
-                  </div>
+                  </Link>
                 </ScrollReveal>
               )
             )}
