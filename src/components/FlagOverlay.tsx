@@ -239,10 +239,23 @@ export default function FlagOverlay() {
   const handleClick = useCallback(
     (e: React.MouseEvent) => {
       if (popup) return;
-      e.preventDefault();
-      e.stopPropagation();
 
       if (!hoveredEl) return;
+
+      // If the clicked element is a nav link inside the page header, navigate with ?flag
+      const header = hoveredEl.closest("header");
+      const anchor = hoveredEl.closest("a") as HTMLAnchorElement | null;
+      if (header && anchor && anchor.href) {
+        e.preventDefault();
+        e.stopPropagation();
+        const url = new URL(anchor.href, window.location.origin);
+        url.searchParams.set("flag", "");
+        window.location.href = url.toString();
+        return;
+      }
+
+      e.preventDefault();
+      e.stopPropagation();
 
       const { section } = findSection(hoveredEl);
       const element = describeElement(hoveredEl);
