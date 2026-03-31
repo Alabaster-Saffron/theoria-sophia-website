@@ -29,11 +29,15 @@ export async function POST(request: Request) {
 
     // Upload replacement image if provided
     if (imageFile && imageFile.size > 0) {
-      const ext = imageFile.name.split(".").pop() || "jpg";
-      const blob = await put(`${IMAGES_PREFIX}${Date.now()}.${ext}`, imageFile, {
-        access: "public",
-      });
-      imageUrl = blob.url;
+      try {
+        const ext = imageFile.name.split(".").pop() || "jpg";
+        const blob = await put(`${IMAGES_PREFIX}${Date.now()}.${ext}`, imageFile, {
+          access: "public",
+        });
+        imageUrl = blob.url;
+      } catch (imgErr) {
+        console.error("Image upload failed (flag will still save):", imgErr);
+      }
     }
 
     const entry: FlagEntry = {
