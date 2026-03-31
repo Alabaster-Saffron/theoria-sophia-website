@@ -568,11 +568,11 @@ export default async function Home() {
       <section className="py-20 md:py-28 bg-cream">
         <div className="max-w-3xl mx-auto text-center mb-14 px-6">
           <ScrollReveal direction="fade" duration={1400}>
-            <h2 className="font-serif text-4xl md:text-6xl font-light text-charcoal tracking-wide mb-4">
+            <h2 className="font-serif text-2xl md:text-3xl font-light text-charcoal tracking-wide mb-4">
               {beStillHeading}
             </h2>
             <div className="gold-divider-wide" />
-            <p className="mt-8 font-serif text-lg md:text-xl text-brown-light/70 italic max-w-lg mx-auto">
+            <p className="mt-8 font-serif text-2xl md:text-3xl text-brown-light/70 italic max-w-2xl mx-auto leading-relaxed">
               {beStillTagline}
             </p>
           </ScrollReveal>
