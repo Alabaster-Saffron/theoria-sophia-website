@@ -200,7 +200,7 @@ export default async function Home() {
           <div className="mt-14 animate-fade-in animate-delay-5">
             <Link
               href="#approach"
-              className="inline-block px-10 py-4 border border-gold/50 text-gold font-sans text-[11px] tracking-[0.35em] uppercase transition-all duration-700 hover:bg-gold hover:text-white hover:tracking-[0.45em] hover:border-gold"
+              className="inline-block px-10 py-4 border border-brown-dark text-brown-dark font-sans text-[11px] tracking-[0.35em] uppercase transition-all duration-700 hover:bg-gold hover:text-white hover:tracking-[0.45em] hover:border-gold"
             >
               {heroCtaText}
             </Link>
@@ -277,8 +277,8 @@ export default async function Home() {
                       <Image
                         src="/images/logotheoria.png"
                         alt=""
-                        width={50}
-                        height={50}
+                        width={250}
+                        height={250}
                         className="mx-auto opacity-80"
                       />
                       <div className="w-px h-12 bg-gradient-to-t from-transparent to-white/60 mx-auto mt-6" />
@@ -512,8 +512,8 @@ export default async function Home() {
                 src={founderImage}
                 alt={`${founderName}, founder of Theoria Sophia`}
                 width={600}
-                height={600}
-                className="w-full h-auto"
+                height={750}
+                className="w-full h-auto object-cover object-top"
                 sizes="(max-width: 768px) 100vw, 50vw"
               />
             </div>
@@ -577,7 +577,7 @@ export default async function Home() {
           </ScrollReveal>
 
           <ScrollReveal delay={200}>
-            <ImageCarousel images={galleryImages} aspectRatio="16/9" />
+            <ImageCarousel images={galleryImages} aspectRatio="16/9" contain />
           </ScrollReveal>
         </div>
       </section>
