@@ -51,7 +51,7 @@ export default function HealingBodyDysmorphiaPage() {
       {/* ═══════════════════════ HERO ═══════════════════════ */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <Image
-          src="/images/feminine-healing/fh-04.jpg"
+          src="/images/feminine-healing/fh-05.jpg"
           alt="Peonies blooming, the inner garden"
           fill
           priority
@@ -123,7 +123,7 @@ export default function HealingBodyDysmorphiaPage() {
           <ScrollReveal direction="left">
             <div className="relative aspect-[3/4] overflow-hidden">
               <Image
-                src="/images/feminine-healing/fh-08.jpg"
+                src="/images/feminine-healing/fh-15.jpg"
                 alt="The blooming feminine"
                 fill
                 className="object-cover image-reveal"
@@ -200,9 +200,9 @@ export default function HealingBodyDysmorphiaPage() {
       {/* ═══════════════════════ TRIPTYCH ═══════════════════════ */}
       <section className="grid grid-cols-1 md:grid-cols-3 gap-1 bg-cream-light">
         {[
-          "/images/feminine-healing/fh-22.jpg",
-          "/images/feminine-healing/fh-26.jpg",
-          "/images/feminine-healing/fh-31.jpg",
+          "/images/feminine-healing/fh-42.jpg",
+          "/images/feminine-healing/fh-25.jpg",
+          "/images/feminine-healing/fh-24.jpg",
         ].map((src, i) => (
           <div key={src} className="relative aspect-[3/4] md:aspect-square overflow-hidden">
             <Image
@@ -232,7 +232,7 @@ export default function HealingBodyDysmorphiaPage() {
           <ScrollReveal direction="left" duration={1200}>
             <div className="relative overflow-hidden shadow-2xl sticky top-28">
               <Image
-                src="/images/founder-zefirah.jpg"
+                src="/images/feminine-healing/fh-43.jpg"
                 alt="Zefirah, founder of Theoria Sophia"
                 width={600}
                 height={750}
@@ -357,7 +357,7 @@ export default function HealingBodyDysmorphiaPage() {
       {/* ═══════════════════════ FINAL IMAGE ═══════════════════════ */}
       <section className="relative h-[55vh] overflow-hidden">
         <Image
-          src="/images/feminine-healing/fh-34.jpg"
+          src="/images/feminine-healing/fh-41.jpg"
           alt="Returning to the garden"
           fill
           className="object-cover"
