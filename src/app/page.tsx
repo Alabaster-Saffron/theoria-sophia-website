@@ -51,14 +51,14 @@ const defaultBranches = [
     title: "Eco Jewelry & Fashion",
     subtitle: "Amari",
     detail: "Earth-based designs",
-    image: "/images/jewelry-IMG_0508.jpeg",
+    image: "/images/fashion-1V1A5902.jpeg",
     href: "/amari",
   },
   {
     title: "Sanctuary Design",
     subtitle: "Azura Inc.",
     detail: "Creating sanctuaries",
-    image: "/images/fashion-1V1A5902.jpeg",
+    image: "/images/jewelry-IMG_0508.jpeg",
     href: "#",
   },
   {
