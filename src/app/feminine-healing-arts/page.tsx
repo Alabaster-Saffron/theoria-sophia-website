@@ -170,7 +170,7 @@ export default function FeminineHealingArtsPage() {
       {/* ═══════════════════════ CLOSING IMAGE ═══════════════════════ */}
       <section className="relative h-[55vh] overflow-hidden">
         <Image
-          src="/images/feminine-healing/fh-08.jpg"
+          src="/images/feminine-healing/fh-41.jpg"
           alt="Returning to the garden"
           fill
           className="object-cover"
