@@ -25,17 +25,17 @@ const teachings = [
   {
     title: "The Garden of Eve, Reclaimed",
     body:
-      "The story was manipulated by the patriarchy. The true story is that Eve was a Mother Goddess, an origin Mother of this garden called Earth. The serpent was the kundalini life force within the tree of life. Eve wasn’t seduced — she was called to go deeper into the mystery school of this earth. To know thyself as the Gods, to be able to procreate. The fallen patriarchy is who cast us from the Garden of Eden — not Eve. They re-wrote the story to continue separating people from the garden, from the Mother, from themselves.",
+      "There is a story that has shaped millions of women through time, and that is the story of Eve. It has since been revealed that her story was re-written to better suit the patriarchal agenda. Eve was blamed for the fall from the garden, yet it was the patriarchy who framed her, and blamed the Mother, severing the sacred ties between child and earth. It was the patriarchy who enforced war, rape, and the mindless games of control. It is time we restore Eve’s story within our own lives, and recognize her as a symbol of the initiated woman, one who chose to know the full spectrum of creation, what it means to give birth within the universe, to know love and fear, death and rebirth.",
   },
   {
     title: "The Body as Sanctuary",
     body:
-      "Many women’s bodies are in chronic fight or flight — being told they must try harder and be better, over and over, since they were little girls. Overly sexualized from a very young age through media, home, society, and trauma-informed behavior. A psychological warfare on the feminine form, creating dissociation and a woman who never feels at home in her body. If a woman does not understand that her body is a sanctuary, she will always be trying to fill an open void of disconnection — externally sourcing for validation, never feeling satisfied. True self-love comes from within one’s own heart and one’s own connection to one’s body.",
+      "Many women’s bodies are in chronic fight or flight, being told they must try harder and be better, over and over, since they were little girls. Overly sexualized from a very young age through media, home, society, and trauma-informed behavior. A psychological warfare on the feminine form, creating dissociation and a woman who never feels at home in her body. If a woman does not understand that her body is a sanctuary, she will always be trying to fill an open void of disconnection, externally sourcing for validation, never feeling satisfied. True self-love comes from within one’s own heart and one’s own connection to one’s body.",
   },
   {
     title: "Returning to the Garden",
     body:
-      "We are the doorway. We invite humanity to live in beauty and peace. In loving our bodies, in finding sanctuary within our bodies, we begin to return to the garden — for the garden lives within us and blooms from within us. We were made in God’s image. We as humanity were made in the image of Mother and Father God. When we begin to relate to this earth as a living school, we become more conscious and lucid within our life experience. It is time to reclaim our bodies, restore homeostasis, become the source of our own power, and restore the garden of creation on this precious earth.",
+      "We are the doorway. We invite humanity to live in beauty and peace. In loving our bodies, in finding sanctuary within our bodies, we begin to return to the garden, for the garden lives within us and blooms from within us. We were made in God’s image. We as humanity were made in the image of Mother and Father God. When we begin to relate to this earth as a living school, we become more conscious and lucid within our life experience. It is time to reclaim our bodies, restore homeostasis, become the source of our own power, and restore the garden of creation on this precious earth.",
   },
 ];
 
@@ -141,7 +141,7 @@ export default function HealingBodyDysmorphiaPage() {
                 The garden lives within us.
               </p>
               <p className="font-serif text-xl md:text-2xl leading-[1.6] italic text-brown">
-                It blooms from within.
+                Baptize into the truth of who we are in our natural organic form.
               </p>
             </div>
             <div className="ornament-line">
@@ -204,7 +204,7 @@ export default function HealingBodyDysmorphiaPage() {
           "/images/feminine-healing/fh-25.jpg",
           "/images/feminine-healing/fh-24.jpg",
         ].map((src, i) => (
-          <div key={src} className="relative aspect-[3/4] md:aspect-square overflow-hidden">
+          <div key={src} className="relative aspect-[3/4] md:aspect-[3/4] overflow-hidden">
             <Image
               src={src}
               alt=""
@@ -216,9 +216,9 @@ export default function HealingBodyDysmorphiaPage() {
             {i === 1 && (
               <div className="absolute inset-0 flex items-center justify-center">
                 <p className="font-serif text-2xl md:text-3xl text-white italic text-center px-6 leading-[1.4]">
-                  Be still,
+                  Returning to the
                   <br />
-                  and breathe.
+                  sanctuary of one&rsquo;s body.
                 </p>
               </div>
             )}
