@@ -64,14 +64,14 @@ export default function HealingBodyDysmorphiaPage() {
           <Image
             src="/images/logotheoria.png"
             alt="Theoria Sophia"
-            width={70}
-            height={70}
+            width={110}
+            height={110}
             className="mx-auto mb-8 animate-breathe"
           />
-          <p className="font-sans text-[10px] tracking-[0.5em] uppercase text-gold mb-4 animate-fade-in animate-delay-2">
+          <p className="font-sans text-[10px] tracking-[0.5em] uppercase text-white mb-4 animate-fade-in animate-delay-2">
             Theoria Sophia School Presents
           </p>
-          <p className="font-serif text-lg md:text-xl text-brown-light italic mb-8 animate-fade-in animate-delay-3">
+          <p className="font-serif text-lg md:text-xl text-brown italic mb-8 animate-fade-in animate-delay-3">
             Finding Sanctuary within the Feminine Form
           </p>
           <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl font-light text-charcoal tracking-wide leading-[1.1]">
