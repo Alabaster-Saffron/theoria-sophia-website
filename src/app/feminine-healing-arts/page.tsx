@@ -27,18 +27,18 @@ const courses = [
     available: false,
   },
   {
-    title: "Preparing the Body for Conception",
-    subtitle: "Sacred preparation for motherhood",
-    detail: "Theoria Sophia School",
-    image: "/images/feminine-healing/fh-26.jpg",
-    href: "#",
-    available: false,
-  },
-  {
     title: "Entering into the Bridal Chamber",
     subtitle: "Martial arts of the sacred feminine",
     detail: "Theoria Sophia School",
     image: "/images/feminine-healing/fh-22.jpg",
+    href: "#",
+    available: false,
+  },
+  {
+    title: "Preparing the Body for Conception",
+    subtitle: "Sacred preparation for motherhood",
+    detail: "Theoria Sophia School",
+    image: "/images/feminine-healing/fh-26.jpg",
     href: "#",
     available: false,
   },
@@ -170,7 +170,7 @@ export default function FeminineHealingArtsPage() {
       {/* ═══════════════════════ CLOSING IMAGE ═══════════════════════ */}
       <section className="relative h-[55vh] overflow-hidden">
         <Image
-          src="/images/feminine-healing/fh-17.jpg"
+          src="/images/feminine-healing/fh-08.jpg"
           alt="Returning to the garden"
           fill
           className="object-cover"
