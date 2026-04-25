@@ -151,8 +151,8 @@ export default function FeminineHealingArtsPage() {
                       {course.subtitle}
                     </p>
                     {course.available ? (
-                      <span className="inline-block px-8 py-3 mt-2 bg-gold text-white font-sans text-[11px] tracking-[0.35em] uppercase transition-all duration-500 group-hover:bg-gold-light group-hover:tracking-[0.45em] shadow-md">
-                        Enter
+                      <span className="inline-block font-sans text-[11px] tracking-[0.3em] uppercase text-gold-light border-b border-gold-light/40 pb-1 transition-all duration-500 group-hover:border-gold-light group-hover:tracking-[0.4em]">
+                        Enter &nbsp;&rarr;
                       </span>
                     ) : (
                       <span className="inline-block font-sans text-[10px] tracking-[0.3em] uppercase text-white/50">
