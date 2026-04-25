@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { put, list } from "@vercel/blob";
+import { put, list, del } from "@vercel/blob";
 
 interface FlagEntry {
   id: string;
@@ -82,5 +82,43 @@ export async function GET() {
   } catch (err) {
     console.error("Flag API error:", err);
     return NextResponse.json([], { status: 200 });
+  }
+}
+
+export async function DELETE(request: Request) {
+  try {
+    const { id } = (await request.json()) as { id?: string };
+    if (!id || typeof id !== "string") {
+      return NextResponse.json({ error: "Missing flag id" }, { status: 400 });
+    }
+
+    const { blobs } = await list({ prefix: `${FLAGS_PREFIX}${id}` });
+    if (blobs.length === 0) {
+      return NextResponse.json({ error: "Flag not found" }, { status: 404 });
+    }
+
+    const flagBlob = blobs[0];
+    let imageUrl: string | undefined;
+    try {
+      const res = await fetch(flagBlob.url);
+      const entry = (await res.json()) as FlagEntry;
+      imageUrl = entry.imageUrl;
+    } catch {
+      // proceed with flag deletion even if we can't read the entry
+    }
+
+    await del(flagBlob.url);
+    if (imageUrl) {
+      try {
+        await del(imageUrl);
+      } catch (imgErr) {
+        console.warn("Failed to delete flag image (flag was removed):", imgErr);
+      }
+    }
+
+    return NextResponse.json({ ok: true });
+  } catch (err) {
+    console.error("Flag DELETE error:", err);
+    return NextResponse.json({ error: "Failed to delete flag" }, { status: 500 });
   }
 }

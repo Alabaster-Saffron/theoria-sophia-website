@@ -14,7 +14,7 @@ const courses = [
     title: "Healing Body Dysmorphia & Reclaiming our Feminine Blueprint",
     subtitle: "Finding Sanctuary within the Feminine Form",
     detail: "Theoria Sophia School — Now Enrolling",
-    image: "/images/feminine-healing/fh-04.jpg",
+    image: "/images/feminine-healing/fh-02.jpg",
     href: "/feminine-healing-arts/healing-body-dysmorphia",
     available: true,
   },
@@ -22,7 +22,7 @@ const courses = [
     title: "Preparing the Body for Conception",
     subtitle: "Sacred preparation for motherhood",
     detail: "Theoria Sophia School",
-    image: "/images/feminine-healing/fh-12.jpg",
+    image: "/images/feminine-healing/fh-26.jpg",
     href: "#",
     available: false,
   },
@@ -30,7 +30,7 @@ const courses = [
     title: "Ancient Herstory",
     subtitle: "The mother lineage of the oracles of old",
     detail: "Theoria Sophia School",
-    image: "/images/feminine-healing/fh-21.jpg",
+    image: "/images/feminine-healing/fh-31.jpg",
     href: "#",
     available: false,
   },
@@ -38,7 +38,7 @@ const courses = [
     title: "Entering into the Bridal Chamber",
     subtitle: "Martial arts of the sacred feminine",
     detail: "Theoria Sophia School",
-    image: "/images/feminine-healing/fh-29.jpg",
+    image: "/images/feminine-healing/fh-22.jpg",
     href: "#",
     available: false,
   },
@@ -50,7 +50,7 @@ export default function FeminineHealingArtsPage() {
       {/* ═══════════════════════ HERO ═══════════════════════ */}
       <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
         <Image
-          src="/images/feminine-healing/fh-01.jpg"
+          src="/images/feminine-healing/fh-13.jpg"
           alt="The inner garden"
           fill
           priority
@@ -90,7 +90,7 @@ export default function FeminineHealingArtsPage() {
               An Invitation
             </p>
             <p className="font-serif text-3xl md:text-4xl lg:text-5xl text-charcoal italic leading-[1.4] font-light">
-              Come home to the body that is already a temple.
+              Come home to the body as a living temple within the garden of creation.
             </p>
             <div className="ornament-line">
               <span className="text-gold-muted text-lg">&loz;</span>
@@ -170,7 +170,7 @@ export default function FeminineHealingArtsPage() {
       {/* ═══════════════════════ CLOSING IMAGE ═══════════════════════ */}
       <section className="relative h-[55vh] overflow-hidden">
         <Image
-          src="/images/feminine-healing/fh-15.jpg"
+          src="/images/feminine-healing/fh-29.jpg"
           alt="Returning to the garden"
           fill
           className="object-cover"
