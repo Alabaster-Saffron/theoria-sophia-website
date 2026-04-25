@@ -23,6 +23,15 @@ export default function Footer() {
     <footer id="contact" className="bg-taupe/30">
       {/* Contact Section */}
       <div className="section-padding max-w-4xl mx-auto text-center">
+        <div className="relative w-40 h-40 md:w-48 md:h-48 mx-auto mb-10 overflow-hidden rounded-full border border-gold/20 shadow-lg">
+          <Image
+            src="/images/contact-image.jpg"
+            alt=""
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 160px, 192px"
+          />
+        </div>
         <h2 className="font-serif text-4xl md:text-5xl font-light text-charcoal mb-4">
           Get in Touch
         </h2>
