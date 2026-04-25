@@ -129,7 +129,7 @@ const selfCareStrips: SelfCareStrip[] = [
 const sectionImages = [
   "/images/feminine-healing/fh-02.jpg",
   "/images/feminine-healing/fh-05.jpg",
-  "/images/feminine-healing/fh-09.jpg",
+  "/images/feminine-healing/fh-44.jpg",
   "/images/feminine-healing/fh-14.jpg",
   "/images/feminine-healing/fh-16.jpg",
   "/images/feminine-healing/fh-18.jpg",
@@ -258,7 +258,7 @@ export default async function CourseContentPage() {
       {/* ═══════════════════════ HERO ═══════════════════════ */}
       <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
         <Image
-          src="/images/feminine-healing/fh-04.jpg"
+          src="/images/feminine-healing/fh-05.jpg"
           alt=""
           fill
           priority

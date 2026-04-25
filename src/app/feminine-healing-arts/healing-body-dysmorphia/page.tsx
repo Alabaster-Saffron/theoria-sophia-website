@@ -82,7 +82,7 @@ export default function HealingBodyDysmorphiaPage() {
           </h1>
           <div className="gold-divider-wide" />
           <p className="font-serif text-lg md:text-xl text-brown italic mt-8 max-w-2xl mx-auto leading-[1.6] animate-fade-in animate-delay-4">
-            Returning to the garden found within, and on this precious planet.
+            Returning to the garden found within, and in return found on this precious planet.
           </p>
           <div className="mt-12 animate-fade-in animate-delay-5">
             <Link
@@ -307,7 +307,7 @@ export default function HealingBodyDysmorphiaPage() {
               ))}
             </ul>
             <p className="mt-12 font-sans text-brown-light/80 leading-[1.9] text-sm max-w-xl mx-auto">
-              Accessible to all women regardless of age, race, religious or spiritual beliefs, body, or sexual orientation.
+              Accessible to all women regardless of age, race, religious or spiritual beliefs, or body.
             </p>
           </ScrollReveal>
         </div>
