@@ -141,7 +141,7 @@ export default function HealingBodyDysmorphiaPage() {
                 The garden lives within us.
               </p>
               <p className="font-serif text-xl md:text-2xl leading-[1.6] italic text-brown">
-                Baptize into the truth of who we are in our natural organic form.
+                It blooms effortlessly once we release the stored trauma and programming.
               </p>
             </div>
             <div className="ornament-line">
