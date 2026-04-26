@@ -63,6 +63,8 @@ export default function Navigation() {
     setOpenMobileSub(null);
   }, [pathname]);
 
+  if (pathname.startsWith("/d/")) return null;
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${

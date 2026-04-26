@@ -3,8 +3,10 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Footer() {
+  const pathname = usePathname();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -18,6 +20,8 @@ export default function Footer() {
     setFormData({ name: "", email: "", message: "" });
     setTimeout(() => setSubmitted(false), 4000);
   }
+
+  if (pathname.startsWith("/d/")) return null;
 
   return (
     <footer id="contact" className="bg-taupe/30">
