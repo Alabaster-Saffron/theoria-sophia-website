@@ -60,7 +60,7 @@ export default async function AncientHerstoryPage() {
   const heroDescription =
     data?.heroDescription ??
     "An educational deep dive into the mother lineage of the oracles of old";
-  const heroBackground = resolveImage(data?.heroBackground, "/images/ancient-herstory-hero.jpeg");
+  const heroBackground = resolveImage(data?.heroBackground, "/images/feminine-healing/fh-31.jpg");
 
   const introHeading = data?.introHeading ?? "The Lost Mother Archives";
   const introParagraphs = splitParagraphs(data?.introText, [
@@ -106,7 +106,7 @@ export default async function AncientHerstoryPage() {
             {heroSubtitle}
           </p>
           <div className="gold-divider-wide" />
-          <p className="mt-8 font-sans text-sm text-brown-light/70 max-w-md mx-auto leading-[1.9]">
+          <p className="mt-8 font-sans text-sm text-brown-dark max-w-md mx-auto leading-[1.9]">
             {heroDescription}
           </p>
         </div>

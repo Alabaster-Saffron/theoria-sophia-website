@@ -61,7 +61,7 @@ export default function ReturnToTheGardenPage() {
       {/* ───────────────────── 1. HERO ───────────────────── */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <Image
-          src={`${P}/hero-garden-gate.jpg`}
+          src={`${P}/hero-garden-gate-v2.png`}
           alt="A garden gate bathed in golden morning light, wildflowers lining the path"
           fill
           priority
@@ -87,7 +87,7 @@ export default function ReturnToTheGardenPage() {
           </h1>
           <div className="w-20 h-px bg-gradient-to-r from-transparent via-gold-light to-transparent mx-auto my-8 animate-fade-up animate-delay-2" />
           <p className="font-serif text-lg sm:text-xl md:text-2xl text-white/80 italic tracking-wide animate-fade-up animate-delay-2">
-            Bringers of the Garden &mdash; The Bees Speak
+            Honey Bees, Bringers of the Garden
           </p>
           <p className="mt-10 font-sans text-[10px] tracking-[0.4em] uppercase text-gold-light/80 animate-fade-up animate-delay-3">
             A Theoria Sophia Production
