@@ -38,6 +38,7 @@ const navLinks: NavItem[] = [
       },
     ],
   },
+  { href: "/d/return-to-the-garden", label: "Return to the Garden" },
 ];
 
 function isDropdown(item: NavItem): item is DropdownLink {
