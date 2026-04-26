@@ -137,7 +137,7 @@ const sectionImages = [
   "/images/feminine-healing/fh-50.jpg",
   "/images/feminine-healing/fh-55.jpg",
   "/images/feminine-healing/fh-28.jpg",
-  "/images/feminine-healing/fh-51.jpg",
+  "/images/feminine-healing/fh-56.jpg",
   "/images/feminine-healing/fh-24.jpg",
   "/images/feminine-healing/fh-35.jpg",
 ];
@@ -275,7 +275,7 @@ export default async function CourseContentPage() {
             height={60}
             className="mx-auto mb-8 opacity-80 animate-breathe"
           />
-          <p className="font-sans text-[10px] tracking-[0.5em] uppercase text-gold mb-4">
+          <p className="font-sans text-[10px] tracking-[0.5em] uppercase text-white mb-4">
             Theoria Sophia School &middot; Course Material
           </p>
           <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl font-light text-charcoal tracking-wide leading-[1.1]">
