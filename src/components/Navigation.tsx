@@ -23,6 +23,10 @@ const navLinks: NavItem[] = [
         href: "/feminine-healing-arts/healing-body-dysmorphia",
         label: "Healing Body Dysmorphia",
       },
+      {
+        href: "/feminine-healing-arts/healing-body-dysmorphia/course",
+        label: "Log into content page for Healing Body Dysmorphia Course",
+      },
       { href: "/ancient-herstory", label: "Ancient Herstory" },
       {
         href: "/feminine-healing-arts",
