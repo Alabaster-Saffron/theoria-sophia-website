@@ -112,33 +112,33 @@ const selfCareStrips: SelfCareStrip[] = [
   {
     title: "Self-Care Practice — Morning Devotion",
     description: "A short ritual for greeting the body upon waking. Add your video or written practice here.",
-    image: "/images/feminine-healing/fh-11.jpg",
+    image: "/images/feminine-healing/fh-52.jpg",
   },
   {
     title: "Self-Care Practice — Tending the Temple",
     description: "A mid-day softening. Bath, breath, oil, prayer. Add your video or written practice here.",
-    image: "/images/feminine-healing/fh-25.jpg",
+    image: "/images/feminine-healing/fh-08.jpg",
   },
   {
     title: "Self-Care Practice — Evening Return",
     description: "A closing ceremony for releasing the day. Add your video or written practice here.",
-    image: "/images/feminine-healing/fh-32.jpg",
+    image: "/images/feminine-healing/fh-53.jpg",
   },
 ];
 
 const sectionImages = [
   "/images/feminine-healing/fh-02.jpg",
   "/images/feminine-healing/fh-05.jpg",
-  "/images/feminine-healing/fh-44.jpg",
-  "/images/feminine-healing/fh-14.jpg",
-  "/images/feminine-healing/fh-16.jpg",
-  "/images/feminine-healing/fh-18.jpg",
-  "/images/feminine-healing/fh-20.jpg",
-  "/images/feminine-healing/fh-23.jpg",
+  "/images/feminine-healing/fh-45.jpg",
+  "/images/feminine-healing/fh-46.jpg",
+  "/images/feminine-healing/fh-47.jpg",
+  "/images/feminine-healing/fh-48.jpg",
+  "/images/feminine-healing/fh-49.jpg",
+  "/images/feminine-healing/fh-50.jpg",
   "/images/feminine-healing/fh-27.jpg",
   "/images/feminine-healing/fh-28.jpg",
-  "/images/feminine-healing/fh-30.jpg",
-  "/images/feminine-healing/fh-33.jpg",
+  "/images/feminine-healing/fh-51.jpg",
+  "/images/feminine-healing/fh-24.jpg",
   "/images/feminine-healing/fh-35.jpg",
 ];
 
@@ -354,7 +354,7 @@ export default async function CourseContentPage() {
       {/* ═══════════════════════ CLOSING ═══════════════════════ */}
       <section className="relative h-[60vh] overflow-hidden">
         <Image
-          src="/images/feminine-healing/fh-38.jpg"
+          src="/images/feminine-healing/fh-41.jpg"
           alt=""
           fill
           className="object-cover"
