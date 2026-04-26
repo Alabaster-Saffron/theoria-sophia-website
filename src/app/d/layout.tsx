@@ -11,7 +11,7 @@ export default function PitchDeckLayout({
         position: "fixed",
         top: 0,
         left: 0,
-        zIndex: 99999,
+        zIndex: 60,
         overflowY: "auto",
         overflowX: "hidden",
         backgroundColor: "var(--cream-light)",
