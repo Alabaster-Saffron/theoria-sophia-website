@@ -122,20 +122,20 @@ const selfCareStrips: SelfCareStrip[] = [
   {
     title: "Self-Care Practice — Evening Return",
     description: "A closing ceremony for releasing the day. Add your video or written practice here.",
-    image: "/images/feminine-healing/fh-53.jpg",
+    image: "/images/feminine-healing/fh-22.jpg",
   },
 ];
 
 const sectionImages = [
   "/images/feminine-healing/fh-02.jpg",
   "/images/feminine-healing/fh-05.jpg",
-  "/images/feminine-healing/fh-45.jpg",
-  "/images/feminine-healing/fh-46.jpg",
+  "/images/feminine-healing/fh-53.jpg",
+  "/images/feminine-healing/fh-54.jpg",
   "/images/feminine-healing/fh-47.jpg",
   "/images/feminine-healing/fh-48.jpg",
   "/images/feminine-healing/fh-49.jpg",
   "/images/feminine-healing/fh-50.jpg",
-  "/images/feminine-healing/fh-27.jpg",
+  "/images/feminine-healing/fh-55.jpg",
   "/images/feminine-healing/fh-28.jpg",
   "/images/feminine-healing/fh-51.jpg",
   "/images/feminine-healing/fh-24.jpg",
