@@ -62,7 +62,7 @@ export default function CourseGate() {
         </h1>
         <div className="gold-divider-wide" />
         <p className="mt-6 font-serif text-lg md:text-xl text-brown italic leading-[1.6]">
-          Enter your course passcode to unveil the bride of God within.
+          Enter your course passcode below, found in your email.
         </p>
 
         <form onSubmit={onSubmit} className="mt-12 space-y-5 text-left">
