@@ -55,13 +55,18 @@ const herstoryImages = [
   `${P}/herstory-virgin-mary-house.jpg`,
 ];
 
+const allScenes = Array.from(
+  { length: 138 },
+  (_, i) => `${P}/scenes/scene-${String(i + 1).padStart(3, "0")}.jpg`
+);
+
 export default function ReturnToTheGardenPage() {
   return (
     <>
       {/* ───────────────────── 1. HERO ───────────────────── */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <Image
-          src={`${P}/hero-garden-gate-v3.png`}
+          src={`${P}/hero-garden-gate-v4.png`}
           alt="A garden gate bathed in golden morning light, wildflowers lining the path"
           fill
           priority
@@ -540,6 +545,28 @@ export default function ReturnToTheGardenPage() {
             </div>
           </ScrollReveal>
         </div>
+      </section>
+
+      {/* ───────────────────── 8.5 ALL SCENES SLIDESHOW ───────────────────── */}
+      <section className="py-16 md:py-24 bg-cream">
+        <div className="max-w-3xl mx-auto text-center px-6 mb-12">
+          <ScrollReveal direction="fade" duration={1400}>
+            <p className="font-sans text-[10px] tracking-[0.5em] uppercase text-gold-muted mb-4">
+              Visual Tapestry
+            </p>
+            <h2 className="font-serif text-3xl md:text-5xl font-light text-charcoal tracking-wide italic">
+              The full mood of the film.
+            </h2>
+            <div className="gold-divider-wide mt-6" />
+            <p className="mt-8 font-sans text-[14px] text-brown-light/70 italic leading-[1.7] max-w-xl mx-auto">
+              A slow drift through every scene, every reference, every atmosphere
+              we are weaving toward.
+            </p>
+          </ScrollReveal>
+        </div>
+        <ScrollReveal delay={200}>
+          <HorizontalGallery images={allScenes} speed={20} />
+        </ScrollReveal>
       </section>
 
       {/* ───────────────────── 9. CALL TO ACTION ───────────────────── */}
