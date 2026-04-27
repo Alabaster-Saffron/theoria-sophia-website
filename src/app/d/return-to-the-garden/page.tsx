@@ -475,7 +475,7 @@ export default function ReturnToTheGardenPage() {
             <ScrollReveal direction="left" delay={200}>
               <div className="relative aspect-[4/5] overflow-hidden rounded-sm max-w-md mx-auto">
                 <Image
-                  src={`${P}/solutions-elder-garden.jpg`}
+                  src={`${P}/solutions-elder-garden-v2.png`}
                   alt="An elder woman tending her garden at dusk"
                   fill
                   className="object-cover"
@@ -486,16 +486,13 @@ export default function ReturnToTheGardenPage() {
             <ScrollReveal direction="right" delay={400}>
               <div className="space-y-6 font-sans text-[15px] text-brown-light leading-[1.9]">
                 <p>
-                  The return begins with the simplest of acts: a woman, her
-                  hands in the soil, tending what is alive. Across the world,
-                  people are remembering the old ways &mdash; planting gardens,
-                  keeping bees without taking, living in rhythm with the seasons.
-                </p>
-                <p>
-                  These are not experts or celebrities. They are grandmothers,
-                  artists, keepers of small plots of earth who understand that
-                  the garden is not a metaphor. It is the most practical thing
-                  there is.
+                  Within this part of the film I want to document the beauty
+                  and simplicity of returning to the garden. Of living in a
+                  state of peace on this precious planet. This will highlight
+                  intimate interviews, people in the garden, women with their
+                  wild horse sanctuaries, and other scenes illuminating what
+                  becomes possible when we create sanctuaries for all living
+                  life.
                 </p>
               </div>
             </ScrollReveal>
@@ -517,50 +514,31 @@ export default function ReturnToTheGardenPage() {
             <ScrollReveal direction="right" delay={400} className="md:order-1">
               <div className="space-y-6 font-sans text-[15px] text-brown-light leading-[1.9]">
                 <p>
-                  The solutions are not complicated. They are ancient. Move
-                  slowly. Live close to the earth. Build communities that mirror
-                  the hive &mdash; cooperative, generous, alive. Ride your
-                  bicycle. Know your neighbors. Let the weeds grow.
+                  This part of the film will highlight a nostalgic feeling of
+                  freedom and beauty in the human experience.
                 </p>
                 <p>
                   This chapter follows real people who have chosen a different
-                  way &mdash; not as protest, but as joy. Their lives are the
-                  proof that returning to the garden is not only possible, but
-                  deeply beautiful.
+                  way, not as protest, but as joy. Their lives are the proof
+                  that returning to the garden is not only possible, but deeply
+                  beautiful.
                 </p>
               </div>
             </ScrollReveal>
           </div>
 
           {/* Row 3 */}
-          <div className="grid md:grid-cols-2 gap-12 md:gap-20 items-center">
-            <ScrollReveal direction="left" delay={200}>
-              <div className="relative aspect-[4/5] overflow-hidden rounded-sm max-w-md mx-auto">
-                <Image
-                  src={`${P}/solutions-mother-child.jpg`}
-                  alt="A mother and her child harvesting vegetables together in a garden bed"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 90vw, 400px"
-                />
-              </div>
-            </ScrollReveal>
-            <ScrollReveal direction="right" delay={400}>
-              <div className="space-y-6 font-sans text-[15px] text-brown-light leading-[1.9]">
-                <p>
-                  And so the garden continues &mdash; not as nostalgia, but as
-                  inheritance. A mother shows her child how to pull a zucchini
-                  from the vine. A beekeeper opens the hive with bare hands and
-                  quiet prayer. Geese waddle home past wisteria at dusk.
-                </p>
-                <p>
-                  This is not a film about going back. It is a film about going
-                  forward &mdash; with the wisdom of everything that came before
-                  us, carried in our hands like a flower offered to water.
-                </p>
-              </div>
-            </ScrollReveal>
-          </div>
+          <ScrollReveal direction="fade" delay={200}>
+            <div className="relative aspect-[4/5] md:aspect-[16/9] overflow-hidden rounded-sm max-w-3xl mx-auto">
+              <Image
+                src={`${P}/solutions-mother-child-v2.png`}
+                alt="A mother and her child harvesting vegetables together in a garden bed"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 90vw, 768px"
+              />
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 
@@ -583,8 +561,8 @@ export default function ReturnToTheGardenPage() {
               We are looking for collaborators, interview subjects, and kindred
               spirits who feel the call to return. If you are a wisdom keeper, a
               beekeeper, a tender of the earth, a storyteller, or simply someone
-              who believes that the garden is worth protecting &mdash; we would
-              love to hear from you.
+              who believes that the garden is worth protecting, we would love
+              to hear from you.
             </p>
             <Link
               href="mailto:hello@theoriasophia.com"
