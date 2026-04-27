@@ -61,7 +61,7 @@ export default function ReturnToTheGardenPage() {
       {/* ───────────────────── 1. HERO ───────────────────── */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <Image
-          src={`${P}/hero-garden-gate-v2.png`}
+          src={`${P}/hero-garden-gate-v3.png`}
           alt="A garden gate bathed in golden morning light, wildflowers lining the path"
           fill
           priority
@@ -131,14 +131,14 @@ export default function ReturnToTheGardenPage() {
               </p>
               <p>
                 This is not a film made from behind a desk. The interviews are
-                walking, swimming, planting, breathing kinds of conversations
-                &mdash; embodied, intimate, and alive. The camera moves the way
-                the garden breathes: slowly, intentionally, with reverence.
+                walking, swimming, planting, breathing kinds of conversations,
+                embodied, intimate, and alive. The camera moves the way the
+                garden breathes: slowly, intentionally, with reverence.
               </p>
               <p>
-                The story unfolds through the perspective of the honey bee
-                &mdash; nature&rsquo;s oldest oracle &mdash; as a guide into a
-                world we have forgotten we belong to.
+                The story unfolds through the perspective of the honey bee,
+                nature&rsquo;s oldest oracle, as a guide into a world we have
+                forgotten we belong to.
               </p>
             </div>
             <div className="ornament-line mt-14 mb-6" />
@@ -167,16 +167,26 @@ export default function ReturnToTheGardenPage() {
               <div className="space-y-6 font-sans text-[15px] text-brown-light leading-[1.9]">
                 <p>
                   The film opens like a dream. We are drawn into a garden that
-                  feels both ancient and alive &mdash; mist rising from still
-                  ponds, white swans lifting into flight, wildflowers trembling
-                  in the morning light. Women move through water and meadow with
-                  an ease that feels remembered rather than performed.
+                  feels both ancient and alive, mist rising from still ponds,
+                  white swans lifting into flight, wildflowers glistening in the
+                  morning light. Women move through water and meadow with an
+                  ease that feels remembered rather than performed.
                 </p>
                 <p>
-                  These opening sequences are not narrated. They are felt. The
-                  viewer is invited to slow down, to let the beauty of the
-                  natural world do what it has always done &mdash; awaken
-                  something deep within us.
+                  The very first scene unfolds beneath the surface of water,
+                  a woman suspended in alive magnetism, a primordial, raw, and
+                  romantic expression of the feminine. Over this image, a
+                  narrative voice begins an ancient folklore: how the oracles
+                  came to be. There were once mermaid daughters in the great
+                  sea of the Mother, until one day the Mother created the land,
+                  and in that act she transformed her daughters into honey
+                  bees, to tend the living garden of her creation.
+                </p>
+                <p>
+                  These opening sequences are not just narrated. They are felt.
+                  The viewer is invited to slow down, to let the beauty of the
+                  natural world do what it has always done, awaken something
+                  deep within us.
                 </p>
                 <p>
                   Through lingering, romantic cinematography we establish the
@@ -260,24 +270,24 @@ export default function ReturnToTheGardenPage() {
                   The Bees Speak
                 </h2>
                 <p>
-                  At the heart of this documentary is the honey bee &mdash; not
-                  as a subject of science alone, but as a spiritual teacher, a
-                  living thread connecting us to the most ancient forms of
-                  wisdom. From the hand-woven skep hives of the English
-                  countryside to the sacred log hives of the Mayan Melipona
-                  tradition, we journey into a world where beekeeping is an act
-                  of devotion.
+                  At the heart of this documentary is the honey bee, not as a
+                  subject of science alone, but as a spiritual teacher, a living
+                  thread connecting us to the most ancient forms of wisdom. From
+                  the hand-woven skep hives of the English countryside to the
+                  sacred log hives of the Mayan Melipona tradition, we journey
+                  into a world where beekeeping is an act of devotion.
                 </p>
                 <p>
-                  We meet the keepers who tend bees the old way &mdash; without
+                  We meet the keepers who tend bees the old way, without
                   chemicals, without extraction, without force. Their hands move
                   with the same quiet reverence as the women who once tended the
                   temple hives of Artemis at Ephesus.
                 </p>
                 <p>
-                  The bee is the fifth element. She builds in perfect geometry.
-                  She communicates in dance. She gives without being asked. This
-                  film asks: what can she teach us about how to live?
+                  The bees as the fifth element. They build in perfect geometry.
+                  They communicate in dance. They give without being asked. This
+                  film asks: how to live in reverence to the garden of creation,
+                  to life.
                 </p>
               </div>
             </ScrollReveal>
@@ -342,12 +352,11 @@ export default function ReturnToTheGardenPage() {
             <div className="gold-divider-wide mt-6 mb-10" />
             <div className="space-y-6 font-sans text-[15px] text-brown-light leading-[1.9]">
               <p>
-                Beneath every temple, every ancient garden, every carved stone
-                rosette lies a forgotten lineage of women who tended the sacred
-                relationship between the human world and the living earth. From
-                the Melissae priestesses of Ephesus to the Magdalene traditions
-                of Anatolia, from Mesopotamian cylinder seals to Mayan stingless
-                bee ceremonies &mdash; the garden keepers have always known.
+                Throughout the film, subtle suggestions and ties to the ancient
+                world are woven in, touching on Ancient Herstory. This thread
+                is expressed through artistic, poetic glimpses of muse and
+                nature, establishing a deeper sense of inspiration for a world
+                that could be filled with such beauty and grace.
               </p>
               <p>
                 This chapter traces the ancient thread of feminine wisdom
@@ -420,15 +429,28 @@ export default function ReturnToTheGardenPage() {
             <div className="text-center space-y-6 font-sans text-[15px] text-brown-light leading-[1.9] max-w-2xl mx-auto">
               <p>
                 But the garden is under threat. Industrial beekeeping has turned
-                the queen into a commodity &mdash; artificially inseminated,
+                the queen into a commodity, artificially inseminated,
                 wing-clipped, marked, and replaced on schedule. The hive, once a
                 sacred space, has become a factory. Bees are shipped across
-                continents, dosed with chemicals, and worked until they collapse.
+                continents, dosed with chemicals, and worked so hard for their
+                nectar, yet it is often replaced with non-organic refined sugar.
               </p>
               <p>
                 This is not the relationship we were meant to have. This is the
                 moment in the film where the beauty pauses, and we are asked to
-                look clearly at what we have done &mdash; and what we are losing.
+                look clearly at what we have done, and what we are losing.
+              </p>
+              <p>
+                The honey bees are essential for our survival. They are truly
+                the fifth element, for without them we will not survive on this
+                precious planet. And yet we continue to treat life with
+                disrespect, abusing our rights of living here. This part of the
+                film will illuminate not only the bees, but the ways we have
+                separated ourselves from the living garden of this precious
+                planet, offering a feeling of contrast from the rest of the
+                film, a glimpse of how we could be living if we reclaimed our
+                sovereignty and restored our relationship with ourselves and the
+                natural world.
               </p>
             </div>
           </ScrollReveal>
