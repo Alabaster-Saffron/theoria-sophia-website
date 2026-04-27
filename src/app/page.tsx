@@ -69,10 +69,10 @@ const defaultBranches = [
     href: "#",
   },
   {
-    title: "Sacred Travel",
-    subtitle: "Finding sanctuaries around the globe",
+    title: "Finding Sanctuaries, travel guide",
+    subtitle: "Around the Globe",
     detail: "Heaven on earth locations",
-    image: "/images/travel-section.jpg",
+    image: "/images/sacred-union-photo.jpg",
     href: "#",
   },
 ];
@@ -139,8 +139,11 @@ export default async function Home() {
   const founderLabel = data?.founderLabel ?? "Meet our Founder";
   const founderName = data?.founderName ?? "Zefirah";
   const founderBio = splitParagraphs(data?.founderBio, [
-    "Led by a deep devotion to the sacred feminine and a reverence for the earth, Zefirah founded Theoria Sophia as a living sanctuary \u2014 a space where ancient wisdom meets modern healing.",
+    "Led by a deep devotion to the feminine and a reverence for the earth, Zefirah founded Theoria Sophia as a living sanctuary, a space where ancient wisdom meets modern healing.",
     "Her work weaves together the threads of forgotten traditions, ecological stewardship, and holistic wellness into a tapestry of transformation for women seeking to come home to themselves.",
+    "For over a decade, Zefirah has walked the path of the feminine healing arts. Her own healing began with a chronic spinal injury, Lyme\u2019s disease, and a lifetime of subtler ailments, and from that journey she devoted her life to supporting women in finding sanctuary within their bodies, and in return, finding sanctuary on this precious planet.",
+    "As a designer, Zefirah cultivates building structures, pollinator habitats, and pleasure gardens, drawing her deepest joy from creating beautiful environments in connection with the earth. At the heart of her work lives the art of living. She believes it is humanity\u2019s birthright to live in beauty and abundance, and that the more we align with nature, the more we thrive alongside it.",
+    "For Zefirah, the feminine healing arts are not only the deeper inter\u2011personal work. They are a way of life: harmony with the natural world, self\u2011care, conscious cooking, gardening, and the slow cultivation of self\u2011awareness and love embodied. She is also a tender of the honey bees and a protector of the pollinators, a sanctuary keeper for the small ones, with a non\u2011profit devoted to protecting and educating about the wild bees.",
   ]);
   const founderImage = resolveImage(data?.founderImage, "/images/founder-zefirah.jpg");
 
@@ -515,7 +518,7 @@ export default async function Home() {
       <section className="section-padding-lg bg-cream">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
           <ScrollReveal direction="left" duration={1200}>
-            <div className="relative overflow-hidden max-w-lg mx-auto shadow-2xl">
+            <div className="relative overflow-hidden max-w-[360px] mx-auto shadow-2xl">
               <Image
                 src={founderImage}
                 alt={`${founderName}, founder of Theoria Sophia`}
