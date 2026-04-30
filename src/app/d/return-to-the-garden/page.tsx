@@ -60,132 +60,246 @@ const allScenes = Array.from(
   (_, i) => `${P}/scenes/scene-${String(i + 1).padStart(3, "0")}.jpg`
 );
 
+/**
+ * Small helper: a film-credit-style chapter mark with roman numeral.
+ * Used to anchor each chapter dramatically.
+ */
+function ChapterMark({
+  numeral,
+  label,
+  variant = "light",
+}: {
+  numeral: string;
+  label: string;
+  variant?: "light" | "dark";
+}) {
+  const numColor = variant === "dark" ? "text-gold-light/70" : "text-gold/80";
+  const labelColor =
+    variant === "dark" ? "text-white/50" : "text-brown-light/50";
+  const lineColor =
+    variant === "dark"
+      ? "from-transparent via-gold-light/40 to-transparent"
+      : "from-transparent via-gold/30 to-transparent";
+
+  return (
+    <div className="flex flex-col items-center">
+      <p className={`font-serif text-2xl ${numColor} tracking-[0.4em]`}>
+        {numeral}
+      </p>
+      <div className={`w-12 h-px bg-gradient-to-r ${lineColor} my-4`} />
+      <p
+        className={`font-sans text-[10px] tracking-[0.5em] uppercase ${labelColor}`}
+      >
+        {label}
+      </p>
+    </div>
+  );
+}
+
 export default function ReturnToTheGardenPage() {
   return (
     <>
-      {/* ───────────────────── 1. HERO ───────────────────── */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* ═══════════════════════════════════════════════════════════════
+          I. HERO — full-bleed cinematic open
+          ═══════════════════════════════════════════════════════════════ */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-charcoal">
         <Image
           src={`${P}/hero-garden-gate-v4.png`}
           alt="A garden gate bathed in golden morning light, wildflowers lining the path"
           fill
           priority
-          className="object-cover scale-105"
+          className="object-cover scale-110"
           sizes="100vw"
         />
+        {/* Layered gradients — darker top + bottom for cinematic letterbox feel */}
         <div
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(to bottom, rgba(44,38,34,0.45) 0%, rgba(44,38,34,0.3) 40%, rgba(44,38,34,0.1) 65%, rgba(245,240,232,0.6) 85%, rgba(245,240,232,1) 100%)",
+              "linear-gradient(to bottom, rgba(20,16,14,0.65) 0%, rgba(20,16,14,0.25) 30%, rgba(44,38,34,0.05) 55%, rgba(20,16,14,0.55) 90%, rgba(20,16,14,0.85) 100%)",
           }}
         />
 
-        <div className="relative z-10 text-center px-6 max-w-4xl">
-          <p className="font-sans text-[10px] tracking-[0.5em] uppercase text-white/70 mb-8 animate-fade-up">
-            A Documentary Film
+        {/* Vertical chapter mark — far left, film credits style */}
+        <div className="absolute left-6 md:left-10 top-1/2 -translate-y-1/2 hidden md:block z-10">
+          <div className="flex flex-col items-center gap-3">
+            <p className="font-serif text-xs text-gold-light/60 tracking-[0.5em] [writing-mode:vertical-rl] rotate-180">
+              Documentary Film
+            </p>
+            <div className="w-px h-20 bg-gradient-to-b from-gold-light/40 to-transparent" />
+          </div>
+        </div>
+
+        {/* Right side caption */}
+        <div className="absolute right-6 md:right-10 top-1/2 -translate-y-1/2 hidden md:block z-10">
+          <div className="flex flex-col items-center gap-3">
+            <div className="w-px h-20 bg-gradient-to-t from-gold-light/40 to-transparent" />
+            <p className="font-serif text-xs text-gold-light/60 tracking-[0.5em] [writing-mode:vertical-rl]">
+              Theoria Sophia
+            </p>
+          </div>
+        </div>
+
+        <div className="relative z-10 text-center px-6 max-w-5xl">
+          <p className="font-sans text-[10px] tracking-[0.6em] uppercase text-gold-light/80 mb-10 animate-fade-up">
+            A Film by Zefirah &middot; In Development
           </p>
-          <h1 className="font-serif text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-light text-white tracking-wider leading-[1.1] animate-fade-up animate-delay-1">
+          <h1 className="font-serif text-6xl sm:text-8xl md:text-9xl lg:text-[10rem] font-light text-white tracking-wide leading-[0.95] animate-fade-up animate-delay-1">
             Return to
             <br />
-            the Garden
+            <span className="italic text-gold-light/95">the Garden</span>
           </h1>
-          <div className="w-20 h-px bg-gradient-to-r from-transparent via-gold-light to-transparent mx-auto my-8 animate-fade-up animate-delay-2" />
-          <p className="font-serif text-lg sm:text-xl md:text-2xl text-white/80 italic tracking-wide animate-fade-up animate-delay-2">
+          <div className="flex items-center justify-center gap-4 mt-12 animate-fade-up animate-delay-2">
+            <div className="w-16 h-px bg-gradient-to-r from-transparent to-gold-light/60" />
+            <span className="text-gold-light/80 text-xs">&loz;</span>
+            <div className="w-16 h-px bg-gradient-to-l from-transparent to-gold-light/60" />
+          </div>
+          <p className="font-serif text-xl sm:text-2xl md:text-3xl text-white/85 italic tracking-wide mt-10 animate-fade-up animate-delay-3">
             Honey Bees, Bringers of the Garden
           </p>
-          <p className="mt-10 font-sans text-[10px] tracking-[0.4em] uppercase text-gold-light/80 animate-fade-up animate-delay-3">
-            A Theoria Sophia Production
-          </p>
         </div>
 
-        {/* Scroll indicator */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-fade-up animate-delay-4">
-          <p className="font-sans text-[9px] tracking-[0.3em] uppercase text-brown-light/50">
+        {/* Scroll cue */}
+        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 animate-fade-up animate-delay-5 z-10">
+          <p className="font-sans text-[9px] tracking-[0.5em] uppercase text-white/50">
             Scroll
           </p>
-          <div className="w-px h-8 bg-gradient-to-b from-gold/60 to-transparent animate-breathe" />
+          <div className="w-px h-12 bg-gradient-to-b from-gold-light/60 to-transparent animate-breathe" />
         </div>
       </section>
 
-      {/* ───────────────────── 2. VISION STATEMENT ───────────────────── */}
-      <section className="section-padding-lg bg-cream-light">
-        <div className="max-w-3xl mx-auto text-center">
-          <ScrollReveal direction="fade" duration={1400}>
-            <Image
-              src="/images/logotheoria.png"
-              alt="Theoria Sophia"
-              width={40}
-              height={40}
-              className="mx-auto mb-12 opacity-25"
-            />
-            <p className="font-serif text-2xl sm:text-3xl md:text-4xl text-charcoal font-light italic leading-relaxed tracking-wide">
-              &ldquo;What if the oldest wisdom keepers on Earth have been
-              speaking to us all along &mdash; and we simply forgot how to
-              listen?&rdquo;
-            </p>
-            <div className="gold-divider-wide mt-10 mb-10" />
-            <div className="space-y-6 font-sans text-[15px] text-brown-light leading-[1.9]">
-              <p>
-                Return to the Garden is a feature-length documentary following
-                the ancient, unbroken thread between women, honey bees, and the
-                living garden. Filmed across sacred sites from Anatolia to the
-                English countryside, from Mayan bee sanctuaries to Swiss alpine
-                meadows, this film weaves together the voices of wisdom keepers,
-                naturalists, and everyday stewards of the Earth.
-              </p>
-              <p>
-                This is not a film made from behind a desk. The interviews are
-                walking, swimming, planting, breathing kinds of conversations,
-                embodied, intimate, and alive. The camera moves the way the
-                garden breathes: slowly, intentionally, with reverence.
-              </p>
-              <p>
-                The story unfolds through the perspective of the honey bee,
-                nature&rsquo;s oldest oracle, as a guide into a world we have
-                forgotten we belong to.
-              </p>
-            </div>
-            <div className="ornament-line mt-14 mb-6" />
-            <p className="font-sans text-[10px] tracking-[0.4em] uppercase text-brown-light/50">
-              Feature-Length Documentary &nbsp;|&nbsp; In Development
-            </p>
-          </ScrollReveal>
+      {/* ═══════════════════════════════════════════════════════════════
+          II. PULL QUOTE & VISION — dark cinematic palette
+          ═══════════════════════════════════════════════════════════════ */}
+      <section className="relative bg-charcoal text-white overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.08]">
+          <Image
+            src={`${P}/mythos-misty-pond.jpg`}
+            alt=""
+            fill
+            className="object-cover"
+            sizes="100vw"
+          />
         </div>
-      </section>
+        <div className="relative z-10 section-padding-lg">
+          <div className="max-w-4xl mx-auto px-6">
+            <ScrollReveal direction="fade" duration={1400}>
+              <Image
+                src="/images/logotheoria.png"
+                alt="Theoria Sophia"
+                width={56}
+                height={56}
+                className="mx-auto mb-12 opacity-50"
+              />
+            </ScrollReveal>
 
-      {/* ───────────────────── 3. ENTER THE GARDEN — MYTHOS ───────────────────── */}
-      <section className="section-padding bg-cream">
-        <div className="max-w-7xl mx-auto">
-          <ScrollReveal className="text-center mb-16">
-            <p className="font-sans text-[10px] tracking-[0.5em] uppercase text-gold-muted mb-4">
-              Chapter One
-            </p>
-            <h2 className="font-serif text-4xl md:text-6xl font-light text-charcoal tracking-wide">
-              Enter the Garden
-            </h2>
-            <div className="gold-divider-wide mt-6" />
-          </ScrollReveal>
+            <ScrollReveal direction="fade" duration={1600} delay={150}>
+              <p className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white/95 font-light italic leading-[1.25] tracking-wide text-center">
+                &ldquo;What if the oldest wisdom keepers on Earth have been
+                speaking to us all along&hellip; and we simply forgot how to
+                listen?&rdquo;
+              </p>
+            </ScrollReveal>
 
-          <div className="grid md:grid-cols-[1.2fr_1fr] gap-12 md:gap-20 items-center">
-            <ScrollReveal direction="left" delay={200}>
-              <div className="space-y-6 font-sans text-[15px] text-brown-light leading-[1.9]">
+            <ScrollReveal direction="fade" delay={300}>
+              <div className="flex items-center justify-center gap-6 mt-16 mb-16">
+                <div className="flex-1 max-w-[200px] h-px bg-gradient-to-r from-transparent to-gold/40" />
+                <span className="text-gold-light/60 text-lg">&loz;</span>
+                <div className="flex-1 max-w-[200px] h-px bg-gradient-to-l from-transparent to-gold/40" />
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal direction="fade" delay={400}>
+              <div className="space-y-7 font-sans text-[16px] md:text-[17px] text-white/70 leading-[1.95] max-w-3xl mx-auto">
                 <p>
-                  The film opens like a dream. We are drawn into a garden that
-                  feels both ancient and alive, mist rising from still ponds,
-                  white swans lifting into flight, wildflowers glistening in the
-                  morning light. Women move through water and meadow with an
-                  ease that feels remembered rather than performed.
+                  Return to the Garden is a feature-length documentary
+                  following the ancient, unbroken thread between women, honey
+                  bees, and the living garden. Filmed across sacred sites from
+                  Anatolia to the English countryside, from Mayan bee
+                  sanctuaries to Swiss alpine meadows, this film weaves
+                  together the voices of wisdom keepers, naturalists, and
+                  everyday stewards of the Earth.
                 </p>
                 <p>
-                  The very first scene unfolds beneath the surface of water,
-                  a woman suspended in alive magnetism, a primordial, raw, and
+                  This is not a film made from behind a desk. The interviews
+                  are walking, swimming, planting, breathing kinds of
+                  conversations, embodied, intimate, and alive. The camera
+                  moves the way the garden breathes: slowly, intentionally,
+                  with reverence.
+                </p>
+                <p>
+                  The story unfolds through the perspective of the honey bee,
+                  nature&rsquo;s oldest oracle, as a guide into a world we
+                  have forgotten we belong to.
+                </p>
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal direction="fade" delay={500}>
+              <p className="mt-20 font-sans text-[10px] tracking-[0.5em] uppercase text-gold-light/50 text-center">
+                Feature-Length Documentary &middot; In Development
+              </p>
+            </ScrollReveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════
+          III. CHAPTER ONE — ENTER THE GARDEN (mythos)
+          Layered: full-bleed mythos image + floating text card
+          ═══════════════════════════════════════════════════════════════ */}
+      <section className="relative bg-cream-light overflow-hidden">
+        {/* Top film-credit chapter mark, generous breathing room */}
+        <div className="pt-24 md:pt-32 pb-12">
+          <ScrollReveal direction="fade">
+            <ChapterMark numeral="I." label="Enter the Garden" variant="light" />
+          </ScrollReveal>
+        </div>
+
+        <div className="relative max-w-7xl mx-auto px-6 md:px-12 pb-24 md:pb-32">
+          <ScrollReveal>
+            <h2 className="font-serif text-5xl md:text-7xl lg:text-8xl font-light text-charcoal tracking-tight leading-[1.05] text-center mb-20 italic">
+              The film opens
+              <br />
+              <span className="not-italic">like a dream.</span>
+            </h2>
+          </ScrollReveal>
+
+          <div className="grid md:grid-cols-12 gap-10 md:gap-16 items-start">
+            <ScrollReveal direction="left" delay={150} className="md:col-span-7">
+              <div className="relative">
+                <ImageCarousel
+                  images={mythosImages}
+                  interval={6500}
+                  aspectRatio="3/4"
+                />
+                {/* Floating credit tag */}
+                <div className="absolute -bottom-4 -right-4 hidden md:block bg-cream-light px-6 py-3 border border-gold/30">
+                  <p className="font-sans text-[9px] tracking-[0.4em] uppercase text-gold-muted">
+                    Mythos / Opening
+                  </p>
+                </div>
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal direction="right" delay={300} className="md:col-span-5 md:pt-12">
+              <div className="space-y-7 font-sans text-[15px] md:text-[16px] text-brown leading-[1.95]">
+                <p className="first-letter:font-serif first-letter:text-6xl first-letter:font-light first-letter:text-gold first-letter:float-left first-letter:mr-3 first-letter:leading-[0.85]">
+                  We are drawn into a garden that feels both ancient and alive,
+                  mist rising from still ponds, white swans lifting into flight,
+                  wildflowers glistening in the morning light. Women move through
+                  water and meadow with an ease that feels remembered rather
+                  than performed.
+                </p>
+                <p>
+                  The very first scene unfolds beneath the surface of water, a
+                  woman suspended in alive magnetism, a primordial, raw, and
                   romantic expression of the feminine. Over this image, a
                   narrative voice begins an ancient folklore: how the oracles
                   came to be. There were once mermaid daughters in the great
                   sea of the Mother, until one day the Mother created the land,
-                  and in that act she transformed her daughters into honey
-                  bees, to tend the living garden of her creation.
+                  and in that act she transformed her daughters into honey bees,
+                  to tend the living garden of her creation.
                 </p>
                 <p>
                   These opening sequences are not just narrated. They are felt.
@@ -193,72 +307,75 @@ export default function ReturnToTheGardenPage() {
                   natural world do what it has always done, awaken something
                   deep within us.
                 </p>
-                <p>
+                <p className="font-serif italic text-xl md:text-2xl text-brown-dark leading-[1.5] pt-4 border-t border-gold/20">
                   Through lingering, romantic cinematography we establish the
                   tone of the entire film: reverent, unhurried, and breathing
-                  with life. This is the garden we came from. This is the garden
-                  we are being called to return to.
+                  with life. This is the garden we came from. This is the
+                  garden we are being called to return to.
                 </p>
               </div>
-            </ScrollReveal>
-
-            <ScrollReveal direction="right" delay={400}>
-              <ImageCarousel
-                images={mythosImages}
-                interval={6000}
-                aspectRatio="3/4"
-              />
             </ScrollReveal>
           </div>
         </div>
       </section>
 
-      {/* ───────────────────── 4. THE BEES SPEAK ───────────────────── */}
-      {/* Parallax transition */}
-      <section className="relative h-[60vh] overflow-hidden">
+      {/* ═══════════════════════════════════════════════════════════════
+          IV. INTERSTITIAL — THE FIFTH ELEMENT
+          ═══════════════════════════════════════════════════════════════ */}
+      <section className="relative h-[80vh] overflow-hidden">
         <Image
           src={`${P}/bee-hive-entrance.jpg`}
           alt="Looking up into a hive entrance, a single bee in flight surrounded by the colony"
           fill
-          className="object-cover"
+          className="object-cover scale-105"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-charcoal/50" />
+        <div className="absolute inset-0 bg-charcoal/65" />
         <div
-          className="absolute top-0 left-0 right-0 h-32"
+          className="absolute top-0 left-0 right-0 h-40"
           style={{
             background:
-              "linear-gradient(to bottom, rgba(237,229,216,1), rgba(237,229,216,0))",
+              "linear-gradient(to bottom, rgba(250,247,242,1), rgba(250,247,242,0))",
+          }}
+        />
+        <div
+          className="absolute bottom-0 left-0 right-0 h-40"
+          style={{
+            background:
+              "linear-gradient(to top, rgba(20,16,14,1), rgba(20,16,14,0))",
           }}
         />
         <div className="absolute inset-0 flex items-center justify-center">
-          <ScrollReveal direction="scale" duration={1400}>
+          <ScrollReveal direction="scale" duration={1600}>
             <div className="text-center px-6">
-              <div className="w-px h-10 bg-gradient-to-b from-transparent to-gold-light/60 mx-auto mb-6" />
-              <p className="font-serif text-4xl md:text-6xl lg:text-7xl text-white font-light italic tracking-wide">
-                The Fifth Element
-              </p>
-              <p className="mt-4 font-sans text-sm text-white/60 tracking-widest uppercase">
+              <div className="w-px h-16 bg-gradient-to-b from-transparent to-gold-light/70 mx-auto mb-8" />
+              <p className="font-sans text-[10px] tracking-[0.6em] uppercase text-gold-light/80 mb-6">
                 The honey bee as nature&rsquo;s oracle
               </p>
-              <div className="w-px h-10 bg-gradient-to-t from-transparent to-gold-light/60 mx-auto mt-6" />
+              <h2 className="font-serif text-5xl md:text-7xl lg:text-9xl text-white font-light italic tracking-wide">
+                The Fifth
+                <br />
+                Element
+              </h2>
+              <div className="w-px h-16 bg-gradient-to-t from-transparent to-gold-light/70 mx-auto mt-8" />
             </div>
           </ScrollReveal>
         </div>
-        <div
-          className="absolute bottom-0 left-0 right-0 h-32"
-          style={{
-            background:
-              "linear-gradient(to top, rgba(245,240,232,1), rgba(245,240,232,0))",
-          }}
-        />
       </section>
 
-      {/* Bee content */}
-      <section className="section-padding bg-cream-light">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-[1fr_1.2fr] gap-12 md:gap-20 items-center">
-            <ScrollReveal direction="left" delay={200}>
+      {/* ═══════════════════════════════════════════════════════════════
+          V. CHAPTER TWO — THE BEES SPEAK (dark continuation)
+          ═══════════════════════════════════════════════════════════════ */}
+      <section className="relative bg-charcoal text-white overflow-hidden">
+        <div className="pt-24 md:pt-32 pb-12">
+          <ScrollReveal direction="fade">
+            <ChapterMark numeral="II." label="The Bees Speak" variant="dark" />
+          </ScrollReveal>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-6 md:px-12 pb-24 md:pb-32">
+          <div className="grid md:grid-cols-12 gap-10 md:gap-16 items-center">
+            <ScrollReveal direction="left" delay={150} className="md:col-span-6">
               <ImageCarousel
                 images={beeImages}
                 interval={5500}
@@ -266,33 +383,31 @@ export default function ReturnToTheGardenPage() {
               />
             </ScrollReveal>
 
-            <ScrollReveal direction="right" delay={400}>
-              <div className="space-y-6 font-sans text-[15px] text-brown-light leading-[1.9]">
-                <p className="font-sans text-[10px] tracking-[0.5em] uppercase text-gold-muted mb-2">
-                  Chapter Two
-                </p>
-                <h2 className="font-serif text-3xl md:text-5xl font-light text-charcoal tracking-wide mb-6">
-                  The Bees Speak
-                </h2>
+            <ScrollReveal direction="right" delay={300} className="md:col-span-6">
+              <h2 className="font-serif text-4xl md:text-6xl lg:text-7xl font-light text-white tracking-tight leading-[1.05] mb-10">
+                Beekeeping <span className="italic text-gold-light/90">as devotion.</span>
+              </h2>
+              <div className="space-y-6 font-sans text-[15px] md:text-[16px] text-white/75 leading-[1.95]">
                 <p>
                   At the heart of this documentary is the honey bee, not as a
-                  subject of science alone, but as a spiritual teacher, a living
-                  thread connecting us to the most ancient forms of wisdom. From
-                  the hand-woven skep hives of the English countryside to the
-                  sacred log hives of the Mayan Melipona tradition, we journey
-                  into a world where beekeeping is an act of devotion.
+                  subject of science alone, but as a spiritual teacher, a
+                  living thread connecting us to the most ancient forms of
+                  wisdom. From the hand-woven skep hives of the English
+                  countryside to the sacred log hives of the Mayan Melipona
+                  tradition, we journey into a world where beekeeping is an
+                  act of devotion.
                 </p>
                 <p>
                   We meet the keepers who tend bees the old way, without
-                  chemicals, without extraction, without force. Their hands move
-                  with the same quiet reverence as the women who once tended the
-                  temple hives of Artemis at Ephesus.
+                  chemicals, without extraction, without force. Their hands
+                  move with the same quiet reverence as the women who once
+                  tended the temple hives of Artemis at Ephesus.
                 </p>
-                <p>
-                  The bees as the fifth element. They build in perfect geometry.
-                  They communicate in dance. They give without being asked. This
-                  film asks: how to live in reverence to the garden of creation,
-                  to life.
+                <p className="font-serif italic text-xl md:text-2xl text-gold-light/95 leading-[1.5] pt-4 border-t border-gold/30">
+                  The bees as the fifth element. They build in perfect
+                  geometry. They communicate in dance. They give without being
+                  asked. This film asks: how to live in reverence to the
+                  garden of creation, to life.
                 </p>
               </div>
             </ScrollReveal>
@@ -300,196 +415,278 @@ export default function ReturnToTheGardenPage() {
         </div>
       </section>
 
-      {/* ───────────────────── 5. THE LIVING GARDEN — NATURE ───────────────────── */}
-      <section className="relative h-[65vh] overflow-hidden">
+      {/* ═══════════════════════════════════════════════════════════════
+          VI. INTERSTITIAL — THE GARDEN IS ALIVE
+          ═══════════════════════════════════════════════════════════════ */}
+      <section className="relative h-[85vh] overflow-hidden">
         <Image
           src={`${P}/nature-willow-light.jpg`}
           alt="Sunlight streaming through weeping willows onto a still pond with birds"
           fill
-          className="object-cover"
+          className="object-cover scale-105"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-charcoal/35" />
+        <div className="absolute inset-0 bg-charcoal/30" />
         <div
-          className="absolute top-0 left-0 right-0 h-32"
+          className="absolute top-0 left-0 right-0 h-40"
           style={{
             background:
-              "linear-gradient(to bottom, rgba(245,240,232,1), rgba(245,240,232,0))",
+              "linear-gradient(to bottom, rgba(20,16,14,1), rgba(20,16,14,0))",
+          }}
+        />
+        <div
+          className="absolute bottom-0 left-0 right-0 h-40"
+          style={{
+            background:
+              "linear-gradient(to top, rgba(250,247,242,1), rgba(250,247,242,0))",
           }}
         />
         <div className="absolute inset-0 flex items-center justify-center">
-          <ScrollReveal direction="fade" duration={1600}>
-            <div className="text-center px-6">
-              <h2 className="font-serif text-4xl md:text-6xl lg:text-7xl text-white font-light tracking-wide">
-                The Garden Is Alive
+          <ScrollReveal direction="fade" duration={1800}>
+            <div className="text-center px-6 max-w-5xl">
+              <p className="font-sans text-[10px] tracking-[0.6em] uppercase text-white/70 mb-8">
+                Chapter III &middot; The Living Garden
+              </p>
+              <h2 className="font-serif text-5xl md:text-8xl lg:text-9xl text-white font-light tracking-tight leading-[0.95]">
+                The Garden
+                <br />
+                <span className="italic text-gold-light/95">is alive.</span>
               </h2>
-              <div className="w-16 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent mx-auto my-6" />
-              <p className="font-serif text-lg md:text-xl text-white/70 italic max-w-lg mx-auto">
+              <div className="flex items-center justify-center gap-4 mt-12">
+                <div className="w-20 h-px bg-gradient-to-r from-transparent to-white/50" />
+                <span className="text-gold-light/80">&loz;</span>
+                <div className="w-20 h-px bg-gradient-to-l from-transparent to-white/50" />
+              </div>
+              <p className="font-serif text-xl md:text-2xl text-white/80 italic max-w-2xl mx-auto mt-10 leading-[1.5]">
                 There is a beauty in the natural world so deep it can wake you
                 from the longest sleep
               </p>
             </div>
           </ScrollReveal>
         </div>
-        <div
-          className="absolute bottom-0 left-0 right-0 h-32"
-          style={{
-            background:
-              "linear-gradient(to top, rgba(237,229,216,1), rgba(237,229,216,0))",
-          }}
-        />
       </section>
 
-      <section className="py-12 bg-cream">
+      {/* Horizontal nature gallery */}
+      <section className="py-14 bg-cream-light">
         <HorizontalGallery images={natureImages} speed={20} />
       </section>
 
-      {/* ───────────────────── 6. ANCIENT WISDOM — HERSTORY ───────────────────── */}
-      <section className="section-padding-lg bg-cream">
-        <div className="max-w-3xl mx-auto text-center">
-          <ScrollReveal direction="fade" duration={1400}>
-            <p className="font-sans text-[10px] tracking-[0.5em] uppercase text-gold-muted mb-4">
-              Chapter Four
-            </p>
-            <h2 className="font-serif text-4xl md:text-6xl font-light text-charcoal tracking-wide">
-              Ancient Herstory
+      {/* ═══════════════════════════════════════════════════════════════
+          VII. CHAPTER FOUR — ANCIENT HERSTORY (rich textured dark)
+          ═══════════════════════════════════════════════════════════════ */}
+      <section className="relative bg-cream-dark overflow-hidden">
+        {/* Dramatic offset image on right — peeks through */}
+        <div className="absolute top-0 right-0 w-1/2 h-full opacity-25 hidden md:block">
+          <Image
+            src={`${P}/herstory-artemis.jpg`}
+            alt=""
+            fill
+            className="object-cover"
+            sizes="50vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-l from-transparent to-cream-dark" />
+        </div>
+
+        <div className="relative pt-24 md:pt-32 pb-12">
+          <ScrollReveal direction="fade">
+            <ChapterMark numeral="IV." label="Ancient Herstory" variant="light" />
+          </ScrollReveal>
+        </div>
+
+        <div className="relative max-w-6xl mx-auto px-6 md:px-12 pb-24 md:pb-32">
+          <ScrollReveal>
+            <h2 className="font-serif text-5xl md:text-7xl lg:text-8xl font-light text-charcoal tracking-tight leading-[1.05] mb-16 max-w-4xl">
+              <span className="italic text-gold/90">A remembering,</span>
+              <br />
+              not a history lesson.
             </h2>
-            <div className="gold-divider-wide mt-6 mb-10" />
-            <div className="space-y-6 font-sans text-[15px] text-brown-light leading-[1.9]">
-              <p>
-                Throughout the film, subtle suggestions and ties to the ancient
-                world are woven in, touching on Ancient Herstory. This thread
-                is expressed through artistic, poetic glimpses of muse and
-                nature, establishing a deeper sense of inspiration for a world
-                that could be filled with such beauty and grace.
-              </p>
-              <p>
-                This chapter traces the ancient thread of feminine wisdom
-                through sacred sites, archaeological discoveries, and living
-                traditions that have survived into our own time. It is not a
-                history lesson. It is a remembering.
-              </p>
+          </ScrollReveal>
+
+          <ScrollReveal direction="fade" delay={200}>
+            <div className="grid md:grid-cols-2 gap-12 md:gap-20 max-w-5xl">
+              <div className="space-y-7 font-sans text-[15px] md:text-[16px] text-brown leading-[1.95]">
+                <p>
+                  Throughout the film, subtle suggestions and ties to the
+                  ancient world are woven in, touching on Ancient Herstory.
+                  This thread is expressed through artistic, poetic glimpses
+                  of muse and nature, establishing a deeper sense of
+                  inspiration for a world that could be filled with such
+                  beauty and grace.
+                </p>
+              </div>
+              <div className="space-y-7 font-sans text-[15px] md:text-[16px] text-brown leading-[1.95]">
+                <p>
+                  This chapter traces the ancient thread of feminine wisdom
+                  through sacred sites, archaeological discoveries, and living
+                  traditions that have survived into our own time. It is not a
+                  history lesson. It is a remembering.
+                </p>
+              </div>
             </div>
           </ScrollReveal>
         </div>
       </section>
 
-      <section className="py-8 bg-cream">
+      {/* Horizontal herstory gallery */}
+      <section className="py-10 bg-cream-dark">
         <HorizontalGallery images={herstoryImages} speed={22} />
       </section>
 
-      <section className="section-padding bg-cream">
-        <div className="max-w-3xl mx-auto text-center">
+      {/* Big pull quote on dark */}
+      <section className="relative bg-charcoal text-white py-28 md:py-40 overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.10]">
+          <Image
+            src={`${P}/herstory-honeycomb-stone.jpg`}
+            alt=""
+            fill
+            className="object-cover"
+            sizes="100vw"
+          />
+        </div>
+        <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
           <ScrollReveal direction="scale" duration={1400}>
-            <div className="w-px h-8 bg-gradient-to-b from-transparent to-gold/40 mx-auto mb-6" />
-            <p className="font-serif text-2xl md:text-3xl text-charcoal font-light italic tracking-wide leading-relaxed">
-              &ldquo;From the temples of Artemis to the House of the Virgin Mary
-              &mdash; the garden keepers have always known.&rdquo;
+            <div className="w-px h-12 bg-gradient-to-b from-transparent to-gold-light/60 mx-auto mb-10" />
+            <p className="font-serif text-3xl md:text-5xl lg:text-6xl text-white/95 font-light italic tracking-wide leading-[1.3]">
+              &ldquo;From the temples of Artemis to the House of the Virgin
+              Mary, the garden keepers have always known.&rdquo;
             </p>
-            <div className="w-px h-8 bg-gradient-to-t from-transparent to-gold/40 mx-auto mt-6" />
+            <div className="w-px h-12 bg-gradient-to-t from-transparent to-gold-light/60 mx-auto mt-10" />
           </ScrollReveal>
         </div>
       </section>
 
-      {/* ───────────────────── 7. THE CRISIS — PROBLEMS ───────────────────── */}
-      <section className="section-padding-lg bg-cream-light">
-        <div className="max-w-3xl mx-auto">
-          <ScrollReveal direction="fade" duration={1600}>
-            <div className="text-center mb-16">
-              <p className="font-sans text-[10px] tracking-[0.5em] uppercase text-brown-light/40 mb-4">
-                Chapter Five
-              </p>
-              <h2 className="font-serif text-4xl md:text-5xl font-light text-charcoal tracking-wide">
-                The Threat
-              </h2>
-              <div className="w-12 h-px bg-brown-light/20 mx-auto mt-6" />
-            </div>
+      {/* ═══════════════════════════════════════════════════════════════
+          VIII. CHAPTER FIVE — THE THREAT (dramatic dark)
+          ═══════════════════════════════════════════════════════════════ */}
+      <section className="relative bg-charcoal text-white overflow-hidden">
+        <div className="pt-24 md:pt-32 pb-12">
+          <ScrollReveal direction="fade">
+            <ChapterMark numeral="V." label="The Threat" variant="dark" />
+          </ScrollReveal>
+        </div>
+
+        <div className="max-w-6xl mx-auto px-6 md:px-12 pb-24 md:pb-32">
+          <ScrollReveal>
+            <h2 className="font-serif text-5xl md:text-7xl lg:text-8xl font-light text-white tracking-tight leading-[1.05] text-center mb-20 italic">
+              The garden
+              <br />
+              <span className="not-italic text-gold-light/85">
+                is under threat.
+              </span>
+            </h2>
           </ScrollReveal>
 
+          {/* Larger problem image grid — full bleed feel */}
           <ScrollReveal direction="fade" duration={1600} delay={200}>
-            <div className="grid grid-cols-2 gap-4 max-w-xl mx-auto mb-14">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-1.5 mb-20">
               {[
-                { src: `${P}/problems-insemination.jpg`, alt: "Artificial insemination of queen bee" },
-                { src: `${P}/problems-mating-flight.jpg`, alt: "Bees captured mid-flight" },
-                { src: `${P}/problems-queen-marking.jpg`, alt: "Queen bee being marked and handled" },
-                { src: `${P}/problems-queen-cells.jpg`, alt: "Rows of artificial queen cells in commercial operation" },
+                {
+                  src: `${P}/problems-insemination.jpg`,
+                  alt: "Artificial insemination of queen bee",
+                },
+                {
+                  src: `${P}/problems-mating-flight.jpg`,
+                  alt: "Bees captured mid-flight",
+                },
+                {
+                  src: `${P}/problems-queen-marking.jpg`,
+                  alt: "Queen bee being marked and handled",
+                },
+                {
+                  src: `${P}/problems-queen-cells.jpg`,
+                  alt: "Rows of artificial queen cells in commercial operation",
+                },
               ].map((img) => (
                 <div
                   key={img.src}
-                  className="relative aspect-square overflow-hidden rounded-sm"
+                  className="relative aspect-[3/4] overflow-hidden grayscale-[40%] hover:grayscale-0 transition-all duration-700"
                 >
                   <Image
                     src={img.src}
                     alt={img.alt}
                     fill
                     className="object-cover"
-                    sizes="(max-width: 768px) 45vw, 250px"
+                    sizes="(max-width: 768px) 50vw, 25vw"
                   />
+                  <div className="absolute inset-0 bg-charcoal/30" />
                 </div>
               ))}
             </div>
           </ScrollReveal>
 
           <ScrollReveal direction="fade" duration={1600} delay={400}>
-            <div className="text-center space-y-6 font-sans text-[15px] text-brown-light leading-[1.9] max-w-2xl mx-auto">
+            <div className="space-y-8 font-sans text-[15px] md:text-[17px] text-white/75 leading-[2] max-w-3xl mx-auto">
               <p>
-                But the garden is under threat. Industrial beekeeping has turned
-                the queen into a commodity, artificially inseminated,
-                wing-clipped, marked, and replaced on schedule. The hive, once a
-                sacred space, has become a factory. Bees are shipped across
-                continents, dosed with chemicals, and worked so hard for their
-                nectar, yet it is often replaced with non-organic refined sugar.
+                Industrial beekeeping has turned the queen into a commodity,
+                artificially inseminated, wing-clipped, marked, and replaced
+                on schedule. The hive, once a sacred space, has become a
+                factory. Bees are shipped across continents, dosed with
+                chemicals, and worked so hard for their nectar, yet it is
+                often replaced with non-organic refined sugar.
               </p>
               <p>
-                This is not the relationship we were meant to have. This is the
-                moment in the film where the beauty pauses, and we are asked to
-                look clearly at what we have done, and what we are losing.
+                This is not the relationship we were meant to have. This is
+                the moment in the film where the beauty pauses, and we are
+                asked to look clearly at what we have done, and what we are
+                losing.
               </p>
-              <p>
+              <p className="font-serif italic text-xl md:text-2xl text-gold-light/90 leading-[1.5] pt-6 border-t border-gold/25">
                 The honey bees are essential for our survival. They are truly
-                the fifth element, for without them we will not survive on this
-                precious planet. And yet we continue to treat life with
-                disrespect, abusing our rights of living here. This part of the
-                film will illuminate not only the bees, but the ways we have
-                separated ourselves from the living garden of this precious
-                planet, offering a feeling of contrast from the rest of the
-                film, a glimpse of how we could be living if we reclaimed our
-                sovereignty and restored our relationship with ourselves and the
-                natural world.
+                the fifth element, for without them we will not survive on
+                this precious planet. And yet we continue to treat life with
+                disrespect, abusing our rights of living here. This part of
+                the film will illuminate not only the bees, but the ways we
+                have separated ourselves from the living garden of this
+                precious planet, offering a feeling of contrast from the rest
+                of the film, a glimpse of how we could be living if we
+                reclaimed our sovereignty and restored our relationship with
+                ourselves and the natural world.
               </p>
             </div>
           </ScrollReveal>
         </div>
       </section>
 
-      {/* ───────────────────── 8. THE RETURN — SOLUTIONS ───────────────────── */}
-      <section className="section-padding-lg bg-cream">
-        <div className="max-w-6xl mx-auto">
-          <ScrollReveal className="text-center mb-20">
-            <p className="font-sans text-[10px] tracking-[0.5em] uppercase text-gold-muted mb-4">
-              Chapter Six
-            </p>
-            <h2 className="font-serif text-4xl md:text-6xl font-light text-charcoal tracking-wide">
-              The Return
+      {/* ═══════════════════════════════════════════════════════════════
+          IX. CHAPTER SIX — THE RETURN (back to light, hopeful)
+          ═══════════════════════════════════════════════════════════════ */}
+      <section className="relative bg-cream-light overflow-hidden">
+        <div className="pt-24 md:pt-32 pb-12">
+          <ScrollReveal direction="fade">
+            <ChapterMark numeral="VI." label="The Return" variant="light" />
+          </ScrollReveal>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-6 md:px-12 pb-24 md:pb-32">
+          <ScrollReveal>
+            <h2 className="font-serif text-5xl md:text-7xl lg:text-8xl font-light text-charcoal tracking-tight leading-[1.05] text-center mb-24 italic">
+              The way home
+              <br />
+              <span className="not-italic">is the simplest.</span>
             </h2>
-            <div className="gold-divider-wide mt-6" />
           </ScrollReveal>
 
-          {/* Row 1 */}
-          <div className="grid md:grid-cols-2 gap-12 md:gap-20 items-center mb-24">
-            <ScrollReveal direction="left" delay={200}>
-              <div className="relative aspect-[4/5] overflow-hidden rounded-sm max-w-md mx-auto">
+          {/* Row 1: image-bleed left, text right with credit tag */}
+          <div className="grid md:grid-cols-12 gap-10 md:gap-16 items-center mb-32">
+            <ScrollReveal direction="left" delay={200} className="md:col-span-7">
+              <div className="relative aspect-[4/5] overflow-hidden shadow-2xl">
                 <Image
                   src={`${P}/solutions-elder-garden-v2.png`}
                   alt="An elder woman tending her garden at dusk"
                   fill
                   className="object-cover"
-                  sizes="(max-width: 768px) 90vw, 400px"
+                  sizes="(max-width: 768px) 90vw, 600px"
                 />
               </div>
             </ScrollReveal>
-            <ScrollReveal direction="right" delay={400}>
-              <div className="space-y-6 font-sans text-[15px] text-brown-light leading-[1.9]">
+            <ScrollReveal direction="right" delay={400} className="md:col-span-5">
+              <p className="font-sans text-[10px] tracking-[0.5em] uppercase text-gold mb-6">
+                Scene Notes
+              </p>
+              <p className="font-serif text-3xl md:text-4xl text-charcoal italic leading-[1.4] mb-10">
+                Documenting the simplicity of return.
+              </p>
+              <div className="space-y-6 font-sans text-[15px] md:text-[16px] text-brown leading-[1.95]">
                 <p>
                   Within this part of the film I want to document the beauty
                   and simplicity of returning to the garden. Of living in a
@@ -503,21 +700,16 @@ export default function ReturnToTheGardenPage() {
             </ScrollReveal>
           </div>
 
-          {/* Row 2 */}
-          <div className="grid md:grid-cols-2 gap-12 md:gap-20 items-center mb-24">
-            <ScrollReveal direction="left" delay={200} className="md:order-2">
-              <div className="relative aspect-[4/5] overflow-hidden rounded-sm max-w-md mx-auto">
-                <Image
-                  src={`${P}/solutions-cycling.jpg`}
-                  alt="Two people cycling through a tree-lined path in golden light"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 90vw, 400px"
-                />
-              </div>
-            </ScrollReveal>
-            <ScrollReveal direction="right" delay={400} className="md:order-1">
-              <div className="space-y-6 font-sans text-[15px] text-brown-light leading-[1.9]">
+          {/* Row 2: text left, image right (reversed) */}
+          <div className="grid md:grid-cols-12 gap-10 md:gap-16 items-center mb-32">
+            <ScrollReveal direction="left" delay={200} className="md:col-span-5 md:order-1">
+              <p className="font-sans text-[10px] tracking-[0.5em] uppercase text-gold mb-6">
+                Scene Notes
+              </p>
+              <p className="font-serif text-3xl md:text-4xl text-charcoal italic leading-[1.4] mb-10">
+                Different not as protest, but as joy.
+              </p>
+              <div className="space-y-6 font-sans text-[15px] md:text-[16px] text-brown leading-[1.95]">
                 <p>
                   This part of the film will highlight a nostalgic feeling of
                   freedom and beauty in the human experience.
@@ -525,90 +717,125 @@ export default function ReturnToTheGardenPage() {
                 <p>
                   This chapter follows real people who have chosen a different
                   way, not as protest, but as joy. Their lives are the proof
-                  that returning to the garden is not only possible, but deeply
-                  beautiful.
+                  that returning to the garden is not only possible, but
+                  deeply beautiful.
                 </p>
+              </div>
+            </ScrollReveal>
+            <ScrollReveal direction="right" delay={400} className="md:col-span-7 md:order-2">
+              <div className="relative aspect-[4/5] overflow-hidden shadow-2xl">
+                <Image
+                  src={`${P}/solutions-cycling.jpg`}
+                  alt="Two people cycling through a tree-lined path in golden light"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 90vw, 600px"
+                />
               </div>
             </ScrollReveal>
           </div>
 
-          {/* Row 3 */}
+          {/* Row 3: full-width cinematic closing image */}
           <ScrollReveal direction="fade" delay={200}>
-            <div className="relative aspect-[4/5] md:aspect-[16/9] overflow-hidden rounded-sm max-w-3xl mx-auto">
+            <div className="relative aspect-[16/10] overflow-hidden shadow-2xl">
               <Image
                 src={`${P}/solutions-mother-child-v2.png`}
                 alt="A mother and her child harvesting vegetables together in a garden bed"
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 90vw, 768px"
+                sizes="100vw"
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-charcoal/20 to-transparent" />
             </div>
           </ScrollReveal>
         </div>
       </section>
 
-      {/* ───────────────────── 8.5 ALL SCENES SLIDESHOW ───────────────────── */}
-      <section className="py-16 md:py-24 bg-cream">
-        <div className="max-w-3xl mx-auto text-center px-6 mb-12">
+      {/* ═══════════════════════════════════════════════════════════════
+          X. VISUAL TAPESTRY — full slow-scroll mood reel (138 images)
+          ═══════════════════════════════════════════════════════════════ */}
+      <section className="relative bg-charcoal text-white py-24 md:py-32 overflow-hidden">
+        <div className="max-w-3xl mx-auto text-center px-6 mb-16">
           <ScrollReveal direction="fade" duration={1400}>
-            <p className="font-sans text-[10px] tracking-[0.5em] uppercase text-gold-muted mb-4">
-              Visual Tapestry
-            </p>
-            <h2 className="font-serif text-3xl md:text-5xl font-light text-charcoal tracking-wide italic">
-              The full mood of the film.
+            <ChapterMark numeral="VII." label="Visual Tapestry" variant="dark" />
+            <h2 className="mt-12 font-serif text-4xl md:text-6xl lg:text-7xl font-light text-white tracking-tight italic leading-[1.1]">
+              The full mood
+              <br />
+              <span className="not-italic text-gold-light/85">of the film.</span>
             </h2>
-            <div className="gold-divider-wide mt-6" />
-            <p className="mt-8 font-sans text-[14px] text-brown-light/70 italic leading-[1.7] max-w-xl mx-auto">
-              A slow drift through every scene, every reference, every atmosphere
-              we are weaving toward.
+            <p className="mt-10 font-sans text-[14px] md:text-[15px] text-white/60 italic leading-[1.8] max-w-xl mx-auto">
+              A slow drift through every scene, every reference, every
+              atmosphere we are weaving toward.
             </p>
           </ScrollReveal>
         </div>
         <ScrollReveal delay={200}>
-          <HorizontalGallery images={allScenes} speed={20} />
+          <HorizontalGallery images={allScenes} speed={18} />
         </ScrollReveal>
       </section>
 
-      {/* ───────────────────── 9. CALL TO ACTION ───────────────────── */}
-      <section className="section-padding-lg bg-cream-light">
-        <div className="max-w-2xl mx-auto text-center">
-          <ScrollReveal direction="fade" duration={1400}>
-            <Image
-              src="/images/logotheoria.png"
-              alt="Theoria Sophia"
-              width={50}
-              height={50}
-              className="mx-auto mb-10 opacity-30 animate-breathe"
-            />
-            <h2 className="font-serif text-4xl md:text-6xl font-light text-charcoal tracking-wide mb-4">
-              Join the Journey
-            </h2>
-            <div className="gold-divider-wide" />
-            <p className="mt-10 font-sans text-[15px] text-brown-light leading-[1.9] max-w-lg mx-auto">
-              We are looking for collaborators, interview subjects, and kindred
-              spirits who feel the call to return. If you are a wisdom keeper, a
-              beekeeper, a tender of the earth, a storyteller, or simply someone
-              who believes that the garden is worth protecting, we would love
-              to hear from you.
-            </p>
-            <Link
-              href="mailto:hello@theoriasophia.com"
-              className="inline-block mt-12 px-12 py-5 bg-gold text-white font-sans text-[11px] tracking-[0.35em] uppercase transition-all duration-700 hover:bg-gold-light hover:shadow-xl"
-            >
-              Get in Touch
-            </Link>
-            <div className="mt-20 pt-10 border-t border-taupe/20">
-              <p className="font-sans text-[10px] tracking-[0.3em] uppercase text-brown-light/40">
-                A Theoria Sophia Production
+      {/* ═══════════════════════════════════════════════════════════════
+          XI. CALL TO ACTION
+          ═══════════════════════════════════════════════════════════════ */}
+      <section className="relative bg-cream-light overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.18]">
+          <Image
+            src={`${P}/mythos-aerial-meadow.jpg`}
+            alt=""
+            fill
+            className="object-cover"
+            sizes="100vw"
+          />
+        </div>
+        <div className="relative section-padding-lg">
+          <div className="max-w-3xl mx-auto text-center px-6">
+            <ScrollReveal direction="fade" duration={1400}>
+              <Image
+                src="/images/logotheoria.png"
+                alt="Theoria Sophia"
+                width={64}
+                height={64}
+                className="mx-auto mb-12 opacity-50 animate-breathe"
+              />
+              <p className="font-sans text-[10px] tracking-[0.6em] uppercase text-gold mb-6">
+                Closing Invocation
+              </p>
+              <h2 className="font-serif text-5xl md:text-7xl lg:text-8xl font-light text-charcoal tracking-tight leading-[1.05] italic">
+                Join the
+                <br />
+                <span className="not-italic">Journey.</span>
+              </h2>
+              <div className="flex items-center justify-center gap-4 mt-12">
+                <div className="w-16 h-px bg-gradient-to-r from-transparent to-gold/50" />
+                <span className="text-gold text-sm">&loz;</span>
+                <div className="w-16 h-px bg-gradient-to-l from-transparent to-gold/50" />
+              </div>
+              <p className="mt-12 font-sans text-[15px] md:text-[16px] text-brown leading-[1.95] max-w-xl mx-auto">
+                We are looking for collaborators, interview subjects, and
+                kindred spirits who feel the call to return. If you are a
+                wisdom keeper, a beekeeper, a tender of the earth, a
+                storyteller, or simply someone who believes that the garden
+                is worth protecting, we would love to hear from you.
               </p>
               <Link
-                href="/"
-                className="inline-block mt-3 font-sans text-[11px] text-gold-muted hover:text-gold transition-colors duration-300"
+                href="mailto:hello@theoriasophia.com"
+                className="inline-block mt-14 px-14 py-5 bg-charcoal text-white font-sans text-[11px] tracking-[0.4em] uppercase transition-all duration-700 hover:bg-gold hover:tracking-[0.5em] shadow-xl"
               >
-                theoriasophia.com
+                Get in Touch
               </Link>
-            </div>
-          </ScrollReveal>
+              <div className="mt-24 pt-10 border-t border-taupe/30">
+                <p className="font-sans text-[10px] tracking-[0.4em] uppercase text-brown-light/60">
+                  A Theoria Sophia Production &middot; A Film by Zefirah
+                </p>
+                <Link
+                  href="/"
+                  className="inline-block mt-4 font-sans text-[11px] tracking-[0.2em] text-gold-muted hover:text-gold transition-colors duration-300"
+                >
+                  theoriasophia.com
+                </Link>
+              </div>
+            </ScrollReveal>
+          </div>
         </div>
       </section>
     </>
