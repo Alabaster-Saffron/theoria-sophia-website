@@ -55,6 +55,11 @@ const herstoryImages = [
   `${P}/herstory-virgin-mary-house.jpg`,
 ];
 
+const solutionsImages = Array.from(
+  { length: 6 },
+  (_, i) => `${P}/solutions-scene-${String(i + 1).padStart(2, "0")}.jpg`
+);
+
 const allScenes = Array.from(
   { length: 138 },
   (_, i) => `${P}/scenes/scene-${String(i + 1).padStart(3, "0")}.jpg`
@@ -466,7 +471,7 @@ export default function ReturnToTheGardenPage() {
 
       {/* Horizontal nature gallery */}
       <section className="py-14 bg-cream-light">
-        <HorizontalGallery images={natureImages} speed={20} />
+        <HorizontalGallery images={natureImages} speed={30} />
       </section>
 
       {/* ═══════════════════════════════════════════════════════════════
@@ -719,7 +724,7 @@ export default function ReturnToTheGardenPage() {
             <ScrollReveal direction="right" delay={400} className="md:col-span-7 md:order-2">
               <div className="shadow-2xl">
                 <ImageCarousel
-                  images={mythosImages}
+                  images={solutionsImages}
                   interval={4500}
                   aspectRatio="4/5"
                 />
@@ -762,7 +767,7 @@ export default function ReturnToTheGardenPage() {
           </ScrollReveal>
         </div>
         <ScrollReveal delay={200}>
-          <HorizontalGallery images={allScenes} speed={28} />
+          <HorizontalGallery images={allScenes} speed={38} />
         </ScrollReveal>
       </section>
 
