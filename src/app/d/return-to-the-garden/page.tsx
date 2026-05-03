@@ -418,8 +418,8 @@ export default function ReturnToTheGardenPage() {
           ═══════════════════════════════════════════════════════════════ */}
       <section className="relative h-[85vh] overflow-hidden">
         <Image
-          src={`${P}/nature-willow-light.jpg`}
-          alt="Sunlight streaming through weeping willows onto a still pond with birds"
+          src={`${P}/garden-alive-bg.jpg`}
+          alt="The garden, alive"
           fill
           className="object-cover scale-105"
           sizes="100vw"
@@ -527,7 +527,7 @@ export default function ReturnToTheGardenPage() {
 
       {/* Horizontal herstory gallery */}
       <section className="py-10 bg-cream-dark">
-        <HorizontalGallery images={herstoryImages} speed={22} />
+        <HorizontalGallery images={herstoryImages} speed={32} />
       </section>
 
       {/* Big pull quote on dark */}
@@ -721,13 +721,11 @@ export default function ReturnToTheGardenPage() {
               </div>
             </ScrollReveal>
             <ScrollReveal direction="right" delay={400} className="md:col-span-7 md:order-2">
-              <div className="relative aspect-[4/5] overflow-hidden shadow-2xl">
-                <Image
-                  src={`${P}/solutions-cycling.jpg`}
-                  alt="Two people cycling through a tree-lined path in golden light"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 90vw, 600px"
+              <div className="shadow-2xl">
+                <ImageCarousel
+                  images={mythosImages}
+                  interval={4500}
+                  aspectRatio="4/5"
                 />
               </div>
             </ScrollReveal>
@@ -768,7 +766,7 @@ export default function ReturnToTheGardenPage() {
           </ScrollReveal>
         </div>
         <ScrollReveal delay={200}>
-          <HorizontalGallery images={allScenes} speed={18} />
+          <HorizontalGallery images={allScenes} speed={28} />
         </ScrollReveal>
       </section>
 
