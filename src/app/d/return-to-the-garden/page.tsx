@@ -22,7 +22,7 @@ const mythosImages = [
   `${P}/mythos-woman-lotus.jpg`,
   `${P}/mythos-woman-river.jpg`,
   `${P}/mythos-flower-water.jpg`,
-  `${P}/mythos-aerial-meadow.jpg`,
+  `${P}/mythos-aerial-meadow-v2.jpg`,
 ];
 
 const beeImages = [
@@ -142,12 +142,12 @@ export default function ReturnToTheGardenPage() {
 
         <div className="relative z-10 text-center px-6 max-w-5xl">
           <p className="font-sans text-[10px] tracking-[0.6em] uppercase text-gold-light/80 mb-10 animate-fade-up">
-            A Film by Zefirah &middot; In Development
+            Film Documentary In Development
           </p>
           <h1 className="font-serif text-6xl sm:text-8xl md:text-9xl lg:text-[10rem] font-light text-white tracking-wide leading-[0.95] animate-fade-up animate-delay-1">
             Return to
             <br />
-            <span className="italic text-gold-light/95">the Garden</span>
+            <span className="italic text-white">the Garden</span>
           </h1>
           <div className="flex items-center justify-center gap-4 mt-12 animate-fade-up animate-delay-2">
             <div className="w-16 h-px bg-gradient-to-r from-transparent to-gold-light/60" />
@@ -229,8 +229,8 @@ export default function ReturnToTheGardenPage() {
                 </p>
                 <p>
                   The story unfolds through the perspective of the honey bee,
-                  nature&rsquo;s oldest oracle, as a guide into a world we
-                  have forgotten we belong to.
+                  the bringers of the garden, as a guide into a world we have
+                  forgotten we belong to.
                 </p>
               </div>
             </ScrollReveal>
@@ -285,11 +285,9 @@ export default function ReturnToTheGardenPage() {
             <ScrollReveal direction="right" delay={300} className="md:col-span-5 md:pt-12">
               <div className="space-y-7 font-sans text-[15px] md:text-[16px] text-brown leading-[1.95]">
                 <p className="first-letter:font-serif first-letter:text-6xl first-letter:font-light first-letter:text-gold first-letter:float-left first-letter:mr-3 first-letter:leading-[0.85]">
-                  We are drawn into a garden that feels both ancient and alive,
-                  mist rising from still ponds, white swans lifting into flight,
-                  wildflowers glistening in the morning light. Women move through
-                  water and meadow with an ease that feels remembered rather
-                  than performed.
+                  The film begins with a scene that feels primordial. I want
+                  the whole film to feel alive and breathing with life and
+                  beauty.
                 </p>
                 <p>
                   The very first scene unfolds beneath the surface of water, a
