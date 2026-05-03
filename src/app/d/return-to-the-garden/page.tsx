@@ -104,7 +104,7 @@ export default function ReturnToTheGardenPage() {
           ═══════════════════════════════════════════════════════════════ */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-charcoal">
         <Image
-          src={`${P}/hero-garden-gate-v4.png`}
+          src={`${P}/hero-garden-gate-v5.jpg`}
           alt="A garden gate bathed in golden morning light, wildflowers lining the path"
           fill
           priority
