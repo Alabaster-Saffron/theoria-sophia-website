@@ -274,15 +274,82 @@ export default function FlagOverlay() {
     [hoveredEl, popup]
   );
 
-  const handleImageChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] ?? null;
-    setImageFile(file);
-    if (file) {
-      setImagePreview(URL.createObjectURL(file));
-    } else {
-      setImagePreview(null);
-    }
+  // Client-side resize so iPhone-sized photos don't blow past Vercel's
+  // request body limit (~4.5 MB on Hobby) and so HEIC/HEIF inputs get
+  // re-encoded to JPEG that the server actually accepts.
+  const resizeImage = useCallback(async (file: File): Promise<File> => {
+    const MAX_DIMENSION = 1920;
+    const QUALITY = 0.85;
+    return new Promise((resolve, reject) => {
+      const url = URL.createObjectURL(file);
+      const img = new window.Image();
+      img.onload = () => {
+        URL.revokeObjectURL(url);
+        let { width, height } = img;
+        if (width > MAX_DIMENSION || height > MAX_DIMENSION) {
+          const scale = MAX_DIMENSION / Math.max(width, height);
+          width = Math.round(width * scale);
+          height = Math.round(height * scale);
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) {
+          reject(new Error("Could not create canvas"));
+          return;
+        }
+        ctx.drawImage(img, 0, 0, width, height);
+        canvas.toBlob(
+          (blob) => {
+            if (!blob) {
+              reject(new Error("Resize failed"));
+              return;
+            }
+            const baseName = file.name.replace(/\.[^.]+$/, "") || "image";
+            resolve(new File([blob], `${baseName}.jpg`, { type: "image/jpeg" }));
+          },
+          "image/jpeg",
+          QUALITY
+        );
+      };
+      img.onerror = () => {
+        URL.revokeObjectURL(url);
+        reject(new Error("Could not read image"));
+      };
+      img.src = url;
+    });
   }, []);
+
+  const handleImageChange = useCallback(
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0] ?? null;
+      if (!file) {
+        setImageFile(null);
+        setImagePreview(null);
+        return;
+      }
+      try {
+        // Resize if larger than ~1.5 MB or if it's HEIC/HEIF (which most
+        // browsers can't render in <img> anyway). Otherwise keep as-is.
+        const TYPE_NEEDS_REENCODE = /heic|heif/i.test(file.type);
+        const SIZE_NEEDS_RESIZE = file.size > 1.5 * 1024 * 1024;
+        const finalFile =
+          TYPE_NEEDS_REENCODE || SIZE_NEEDS_RESIZE
+            ? await resizeImage(file)
+            : file;
+        setImageFile(finalFile);
+        setImagePreview(URL.createObjectURL(finalFile));
+      } catch (err) {
+        console.error("Image preprocess failed:", err);
+        // Fall back to the original file — the server upload may still
+        // fail with a 413 but at least we tried.
+        setImageFile(file);
+        setImagePreview(URL.createObjectURL(file));
+      }
+    },
+    [resizeImage]
+  );
 
   const handleSubmit = useCallback(async () => {
     if (!popup || !notes.trim()) return;
@@ -299,7 +366,25 @@ export default function FlagOverlay() {
       }
 
       const res = await fetch("/api/flag", { method: "POST", body: formData });
-      if (!res.ok) throw new Error("Failed");
+      if (!res.ok) {
+        // Try to surface a more useful error than "Failed".
+        let detail = `${res.status}`;
+        try {
+          const body = await res.json();
+          if (body?.error) detail = body.error;
+        } catch {
+          try {
+            const text = await res.text();
+            if (text) detail = text.slice(0, 200);
+          } catch {
+            /* noop */
+          }
+        }
+        if (res.status === 413) {
+          detail = "Image too large. Try a smaller photo (under ~4 MB).";
+        }
+        throw new Error(detail);
+      }
 
       setSubmitted(true);
       setTimeout(() => {
@@ -309,8 +394,10 @@ export default function FlagOverlay() {
         if (highlightRef.current) highlightRef.current.style.display = "none";
       }, 1200);
     } catch (err) {
+      const msg =
+        err instanceof Error ? err.message : "Unknown error";
       console.error("Flag submit failed:", err);
-      alert("Failed to submit flag. Please try again.");
+      alert(`Failed to submit flag: ${msg}`);
     } finally {
       setSubmitting(false);
     }
