@@ -420,25 +420,39 @@ export default function FlagOverlay() {
                 {/* Image upload */}
                 <div style={{ marginBottom: "20px" }}>
                   <label style={labelStyle}>Replacement Image (optional)</label>
+                  {/* Visually-hidden but still in layout — avoids Safari/iOS
+                      refusing programmatic click on display:none inputs.
+                      A <label> wrapper triggers the picker natively, no JS. */}
                   <input
                     ref={fileInputRef}
                     type="file"
                     accept="image/*"
                     onChange={handleImageChange}
-                    style={{ display: "none" }}
+                    id="flag-image-upload"
+                    style={{
+                      position: "absolute",
+                      width: "1px",
+                      height: "1px",
+                      padding: 0,
+                      margin: "-1px",
+                      overflow: "hidden",
+                      clip: "rect(0,0,0,0)",
+                      whiteSpace: "nowrap",
+                      border: 0,
+                    }}
                   />
-                  <button
-                    type="button"
-                    onClick={() => fileInputRef.current?.click()}
+                  <label
+                    htmlFor="flag-image-upload"
                     style={{
                       ...inputStyle,
+                      display: "block",
                       cursor: "pointer",
                       color: imageFile ? "#333" : "#999",
                       textAlign: "left",
                     }}
                   >
                     {imageFile ? imageFile.name : "Click to upload..."}
-                  </button>
+                  </label>
                   {imagePreview && (
                     <div style={{ marginTop: "8px", position: "relative" }}>
                       <img
