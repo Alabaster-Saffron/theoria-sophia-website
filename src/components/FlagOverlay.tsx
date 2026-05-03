@@ -274,81 +274,18 @@ export default function FlagOverlay() {
     [hoveredEl, popup]
   );
 
-  // Client-side resize so iPhone-sized photos don't blow past Vercel's
-  // request body limit (~4.5 MB on Hobby) and so HEIC/HEIF inputs get
-  // re-encoded to JPEG that the server actually accepts.
-  const resizeImage = useCallback(async (file: File): Promise<File> => {
-    const MAX_DIMENSION = 1920;
-    const QUALITY = 0.85;
-    return new Promise((resolve, reject) => {
-      const url = URL.createObjectURL(file);
-      const img = new window.Image();
-      img.onload = () => {
-        URL.revokeObjectURL(url);
-        let { width, height } = img;
-        if (width > MAX_DIMENSION || height > MAX_DIMENSION) {
-          const scale = MAX_DIMENSION / Math.max(width, height);
-          width = Math.round(width * scale);
-          height = Math.round(height * scale);
-        }
-        const canvas = document.createElement("canvas");
-        canvas.width = width;
-        canvas.height = height;
-        const ctx = canvas.getContext("2d");
-        if (!ctx) {
-          reject(new Error("Could not create canvas"));
-          return;
-        }
-        ctx.drawImage(img, 0, 0, width, height);
-        canvas.toBlob(
-          (blob) => {
-            if (!blob) {
-              reject(new Error("Resize failed"));
-              return;
-            }
-            const baseName = file.name.replace(/\.[^.]+$/, "") || "image";
-            resolve(new File([blob], `${baseName}.jpg`, { type: "image/jpeg" }));
-          },
-          "image/jpeg",
-          QUALITY
-        );
-      };
-      img.onerror = () => {
-        URL.revokeObjectURL(url);
-        reject(new Error("Could not read image"));
-      };
-      img.src = url;
-    });
-  }, []);
-
+  // We DON'T upload the file. We only record its filename so the
+  // dev (Claude) can locate the original on Maxwell's local disk
+  // (Photos/, Return to the Garden/*, etc.) where the full-quality
+  // source lives. URL.createObjectURL is a browser-local handle, no
+  // network involved — safe for preview.
   const handleImageChange = useCallback(
-    async (e: React.ChangeEvent<HTMLInputElement>) => {
+    (e: React.ChangeEvent<HTMLInputElement>) => {
       const file = e.target.files?.[0] ?? null;
-      if (!file) {
-        setImageFile(null);
-        setImagePreview(null);
-        return;
-      }
-      try {
-        // Resize if larger than ~1.5 MB or if it's HEIC/HEIF (which most
-        // browsers can't render in <img> anyway). Otherwise keep as-is.
-        const TYPE_NEEDS_REENCODE = /heic|heif/i.test(file.type);
-        const SIZE_NEEDS_RESIZE = file.size > 1.5 * 1024 * 1024;
-        const finalFile =
-          TYPE_NEEDS_REENCODE || SIZE_NEEDS_RESIZE
-            ? await resizeImage(file)
-            : file;
-        setImageFile(finalFile);
-        setImagePreview(URL.createObjectURL(finalFile));
-      } catch (err) {
-        console.error("Image preprocess failed:", err);
-        // Fall back to the original file — the server upload may still
-        // fail with a 413 but at least we tried.
-        setImageFile(file);
-        setImagePreview(URL.createObjectURL(file));
-      }
+      setImageFile(file);
+      setImagePreview(file ? URL.createObjectURL(file) : null);
     },
-    [resizeImage]
+    []
   );
 
   const handleSubmit = useCallback(async () => {
@@ -361,8 +298,12 @@ export default function FlagOverlay() {
       formData.append("section", popup.section);
       formData.append("element", popup.element);
       formData.append("notes", notes.trim());
+      // Reference-only: we send the filename, not the file bytes.
+      // Claude will locate the original on local disk (Photos/, etc.)
+      // when working the flag — gives full quality, no upload limits.
       if (imageFile) {
-        formData.append("image", imageFile);
+        formData.append("imageFilename", imageFile.name);
+        formData.append("imageSize", String(imageFile.size));
       }
 
       const res = await fetch("/api/flag", { method: "POST", body: formData });
@@ -504,9 +445,23 @@ export default function FlagOverlay() {
                   />
                 </div>
 
-                {/* Image upload */}
+                {/* Image reference (no upload — filename only) */}
                 <div style={{ marginBottom: "20px" }}>
-                  <label style={labelStyle}>Replacement Image (optional)</label>
+                  <label style={labelStyle}>
+                    Reference a local image (optional)
+                  </label>
+                  <p
+                    style={{
+                      margin: "0 0 8px",
+                      fontSize: "11px",
+                      color: "#888",
+                      lineHeight: 1.5,
+                    }}
+                  >
+                    Browse to find the source file. Only the filename is
+                    saved — the original stays on your computer at full
+                    quality.
+                  </p>
                   {/* Visually-hidden but still in layout — avoids Safari/iOS
                       refusing programmatic click on display:none inputs.
                       A <label> wrapper triggers the picker natively, no JS. */}

@@ -10,6 +10,11 @@ interface FlagEntry {
   notes: string;
   status: "pending" | "done";
   imageUrl?: string;
+  /** Reference-only: filename of a source image on the user's local
+   *  disk. Claude uses this to locate the full-quality original in
+   *  Photos/, Return to the Garden/, etc. when working the flag. */
+  imageFilename?: string;
+  imageSize?: number;
 }
 
 const FLAGS_PREFIX = "flags/";
@@ -24,10 +29,22 @@ export async function POST(request: Request) {
     const element = formData.get("element") as string;
     const notes = formData.get("notes") as string;
     const imageFile = formData.get("image") as File | null;
+    const imageFilenameRaw = formData.get("imageFilename");
+    const imageSizeRaw = formData.get("imageSize");
+    const imageFilename =
+      typeof imageFilenameRaw === "string" && imageFilenameRaw.trim()
+        ? imageFilenameRaw.trim()
+        : undefined;
+    const imageSize =
+      typeof imageSizeRaw === "string" && imageSizeRaw
+        ? Number(imageSizeRaw) || undefined
+        : undefined;
 
     let imageUrl: string | undefined;
 
-    // Upload replacement image if provided
+    // Legacy upload path: still supported for clients that send the file
+    // bytes (e.g. older cached JS). Newer client just records imageFilename
+    // and never uploads, so this branch is rarely hit.
     if (imageFile && imageFile.size > 0) {
       try {
         const ext = imageFile.name.split(".").pop() || "jpg";
@@ -49,6 +66,8 @@ export async function POST(request: Request) {
       notes,
       status: "pending",
       ...(imageUrl ? { imageUrl } : {}),
+      ...(imageFilename ? { imageFilename } : {}),
+      ...(imageSize ? { imageSize } : {}),
     };
 
     // Store flag as individual JSON blob
