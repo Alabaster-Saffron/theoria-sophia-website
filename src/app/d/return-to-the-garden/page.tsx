@@ -576,15 +576,11 @@ export default function ReturnToTheGardenPage() {
 
           {/* Larger problem image grid — full bleed feel */}
           <ScrollReveal direction="fade" duration={1600} delay={200}>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-1.5 mb-20">
+            <div className="grid grid-cols-3 gap-1.5 mb-20">
               {[
                 {
                   src: `${P}/problems-insemination.jpg`,
                   alt: "Artificial insemination of queen bee",
-                },
-                {
-                  src: `${P}/problems-mating-flight.jpg`,
-                  alt: "Bees captured mid-flight",
                 },
                 {
                   src: `${P}/problems-queen-marking.jpg`,
