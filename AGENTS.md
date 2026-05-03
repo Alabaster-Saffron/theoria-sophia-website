@@ -12,6 +12,17 @@ When you resolve a flag from `GET /api/flag` (e.g. `https://theoriasophia.com/ap
 curl -X DELETE https://theoriasophia.com/api/flag -H "Content-Type: application/json" -d '{"id":"<flag-id>"}'
 ```
 
+### Image-reference flags
+
+A flag may include an `imageFilename` field (and optionally `imageSize`). This is a **local file reference**, not an upload — the original lives in the project's `Photos/` folder at full quality. When you see one:
+
+1. Look for that exact filename in `Theoria Sophia Website/Photos/` first.
+2. If it's not there, fall back to other obvious project locations (`Return to the Garden/*/`, `_assets/`, the project root) — but Maxwell's standing rule is to drop new source images into `Photos/`, so it should be there.
+3. Copy/process it from that location into the appropriate `public/images/...` destination, optimize/resize as needed for web (sips for resize, ~800–1500px wide, JPEG q 80 for body content; full size for hero backgrounds).
+4. Reference the new public path from the page code.
+
+Don't try to fetch the file from `imageUrl` if `imageFilename` is set — `imageUrl` is the legacy upload path; only old/cached clients populate it. Modern clients send only the filename.
+
 ## Auto-push (non-negotiable)
 
 This is a standalone git repo (`Alabaster-Saffron/theoria-sophia-website`) that deploys to `theoriasophia.com` via Vercel on push to `main`. Any code edit you make in this directory MUST be staged, committed, and pushed to `origin main` before ending your turn — otherwise the change isn't live. Don't ask permission, just push. Stage only the files you changed (never `git add -A`). If there are pre-existing modifications you didn't touch, leave them and mention them in the summary.
