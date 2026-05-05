@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
+const PRODUCT_ID = "ancient-herstory";
+
 export default function CourseGate() {
   const router = useRouter();
   const [passcode, setPasscode] = useState("");
@@ -19,10 +21,7 @@ export default function CourseGate() {
       const res = await fetch("/api/course/unlock", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          productId: "healing-body-dysmorphia",
-          passcode: passcode.trim(),
-        }),
+        body: JSON.stringify({ productId: PRODUCT_ID, passcode: passcode.trim() }),
       });
 
       if (!res.ok) {
@@ -40,7 +39,7 @@ export default function CourseGate() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <Image
-        src="/images/feminine-healing/fh-07.jpg"
+        src="/images/feminine-healing/fh-31.jpg"
         alt=""
         fill
         priority
@@ -61,7 +60,7 @@ export default function CourseGate() {
           Theoria Sophia School
         </p>
         <h1 className="font-serif text-3xl md:text-5xl font-light text-charcoal tracking-wide leading-[1.2]">
-          The Garden Awaits
+          Ancient Herstory Awaits
         </h1>
         <div className="gold-divider-wide" />
         <p className="mt-6 font-serif text-lg md:text-xl text-brown italic leading-[1.6]">
@@ -105,7 +104,7 @@ export default function CourseGate() {
         <p className="mt-10 font-sans text-[11px] text-brown-light/60 italic leading-[1.7]">
           Don&apos;t have a passcode yet?{" "}
           <a
-            href="/feminine-healing-arts/healing-body-dysmorphia#enroll"
+            href="/ancient-herstory#enroll"
             className="text-gold underline-offset-4 hover:underline"
           >
             Reserve your place &rarr;

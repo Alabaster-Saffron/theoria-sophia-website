@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import ScrollReveal from "@/components/ScrollReveal";
+import EnrollForm from "./EnrollForm";
 import { getAncientHerstoryPage } from "@/sanity/queries";
 import { resolveImage } from "@/sanity/image";
 import { splitParagraphs } from "@/sanity/helpers";
@@ -82,8 +82,6 @@ export default async function AncientHerstoryPage() {
   const ctaText =
     data?.ctaText ??
     "Step into the living lineage of ancient wisdom. This course is an invitation to remember what has been forgotten and restore what has been lost.";
-  const ctaButtonText = data?.ctaButtonText ?? "Inquire About Enrollment";
-
   return (
     <>
       {/* Hero */}
@@ -235,8 +233,8 @@ export default async function AncientHerstoryPage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="section-padding-lg bg-cream">
+      {/* ENROLL */}
+      <section id="enroll" className="section-padding-lg bg-cream scroll-mt-24">
         <div className="max-w-2xl mx-auto text-center">
           <ScrollReveal direction="fade" duration={1400}>
             <Image
@@ -246,6 +244,9 @@ export default async function AncientHerstoryPage() {
               height={50}
               className="mx-auto mb-10 opacity-30 animate-breathe"
             />
+            <p className="font-sans text-[10px] tracking-[0.5em] uppercase text-gold mb-4">
+              Enrollment
+            </p>
             <h2 className="font-serif text-4xl md:text-6xl font-light text-charcoal tracking-wide mb-4">
               {ctaHeading}
             </h2>
@@ -253,12 +254,9 @@ export default async function AncientHerstoryPage() {
             <p className="mt-10 font-sans text-brown-light leading-[1.9] max-w-lg mx-auto">
               {ctaText}
             </p>
-            <Link
-              href="/#contact"
-              className="inline-block mt-12 px-12 py-5 bg-gold text-white font-sans text-[11px] tracking-[0.35em] uppercase transition-all duration-700 hover:bg-gold-light hover:shadow-xl"
-            >
-              {ctaButtonText}
-            </Link>
+            <div className="mt-12">
+              <EnrollForm />
+            </div>
           </ScrollReveal>
         </div>
       </section>

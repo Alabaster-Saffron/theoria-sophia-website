@@ -29,6 +29,17 @@ export const products: Product[] = [
     coursePath: "/feminine-healing-arts/healing-body-dysmorphia/course",
     inStock: true,
   },
+  {
+    id: "ancient-herstory",
+    name: "Ancient Herstory — The Mother Lineage of the Oracles",
+    description:
+      "Theoria Sophia School — An educational deep dive into the mother lineage of the oracles of old. Forgotten scriptures, teachings, and honey bee ancient wisdom.",
+    price: 222, // PLACEHOLDER — set real price here
+    currency: "usd",
+    coursePasscode: "MotherMelissae", // PLACEHOLDER — set real passcode here
+    coursePath: "/ancient-herstory/course",
+    inStock: true,
+  },
 ];
 
 export function getProduct(id: string): Product | undefined {

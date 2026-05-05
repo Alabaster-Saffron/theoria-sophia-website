@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-const COOKIE_NAME = "fha-hbd-unlocked";
+const COOKIE_NAME = "course-healing-body-dysmorphia-unlocked";
 
 interface CourseSection {
   number: string;

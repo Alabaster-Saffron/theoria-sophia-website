@@ -29,6 +29,10 @@ const navLinks: NavItem[] = [
       },
       { href: "/ancient-herstory", label: "Ancient Herstory" },
       {
+        href: "/ancient-herstory/course",
+        label: "Log into content page for Ancient Herstory Course",
+      },
+      {
         href: "/feminine-healing-arts",
         label: "Entering into the Bridal Chamber",
       },
